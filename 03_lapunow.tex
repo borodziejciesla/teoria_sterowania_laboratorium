@@ -604,7 +604,7 @@ Portret fazowy tego układu pokazano na rysunku.
         gdzie:
         \begin{itemize}
             \item $E_{k} = \frac{\dot{x}^{2}}{2}$ - energia kinetyczna,
-            \item $E_{p} = \int_{0}^{x_{1}}{g(z)dz}$ - eneria potencjalna.
+            \item $E_{p} = \int_{0}^{x_{1}}{g(z)dz}$ - energia potencjalna.
         \end{itemize}
         Zatem potencjalnej funkcji Lapunowa można poszukiwać jako sumy energii układu:
         \begin{equation}\label{eq:lap_en}
@@ -1642,7 +1642,35 @@ Portret fazowy tego układu pokazano na rysunku.
                  \text{przy ograniczeniu:}\, \mathcal{L}_{f}V(x) + \mathcal{L}_{g}V(x)u < 0
             \end{array}.
         $$
-        Dość łatwo zauważyć, że metoda ta jest bardzo elastyczna, można wprowadzić inny wskaźnik jakości oraz inne ograniczenia.
+        Dość łatwo zauważyć, że metoda ta jest bardzo elastyczna, można
+        wprowadzić inny wskaźnik jakości oraz inne ograniczenia.
+        
+
+        \begin{tcolorbox}[colback=magenta!5, colframe=magenta!75!black, title=Zastosowanie w robotyce]
+        Nowoczesne roboty, takie jak te z Boston Dynamics (np. Atlas),
+        wykorzystują koncepcję Sterujących Funkcji Lapunowa (CLF) połączoną z~Programowaniem Kwadratowym (QP).
+
+        \begin{description}
+            \item[Na czym to polega?] Robot kroczący jest skrajnie niestabilny - wystarczy
+            chwila, by upadł. Algorytm sterowania w~każdym ułamku sekundy (np. co 1
+            ms) rozwiązuje zadanie optymalizacyjne.
+            \item[Rola Lapunowa:] Funkcja Lapunowa definiuje tutaj "bezpieczny margines".
+            Sterownik szuka takich sił w~silnikach nóg, aby pochodna funkcji Lapunowa $V$
+            była jak najbardziej ujemna. To gwarantuje, że robot "pcha" swój stan
+            w~stronę stabilnego pionu, nawet jeśli ktoś go popchnie.
+            \item[Rola Programowania Kwadratowego:] W każdym kroku czasowym sterownik rozwiązuje
+            problem optymalizacji kwadratowej, aby znaleźć najlepsze możliwe siły
+            w~silnikach nóg.
+            Celem jest minimalizacja zużycia energii lub sił wymaganych do
+            utrzymania równowagi, przy jednoczesnym spełnieniu warunku stabilności
+            narzuconego przez funkcję Lapunowa.
+        \end{description}
+        
+        Dzięki temu robot może dynamicznie dostosowywać swoje ruchy, reagując na
+        zmiany w~terenie lub zewnętrzne zakłócenia, jednocześnie zachowując
+        stabilność
+        i~efektywność energetyczną.
+        \end{tcolorbox}
     \end{description}
     
     %=======================================================
@@ -1722,6 +1750,14 @@ Portret fazowy tego układu pokazano na rysunku.
         \item funkcja stabilizująca,
         \item uchyb śledzenia zadanego przebiegu sterowania wirtualnego.
     \end{itemize}
+
+    \begin{tcolorbox}[colback=magenta!5, colframe=magenta!75!black, title=Zastosowanie w robotyce]
+        W dronach (quadrocopterach) funkcje Lapunowa wykorzystuje się do projektowania tzw. algorytmów Backstepping. Pozwalają one na stabilne sterowanie dronem nawet podczas wykonywania gwałtownych uników czy lotu z dużymi prędkościami.
+        \begin{description}
+            \item [Na czym to polega?] Dron jest układem kaskadowym: najpierw sterujemy kątami nachylenia (orientacją), a to z kolei powoduje ruch w przestrzeni (pozycję).
+            \item[Rola Lapunowa:] Projektuje się funkcję Lapunowa dla "błędu orientacji", a następnie rozszerza ją o "błąd pozycji". Sumaryczna funkcja $V(e)$ gwarantuje, że błąd śledzenia trasy zawsze będzie dążył do zera, niezależnie od tego, jak mocno dronem "rzuci" wiatr.
+        \end{description}
+    \end{tcolorbox}
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \section{Jak to zrobić w MATLABie?}
