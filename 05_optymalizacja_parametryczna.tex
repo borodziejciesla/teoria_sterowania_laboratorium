@@ -1,0 +1,1015 @@
+\documentclass{article}
+
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+
+\usepackage[margin=0.75in]{geometry}
+
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage[shortlabels]{enumitem}
+\usepackage{matlab-prettifier}
+\usepackage{multirow}
+
+\title{
+    Teoria Sterowania\\
+    \Large Optymalizacja Parametryczna
+}
+\author{Maciej Różewicz}
+\date{2025}
+
+\makeatletter         
+\def\@maketitle{
+\raggedright
+\begin{center}
+    \includegraphics[width=0.5\linewidth]{fig/agh_logo.PNG}\\[8ex]
+\end{center}
+\begin{center}
+    {\huge \bfseries \sffamily \@title }\\[4ex] 
+    {\large  \@author}\\[4ex] 
+    \@date\\[8ex]
+\end{center}}
+\makeatother
+
+\begin{document}
+\maketitle
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Cel ćwiczenia}
+Celem ćwiczenia jest zapoznanie się z optymalizacją parametryczną układów sterowania.
+Dotyczy ona problemów, gdzie struktura regulatora i model matematyczny obiektu są stałe, a optymalizowane są jedynie wartości niektórych parametrów.
+Optymalność tę można rozumieć na różne sposoby, a dobór odpowiedniej funkcji celu, która jest optymalizowana, jest zagadnieniem zasadniczym.
+Zwykle żąda się, aby układ regulacji możliwie dokładnie i szybko odtwarzał wartość zadaną, z drugiej zaś strony, by był możliwie odporny na sygnały zakłócające.
+Często wymagania te są sprzeczne i poszukiwać trzeba pomiędzy nimi kompromisu.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Wprowadzenie}
+    %======================================================
+    \subsection{Struktura układu regulacji automatycznej}
+    W czasie realizacji ćwiczenia rozważać będziemy układ regulacji automatycznej (URA), w którym wyróżniamy dynamikę obiektu sterowania $G_{O}(s)$ i regulatora $G_{R}(s)$, a także sygnał wartości zadanej $R(s)$ i dwa nieznane sygnały zakłócające: zakłócenie obciążeniowe $D(s)$ i zakłócenie pomiarowe $N(s)$.
+    Schemat takiego URA pokazano na rysunku (\ref{fig:uklad_regulacji}).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.75\linewidth]{fig/05_optymalizacja_parametryczna/uklad_regulacji.png}
+        \caption{Schemat układu regulacji z zaznaczonymi sygnałami: $R(s)$ - wartość zadana, $E(s)$ - uchyb regulacji, $U(s)$ - sterowanie, $D(s)$ - zakłócenie obciążeniowe (obciążenie), $V(s)$ - wejście obiektu, $O(s)$ - wyjście obiektu, $Y(s)$ - wyjście układu regulacji.}
+        \label{fig:uklad_regulacji}
+    \end{figure}
+    
+    Układ taki opisuje się zwykle kilkoma transmitancjami przedstawionymi w tabeli (\ref{tab:uklad_regulacji_transmitancje}).
+    
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|c|p{10cm}|}
+            \hline
+            \textbf{Transmitancja} & \textbf{Opis} \\
+            \hline
+            $G(s) = \frac{Y(s)}{R(s)} = \frac{G_{R}(s)G_{O}(s)}{1 + G_{R}(s)G_{O}(s)}$ & Transmitancja wypadkowa - od wartości zadanej do wyjścia układu regulacji.\\
+            \hline
+            $S(s) = \frac{E(s)}{R(s)} = \frac{1}{1 + G_{R}(s)G_{O}(s)}$ & Transmitancja uchybowa - od wartości zadanej do uchybu regulacji. Nazywana również funkcją wrażliwości.\\
+            \hline
+            $Z_{D}(s) = \frac{Y(s)}{D(s)} = \frac{G_{O}(s)}{1 + G_{R}(s)G_{O}(s)}$ & Transmitancja zakłóceniowa - od obciążenia do wyjścia. Nazywana funkcją wrażliwości na obciążenie.\\
+            \hline
+            $Z_{N}(s) = \frac{U(s)}{N(s)} = \frac{G_{R}(s)}{1 + G_{R}(s)G_{O}(s)}$ & Transmitancja od szumu pomiarowego do sterowania. Nazywana funkcją wrażliwości sterowania na szum pomiarowy.\\
+            \hline
+            $G_{U}(s) = \frac{U(s)}{R(s)} = \frac{G_{R}(s)}{1 + G_{R}(s)G_{O}(s)}$ & Transmitancja od wartości zadanej do sterowania.\\
+            \hline
+            $G_{otwarty}(s) = G_{R}(s)G_{O}(s)$ & Transmitancja układu otwartego.\\
+            \hline
+        \end{tabular}
+        \caption{Transmitancje opisujące układ regulacji automatycznej z rysunku (\ref{fig:uklad_regulacji}).}
+        \label{tab:uklad_regulacji_transmitancje}
+    \end{table}
+
+    Aby URA był "całościowo" stabilny, każda z tych transmitancji musi być co najmniej stabilna.
+
+    Ponadto można zauważyć, że $G(s)$ i $S(s)$ są komplementarne, tzn.:
+    $$
+        G(s) + S(s) = \frac{G_{R}(s)G_{O}(s)}{1 + G_{R}(s)G_{O}(s)} + \frac{1}{1 + G_{R}(s)G_{O}(s)} = 1,
+    $$
+    zatem optymalizując wskaźnik jakości związany z jedną z nich, optymalizujemy automatycznie analogiczny wskaźnik jakości związany z drugą.
+    %======================================================
+    \subsection{Wskaźniki jakości URA}
+    Do oceny działania URA stosuje się różne wskaźniki jakości, zwane również funkcją celu.
+    W zależności od doboru wskaźnika jakości, parametry układu będą dobierane w inny sposób.
+
+        %--------------------------------------------------
+        \subsubsection{Całkowe wskaźniki jakości}
+        Jednymi z najczęściej używanych wskaźników jakości są tzw. całkowe wskaźniki jakości:
+        \begin{enumerate}[(a)]
+            \item całka z kwadratu uchybu sterowania:
+                \begin{equation}
+                    \label{eq:j1}
+                    J_{1} = \int_{0}^{\infty}{e(t)^{2}dt},
+                \end{equation}
+    
+            \item całka z $p$-tej potęgi uchybu regulacji (aby wskaźnik taki miał sens $p$ musi być parzyste):
+                \begin{equation}
+                    \label{eq:j2}
+                    J_{2} = \int_{0}^{\infty}{e(t)^{p}dt},
+                \end{equation}
+    
+            \item całka z modułu uchybu sterowania:
+                \begin{equation}
+                    \label{eq:j3}
+                    J_{3} = \int_{0}^{\infty}{|e(t)|dt},
+                \end{equation}
+    
+            \item całka ważona względem czasu sterowania (aby wskaźnik taki miał sens $p$ musi być parzyste):
+                \begin{equation}
+                    \label{eq:j4}
+                    J_{4} = \int_{0}^{\infty}{e(t)^{p}t^{q}dt},
+                \end{equation}
+    
+            \item całka z kwadratu uchybu sterowania i jej pochodnej:
+                \begin{equation}
+                    \label{eq:j5}
+                    J_{5} = \int_{0}^{\infty}{\left(e(t)^{2} + \dot{e}(t)^{2}\right)dt},
+                \end{equation}
+    
+            \item w przypadku rozpatrywania przestrzeni stanu można rozpatrywać całkę z dodatnio określonej formy kwadratowej stanu:
+                \begin{equation}
+                    \label{eq:j6}
+                    J_{6} = \int_{0}^{\infty}{x^{T}(t)Hx(t)dt},\,H=H^{T}>0,
+                \end{equation}
+    
+            \item wskaźnik mieszany uwzględniający koszt sterowania:
+                \begin{equation}
+                    \label{eq:j7}
+                    J_{7} = \int_{0}^{\infty}{(\alpha_{1}e(t)^{2} + \alpha_{1}u(t)^{2})dt}, \alpha_{1}, \alpha_{2} \in \mathbf{R}_{+}.
+                \end{equation}
+        \end{enumerate}
+
+        %--------------------------------------------------
+        \subsubsection{Niecałkowe wskaźniki jakości}
+        \begin{enumerate}[(a)]
+            \item czas regulacji $\tau_{r}$ - jest to najmniejszy czas, począwszy od którego wartość sygnału wyjściowego obiektu nie różni się od wartości w stanie ustalonej $y_{\infty} = \lim_{t \rightarrow \infty}y(t)$ nie bardziej niż zadany procent $\gamma$:
+            $$
+                \tau_{1} = \sup\{ t \in [0, \infty) : |y(t) - y_{\infty}| > \gamma|y_{\infty}| \},
+            $$
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=0.4\linewidth]{fig/05_optymalizacja_parametryczna/czas_regulacji.png}
+                \caption{Czas regulacji.}
+                \label{fig:czas_regulaacji}
+            \end{figure}
+            \item czas narastania $\tau_{n}$ - jest to czas, w którym sygnał wyjściowy $y(t)$ narasta od $10\%$ do $90\%$ wartości w stanie ustalonym $y_{infty}$:
+            $$
+                \tau_{2} = \min\{ t \in [0, \infty) : y(t) = 0.9y_{\infty}\} - \min\{ t \in [0, \infty) : y(t) = 0.1y_{\infty}\},
+            $$
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=0.4\linewidth]{fig/05_optymalizacja_parametryczna/czas_narastania.png}
+                \caption{Czas narastania.}
+                \label{fig:czas_narastania}
+            \end{figure}
+            \item przeregulowanie $\kappa$ - stosunek maksymalnej wartości sygnału wyjściowego $y_{max}$ do wartości w stanie ustalonym:
+            $$
+                \kappa = \frac{y_{max} - y_{\infty}}{y_{\infty}}
+            $$
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=0.4\linewidth]{fig/05_optymalizacja_parametryczna/przeregulowanie.png}
+                \caption{Przeregulowanie.}
+                \label{fig:przeregulowanie}
+            \end{figure}
+            \item uchyb ustalony $e_{\infty}$ - jest to wartość uchybu regulacji w stanie ustalonym:
+            $$
+                e_{\infty} = \lim_{t \rightarrow \infty}{e(t)}
+            $$
+            \item zapas modułu $\Delta_{L}$ - różnica między poziomem modułu równego jeden, a poziomem modułu $L(\omega_{1})$ transmitancji widmowej $G_{otwarty}(i\omega)$, gdzie $\omega_{1}$ jest pulsacją, dla której faza transmitancji widmowej $\varphi(\omega_{1}) = -\pi$.
+            \item zapas fazy $\Delta_{\varphi}$ - jest różnicą między argumentem $\varphi(\omega_{2})$ transmitancji widmowej $G_{otwarty}(i\omega)$, dla której moduł $|G_{otwarty}(i\omega)|$ wynosi $1$, a wartością $-\pi$.
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=0.4\linewidth]{fig/05_optymalizacja_parametryczna/Screenshot from 2024-04-28 21-09-41.png}
+                \caption{Zapas fazy i modułu.}
+                \label{fig:zapas}
+            \end{figure}
+        \end{enumerate}
+    
+    %======================================================
+    \subsection{Wyznaczanie całkowych wskaźników jakości na podstawie transmitancji}
+    \begin{enumerate}[(a)]
+        \item $J_{1} = \int_{0}^{\infty}{e(t)^{2}dt}$ : do wyznaczenia całki z kwadratu uchybu sterowania $e(t)$ na podstawie znajomości jego transformaty $E(s) = \frac{B(s)}{A(s)}$, gdzie stopień wielomianu $A(s)$ jest wyższy niż wielomianu $B(s)$, można wykorzystać równość, wynikającą z twierdzeń Reileigha i Persevala:
+        $$
+            J_{1}
+            =
+            \int_{0}^{\infty}{e(t)^{2}dt}
+            =
+            \frac{1}{2\pi}\int_{-i\infty}^{+i\infty}{E(s)E(-s)ds}.
+        $$
+        Dokładne wyprowadzenie zależności na analityczne wyznaczenie tej całki można znaleźć w pracach \cite{Mitkowski2007} i \cite{Gorecki1993}.
+        W tej instrukcji ograniczymy się do zaznaczenia, że wyznaczana jest ona poprzez poszukiwanie wielomianu:
+        $$
+            C(s) = c_{n-1}s^{n-1} + \cdots + c_{1}s + c_{0},
+        $$
+        który spełnia zależność:
+        $$
+            B(s)B(-s) = A(-s)C(s) + A(s)C(-s).
+        $$
+        Na podstawie tej równości dostajemy zestaw równań na wartości współczynników $c_i$, wynikających z równości odpowiednich współczynników wielomianów z lewej i prawej strony znaku równości.
+        A ostateczną formułą na wskaźnik jakości $J_{1}$ jest (\ref{eq:j2}):
+        \begin{equation}
+        \label{eq:j2}
+            J_{1} = \frac{c_{n-1}}{a_{n}}.
+        \end{equation}
+
+        \item $J_{4} = \int_{0}^{\infty}{e(t)^{p}t^{q}dt}$: stosunkowo prostą analityczną formę na wskaźnik jakości ważony czasem sterowania można przedstawić dla $p =2$ oraz dla $q = 2$.
+        Można ją wyznaczyć poprzez podstawienie:
+        $$
+            \gamma(t) = te(t),
+        $$
+        wówczas wskaźnik jakości ma postać:
+        $$
+            J_{4} = \int_{0}^{\infty}{\gamma(t)^{2}dt}.
+        $$
+        A ponieważ transformatę $\gamma(t)$ można przedstawić jako:
+        $$
+            \Gamma(s) = -\frac{\partial E(s)}{ds},
+        $$
+        to można zastosować procedurę jak dla wskaźnika $J_{1}$ tylko z transformatą $\Gamma(s)$.
+
+        \item $J_{5} = \int_{0}^{\infty}{\left(e(t)^{2} + \dot{e}(t)^{2}\right)dt}$: całkę tę można rozbić na sumę:
+        $$
+            J_{5} = \int_{0}^{\infty}{e(t)^{2}dt}  + \int_{0}^{\infty}{\dot{e}(t)^{2}dt} = J_{1} + \int_{0}^{\infty}{\dot{e}(t)^{2}dt}.
+        $$
+        Część $J_{1}$ została już objaśniona, natomiast co do drugiego składnika sumy, to można zauważyć, że jego transformata będzie miała postać:
+        $$
+            \dot{e}(t) \rightarrow E_{p}(s) = sE(s).
+        $$
+        Zatem powtarzamy postępowanie dla $J_{1}$, ale z transformatą $E_{p}(s)$.
+    \end{enumerate}
+    %======================================================
+    \subsection{Wyznaczanie niecałkowych wskaźników jakości}
+    W ogólności trudno jest wyznaczyć analityczne zależności na przeregulowanie czy czas narastania.
+    Możliwe jest to jednak dla układów drugiego rzędu, i na tych układach się tutaj skupimy.
+    W tym celu przyjmiemy następującą parametryzację obiektu drugiego rzędu:
+    $$
+        G_{II}(s) = \frac{\omega_{n}^{2}}{s^{2} + 2\xi\omega_{n}s + \omega_{n}^{2}} = \frac{k}{(s+\sigma)^{2} + \omega_{d}^{2}}
+    $$
+    gdzie:
+    \begin{itemize}
+        \item $\omega_{n}$ - pulsacja drgań własnych,
+        \item $\xi$ - współczynnik tłumienia,
+        \item $\sigma$ - tłumienie względne,
+        \item $\omega_{d}$ - pulsacja drgań tłumionych.
+    \end{itemize}
+
+    \begin{enumerate}[(a)]
+        \item \textit{Czas regulacji} - dla $\gamma = 0.02$ - dla takiego poziomu uchybu regulacji przybliżony czas regulacji można przedstawić jako:
+        $$
+            \tau_{r} = \frac{4}{\xi\omega_{n}},
+        $$
+        %\item \textit{Czas narastania}
+        \item \textit{Przeregulowanie} - przeregulowanie można okreśłić na podstawie wzorU:
+        $$
+            \kappa = e^{-\frac{\pi\xi}{\sqrt{1-\xi^2}}},
+        $$
+        natomiast czas pierwszego maksimum to:
+        $$
+            t_{p} = \frac{\pi}{\omega_{n}\sqrt{1-\xi^2}}.
+        $$
+    \end{enumerate}
+    
+    %======================================================
+    %\subsection{Podejście numeryczne}
+    %======================================================
+    %\subsection{Optymalizacja odporności}
+    %======================================================
+    \subsection{Optymalizacja wielokryterialna}
+    W praktyce inżynierskiej bardzo często spotykane są problemy, które wymagają optymalizacji względem więcej niż jednego kryterium.
+    Nierzadko nie są one wzajemnie przeliczalne, więc nie można ich sprowadzić do pojedynczego skalarnego przypadku.
+    Ponadto bywa, iż kryteria, względem których wykonujemy optymalizację, są wzajemnie sprzeczne - jak np. żądanie jak najszybszej reakcji na zmiany wartości zadanej i minimalizacja energii sterowania.
+    Formalnie można zapisać, że zadanie optymalizacji wielokryterialnej jest poszukiwaniem minimum wektora wskaźników jakości $F(x) = \begin{bmatrix} F_{1} & \cdots & F_{n}\end{bmatrix} \in R^{n}$.
+    Jednak problematyczne jest określenie, czym właściwie jest minimum wektora.
+    Gdyż minimum dla każdego z kryteriów osiągane jest zwykle w innym punkcie.
+    Dlatego poszukuje się rozwiązań kompromisowych, na tzw. zbiorze (froncie) Pareto, będącym zbiorem rozwiązań, dla których co najmniej jedno kryterium osiąga lepszy wynik niż dla innych punktów - rysunek (\ref{fig:enter-label}).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.35\linewidth]{fig/05_optymalizacja_parametryczna/Screenshot from 2024-04-28 00-49-05.png}
+        \caption{Zbiór (front) Pareto.}
+        \label{fig:enter-label}
+    \end{figure}
+    Nierzadko jednak można zadanie to uprościć i zastosować tzw. metodę skalaryzacji, która polega na przekształceniu zadania optymalizacji wielokryterialnej w zadanie optymalizacji skalarnej poprzez nadanie każdemu ze wskaźników jakości wagi i zsumowanie ich:
+    $$
+        \mathbf{F} = \nu F = \sum_{i}^{n}\nu_{i}F_{i}, \nu_{i} > 0.
+    $$
+    Można wówczas pokazać, że jeśli $\hat{\textbf{F}}$ jest minimum lokalnym, to odpowiadający mu wektor $F$ leży na zbiorze Pareto.
+    
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Przykłady}
+    %======================================================
+    \subsection{Przykład 1}
+    Rozważmy obiekt o transmitancji:
+    $$
+        G(s) = \frac{s+1}{s(s^2 + s + 1)}
+    $$
+    w układzie regulacji automatycznej z rysunku (\ref{fig:uklad_regulacji}), z regulatorem:
+    \begin{enumerate}[(a)]
+        \item typu P: $G_{R,P}(s) = K_{P}$,
+        \item typu PI: $G_{R,PI}(s) = K_{P}(1 + \frac{1}{T_{i}s})$ zakładając, że $T_{i}, K_{P} > 0$.
+    \end{enumerate}
+    Znaleźć optymalne nastawy względem wskaźnika jakości $J_{1}$ i $J_{7}$ (dla $\alpha_{1} = \alpha_{2} = 1$).
+
+
+    \begin{enumerate}[(a)]
+        %% ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        \item W celu rozwiązania zadania w pierwszej kolejności wyznaczamy transmitancję zastępczą URA:
+        $$
+            G(s) = \frac{Ks + K}{s^{3} + s^{2} + s(K+1) + K}.
+        $$
+        Wzmocnienie $K$ musi stabilizować URA, zatem wyznaczamy zakres wartości $K$, dla których układ będzie stabilny, można to zrobić np. za pomocą kryterium Hurwitza:
+        $$
+            H
+            =
+            \begin{bmatrix}
+                1 & 1 & 0\\
+                K & K+1 & 1\\
+                0 & 0 & K
+            \end{bmatrix}
+            \implies
+            \Delta_{1} = 1 > 0,
+            \Delta_{2} = 1 > 0,
+            \Delta_{3} = K > 0
+            \implies K > 0.
+        $$
+        Znając zakres stabilnych $K$ wyznaczamy transmitancję uchybową:
+        $$
+            S(s) = \frac{s^3 + s^2 + s}{s^{3} + s^{2} + s(K+1) + K}.
+        $$
+        Ponieważ $E(s) = S(s)R(s)$, to transformata odpowiedzi na skok jednostkowy wynosi:
+        $$
+            E(s) = \frac{1}{s} \cdot \frac{s^3 + s^2 + s}{s^{3} + s^{2} + s(K+1) + K} = \frac{s^2 + s + 1}{s^{3} + s^{2} + s(K+1) + K}.
+        $$
+        Aby wyznaczyć "produkowane" sterowanie wyznaczamy transmitancję:
+        $$
+            G_{U} = \frac{K(s^3 + s^2 + s)}{s^{3} + s^{2} + s(K+1) + K}.
+        $$
+        A więc transformata sterowania wynosi:
+        $$
+            U(s) = \frac{1}{s} \cdot \frac{K(s^3 + s^2 + s)}{s^{3} + s^{2} + s(K+1) + K} = \frac{K(s^2 + s + 1)}{s^{3} + s^{2} + s(K+1) + K}.
+        $$
+        Posiadając wyznaczone transformaty sygnałów sterowania i uchybu sterowania można wyznaczyć wskaźniki jakości:
+        \begin{enumerate}[label=(\arabic*.)]
+            \item $J_{2}(K) = \int_{0}^{\infty}{e(t)^2dt}$ wyznaczamy zgodnie z przedstawioną metodą analitycznego wyznaczania takiej całki na podstawie transformaty Laplace'a $E(s) = \frac{A(s)}{B(s)}$ funkcji $e(t)$.
+            W tym celu konieczne jest wyznaczenie wielomianu $C(s) = c_{2}s^2 + c_{1}s + c_{0}$, który spełnia równanie:
+            $$
+                B(s)B(-s) = A(-s)C(s) + A(s)C(-s),
+            $$
+            które po rozpisaniu i pogrupowaniu wyrazów daje następujący układ równań liniowych:
+            $$
+                \begin{bmatrix}
+                    2K & 0 & 0\\
+                    2 & -2-2K & 2K\\
+                    0 & -2 & 2
+                \end{bmatrix}
+                \begin{bmatrix}
+                    c_{0}\\
+                    c_{1}\\
+                    c_{2}
+                \end{bmatrix}
+                =
+                \begin{bmatrix}
+                    1\\
+                    1\\
+                    1
+                \end{bmatrix}
+                \implies
+                \begin{bmatrix}
+                    c_{0}\\
+                    c_{1}\\
+                    c_{2}
+                \end{bmatrix}
+                =
+                \begin{bmatrix}
+                    \frac{1}{2K}\\
+                    \frac{K}{2} + \frac{1}{2K} - \frac{1}{2}\\
+                    \frac{K}{2} + \frac{1}{2K}
+                \end{bmatrix}.
+            $$
+            Zatem wskaźnik jakości wynosi:
+            $$
+                J_{1}(K) = \frac{c_{2}}{a_{3}} = \frac{K}{2} + \frac{1}{2K}.
+            $$
+            Aby więc wyznaczyć optymalną wartość $K$ mamy do rozwiązania zadanie optymalizacji z ograniczeniem nierównościowym $-K < 0$, można je rozwiązać poprzez zastosowanie warunków Khuna-Karusha-Tuckera:
+            $$
+                \left\{
+                \begin{array}{c}
+                    \frac{\partial J_{2}(K)}{\partial K} + \lambda(-K) = 0\\
+                    -K < 0\\
+                    \lambda(-K) = 0
+                \end{array}
+                \right\}
+                \implies
+                \left\{
+                \begin{array}{c}
+                    \frac{1}{2} - \frac{1}{2K^2} + \lambda(-K) = 0\\
+                    -K < 0\\
+                    \lambda(-K) = 0
+                \end{array}
+                \right\}
+                \implies
+                \left\{
+                \begin{array}{c}
+                    K = 1\\
+                    \lambda = 0
+                \end{array}
+                \right\}.
+            $$
+            Zatem optymalna wartość wskaźnika jakości wynosi:
+            $$
+                J_{1}(1) = \frac{1}{2} + \frac{1}{2} = 1.
+            $$
+            \item $J_{7}(K) = \int_{0}^{\infty}{\left( e(t)^2 + u(t)^2 \right)dt} = \int_{0}^{\infty}{e(t)^2dt} + \int_{0}^{\infty}{u(t)^2dt}$ - pierwsza część sumy została wyznaczona w poprzednim przypadku.
+            Natomiast druga część, zależna tylko od sterowania, zostanie wyznaczona tutaj w analogiczny sposób, szukając odpowiedniego wielomianu $C(s) = c_{2}^{u}s^2 + c_{1}^{u}s + c_{0}^{u}$, co w tym przypadku prowadzi do układu równań:
+            $$
+                \begin{bmatrix}
+                    2K & 0 & 0\\
+                    2 & -2-2K & 2K\\
+                    0 & -2 & 2
+                \end{bmatrix}
+                \begin{bmatrix}
+                    c_{0}^{u}\\
+                    c_{1}^{u}\\
+                    c_{2}^{u}
+                \end{bmatrix}
+                =
+                \begin{bmatrix}
+                    K^2\\
+                    K^2\\
+                    K^2
+                \end{bmatrix}
+                \implies
+                \begin{bmatrix}
+                    c_{0}^{u}\\
+                    c_{1}^{u}\\
+                    c_{2}^{u}
+                \end{bmatrix}
+                =
+                \begin{bmatrix}
+                    \frac{K}{2}\\
+                    \frac{K}{2} (K^2 - K + 1)\\
+                    \frac{K}{2}(K^2 + 1)
+                \end{bmatrix}.
+            $$
+            Zatem część wskaźnika jakości związana ze sterowaniem wynosi:
+            $$
+                J_{7}^{u}(K) = \frac{c_{2}^{u}}{a_{3}} = \frac{K}{2}(K^2 + 1).
+            $$
+            Co daje całościowo wskaźnik jakości w postaci:
+            $$
+                J_{7}(K) = K + \frac{1}{2K} + \frac{K^3}{2}.
+            $$
+            A optymalną wartość $K$ ponownie odnajdujemy poprzez rozwiązanie problemu KKT:
+            $$
+                \left\{
+                \begin{array}{c}
+                    \frac{\partial J_{7}(K)}{\partial K} + \lambda(-K) = 0\\
+                    -K < 0\\
+                    \lambda(-K) = 0
+                \end{array}
+                \right\}
+                \implies
+                \left\{
+                \begin{array}{c}
+                    \frac{3}{2}K^2 - \frac{1}{2K^2} + 1 + \lambda(-K) = 0\\
+                    -K < 0\\
+                    \lambda(-K) = 0
+                \end{array}
+                \right\}
+                \implies
+                \left\{
+                \begin{array}{c}
+                    K = \frac{\sqrt{3}}{3}\\
+                    \lambda = 0
+                \end{array}
+                \right\}.
+            $$
+            Zatem optymalna wartość wskaźnika jakości wynosi:
+            $$
+                J_{7}\left( \frac{\sqrt{3}}{3} \right) \approx 1.5396.
+            $$
+        \end{enumerate}
+
+        Przebiegi czasowe uzyskanych uchybów regulacji i sterowania pokazano na rysunkach (\ref{fig:przyklad_1_uchyb}) i (\ref{fig:model_symulacja}):
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.5\linewidth]{fig/05_optymalizacja_parametryczna/przyklad_1_uchyb.png}
+            \caption{Przebiegi czasowe uchybu sterowania dla optymalnych nastaw regulatora względem wskaźnika jakości $J_{2}$ i $J_{7}$.}
+            \label{fig:przyklad_1_uchyb}
+        \end{figure}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.5\linewidth]{fig/05_optymalizacja_parametryczna/przyklad_1_sterowanie.png}
+            \caption{Przebiegi czasowe  sterowania dla optymalnych nastaw regulatora względem wskaźnika jakości $J_{2}$ i $J_{7}$.}
+            \label{fig:eprzyklad_1_sterowanie}
+        \end{figure}
+
+        Obydwa przypadki, dla wskaźnika $J_{2}$, jak i $J_{7}$ można również rozwiązać numerycznie, korzystając z modelu Simulinka, jak na rysunku (\ref{fig:model_symulacja}):
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.5\linewidth]{fig/05_optymalizacja_parametryczna/Screenshot from 2024-04-27 18-23-11.png}
+            \caption{Model symulacyjny  używany do optymalizacji współczynników regulatora.}
+            \label{fig:model_symulacja}
+        \end{figure}
+        Na jego podstawie uzyskano praktycznie identyczne wyniki jak w rozwiązaniu analitycznym:
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.5\linewidth]{fig/05_optymalizacja_parametryczna/przyklad_1_j7.png}
+            \caption{Wzrost wskaźnika jakości w czasie symulacji.}
+            \label{fig:j7_symulacja}
+        \end{figure}
+        %% ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        \item Podobnie jak w przypadku regulatora proporcjonalnego w celu rozwiązania zadania w pierwszej kolejności wyznaczamy transmitancję zastępczą URA z regulatorem proporcjonalno-całkującym:
+        $$
+                G(s) = \frac{K_{P}\,T_{I}\,s^2+\left(K_{P}+K_{P}\,T_{I}\right)\,s+K_{P}}{T_{I}\,s^4+T_{I}\,s^3+\left(T_{I}+K_{P}\,T_{I}\right)\,s^2+\left(K_{P}+K_{P}\,T_{I}\right)\,s+K_{P}}.
+        $$
+        Parametry $K_{P}$ i $T_{D}$  muszą stabilizować URA, zatem wyznaczamy zakres tych wartości, dla których układ będzie stabilny, można to zrobić np. z za pomocą kryterium Hurwitza:
+        $$
+            \begin{array}{c}
+                H
+                =
+                \begin{bmatrix}
+                \begin{array}{cccc} T_{I} & K_{P}+K_{P}\,T_{I} & 0 & 0\\ T_{I} & T_{I}+K_{P}\,T_{I} & K_{P} & 0\\ 0 & T_{I} & K_{P}+K_{P}\,T_{I} & 0\\ 0 & T_{I} & T_{I}+K_{P}\,T_{I} & K_{P} \end{array}
+                \end{bmatrix}
+                \implies \\
+                \\
+                \implies 
+                \Delta_{1} = T_{I},
+                \Delta_{2} = {T_{I}}^2-K_{P}\,T_{I},
+                \Delta_{3} = -{K_{P}}^2\,{T_{I}}^2-{K_{P}}^2\,T_{I}+K_{P}\,{T_{I}}^3,
+                \Delta_{4} = -K_{P}\,\left({K_{P}}^2\,{T_{I}}^2+{K_{P}}^2\,T_{I}-K_{P}\,{T_{I}}^3\right)
+                \implies\\
+                \\
+                \implies
+                T_{i} > 0, K_P < T_I, K_P < \frac{T_I^2}{T_I + 1}.
+                \end{array}
+        $$
+        Znając ograniczenia na parametry regulatora wyznaczamy transformaty dla sygnałów sterowania i uchybu sterowania w odpowiedzi na skok jednostkowy - $R(s) = \frac{1}{s}$, będą to odpowiednio:
+        \begin{itemize}
+            \item transformata uchybu:
+            $$
+                E(s)
+                =
+                \frac{T_{I}\,s^3+T_{I}\,s^2+T_{I}\,s}{T_{I}\,s^4+T_{I}\,s^3+\left(T_{I}+K_{P}\,T_{I}\right)\,s^2+\left(K_{P}+K_{P}\,T_{I}\right)\,s+K_{P}},
+            $$
+            \item transformata sterowania:
+            $$
+                U(s)
+                =
+                \frac{K_{P}\,T_{I}\,s^3+\left(K_{P}+K_{P}\,T_{I}\right)\,s^2+\left(K_{P}+K_{P}\,T_{I}\right)\,s+K_{P}}{T_{I}\,s^4+T_{I}\,s^3+\left(T_{I}+K_{P}\,T_{I}\right)\,s^2+\left(K_{P}+K_{P}\,T_{I}\right)\,s+K_{P}}.
+            $$
+        \end{itemize}
+
+        \begin{enumerate}[label=(\arabic*.)]
+            \item $J_{1}(K) = \int_{0}^{\infty}{e(t)^2dt}$ wyznaczamy metodą analityczną, jak poprzednio, szukając odpowiedniego wielomianu $C(s) = c_{2}s^2 + c_{1}s + c_{0}$, spełniającego warunek:
+            $$
+                B(s)B(-s) = A(-s)C(s) + A(s)C(-s).
+            $$
+            Na podstawie tej równości otrzymuje się układ równań, którego rozwiązanie daje wynik:
+            $$
+                c_{3} = \frac{{T_{I}}^2\,\left({K_{P}}^2\,T_{I}+{K_{P}}^2-2\,K_{P}\,T_{I}+{T_{I}}^2\right)}{2\,{K_{P}}^2\,\left(-{T_{I}}^2+K_{P}\,T_{I}+K_{P}\right)}.
+            $$
+            A zatem wskaźnik jakości przybiera ostatecznie:
+            $$
+                J_{1}(K_P, T_I) = \frac{c_3}{a_{4}} = \frac{{T_{I}}^2\,\left({K_{P}}^2\,T_{I}+{K_{P}}^2-2\,K_{P}\,T_{I}+{T_{I}}^2\right)}{2T_{I}\,{K_{P}}^2\,\left(-{T_{I}}^2+K_{P}\,T_{I}+K_{P}\right)}.
+            $$
+
+            \item $J_{7}(K) = \int_{0}^{\infty}{\left( e(t)^2 + u(t)^2 \right)dt} = \int_{0}^{\infty}{e(t)^2dt} + \int_{0}^{\infty}{u(t)^2dt}$ - pierwsza część sumy została wyznaczona w podpunkcie wyżej, dlatego tutaj wystarczy wyznaczyć część związaną tylko ze sterowaniem:
+            $$
+                J_{7}^{u} = \frac{-{K_{P}}^2\,{T_{I}}^3-{K_{P}}^2\,{T_{I}}^2+{K_{P}}^2\,T_{I}+{K_{P}}^2+K_{P}\,{T_{I}}^3-2\,K_{P}\,T_{I}+{T_{I}}^2}{2T_I\,\left(-{T_{I}}^2+K_{P}\,T_{I}+K_{P}\right)}.
+            $$
+        \end{enumerate}
+        Są to dość skomplikowane wyrażenia, dlatego analityczne ich wyznaczenie zostanie pominięte.
+    \end{enumerate} 
+    
+    %======================================================
+    \subsection{Przykład 2}
+    Rozważamy obiekt sterowania o transmitancji:
+    $$
+        G(s) = \frac{1}{s + 1}, 
+    $$
+    w układzie automatycznej regulacji, jak na rysunku (\ref{fig:uklad_regulacji}).
+    Z regulatorem proporcjonalno-całkującym:
+    $$
+        G_{R,I}(s) = 1 + \frac{1}{T_{i}s}.
+    $$
+    Odnaleźć nastawę regulatora, która zapewnia najlepszą wartość wskaźnika jakości $J_{2}$, przy jednoczesnym minimalizowaniu wpływu zakłócenia obciążeniowego $D(s)$.
+    Wskaźnik jakości można zapisać zatem jako sumę:
+    $$
+        J(T_I) = J_{1,E} + J_{1,D}
+    $$
+    gdzie:
+    \begin{itemize}
+        \item $J_{1,E} = \int_{0}^{\infty}{e(t)^2dt}$ - całka z uchybu sterowania w odpowiedzi na skok jednostkowy na wartości zadanej,
+        \item $J_{1,D} = \int_{0}^{\infty}{d(t)^2dt}$ - całka z wyjścia w odpowiedzi na skok jednostkowy na obciążeniu.
+    \end{itemize}
+
+
+    Podobnie jak poprzednio, zaczynamy od wyznaczenia transmitancji zastępczej i sprawdzenia zakresu wartości $T_{I}$, które stabilizują układ po zamknięciu sprzężenia zwrotnego:
+    $$
+        G(s)
+        =
+        \frac{T_{I}\,s+1}{T_{I}\,s^2+2\,T_{I}\,s+1}.
+    $$
+    Łatwo zauważyć, iż wystarczy aby $T_{I} > 0$, aby układ był stabilny.
+
+    Kolejno wyznaczamy transmitancje:
+    \begin{itemize}
+        \item uchybową:
+        $$
+            S(s) = \frac{T_{I}\,s^2+T_{I}\,s}{T_{I}\,s^2+2\,T_{I}\,s+1},
+        $$
+        \item obciążeniową:
+        $$
+            G_{D}(s) = \frac{T_{I}\,s}{T_{I}\,s^2+2\,T_{I}\,s+1}.
+        $$
+    \end{itemize}
+    A dalej na ich podstawie transformaty odpowiedzi na skok jednostkowy:
+    \begin{itemize}
+        \item na wartości zadanej:
+        $$
+            E(s) = \frac{T_{I}\,s+T_{I}}{T_{I}\,s^2+2\,T_{I}\,s+1},
+        $$
+        \item na obciążeniu:
+        $$
+            Y(s) = \frac{T_{I}}{T_{I}\,s^2+2\,T_{I}\,s+1}.
+        $$
+    \end{itemize}
+    Znając te transformaty wyznaczamy składniki wskaźnika jakości:
+    \begin{itemize}
+        \item $J_{1,E} = \frac{T_{I}}{4}+\frac{1}{4}$,
+        \item $J_{1,D} = \frac{1}{4}$.
+    \end{itemize}
+    Sumarycznie otrzymujemy:
+    $$
+        J(T_I) = \frac{T_{I}}{4}+\frac{1}{2}.
+    $$
+    Zatem nie ma minimum, ale współczynnik jakości poprawia się wraz ze zmniejszaniem $T_I$. 
+
+    %======================================================
+    %\subsection{Przykład 3}
+    %Rozważamy obiekt sterowania o transmitancji:
+    %$$
+    %    G(s) = \frac{1}{s^2 +s}, 
+    %$$
+    %w układzie automatycznej regulacji jak na rysunku (\ref{fig:uklad_regulacji}).
+    %Z regulatorem proporcjonalnym:
+    %$$
+    %    G_{R,P}(s) = K_{P}.
+    %$$
+    %Odnaleźć optymalne nastawy regulatora, minimalizujące czas narastania, z ograniczeniem na co najwyżej 15\% przeregulowanie.
+    
+
+    %======================================================
+    %\subsection{Przykład 4}
+   
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Jak to zrobić w MATLABie?}
+    %======================================================
+    \subsection{Optymalizacja bez ograniczeń}
+    MATLAB Symbolic Toolbox dostarcza kilka funkcji służących do rozwiązywania problemów optymalizacji bez ograniczeń.
+    Są to np.:
+    \begin{itemize}
+        \item \texttt{fminsearch} - funkcja ta rozwiązuje problem optymalizacji metodami bezgradientowymi,
+        jej przykładowe użycie to:
+        \begin{lstlisting}[style=Matlab-editor]
+            fun = @(x)(x(1)^2 + x2(2));     % Uchwyt do minimalizowanej funkcji
+            x_0 = [1; 1];                   % Warunek poczatkowy
+            x_opt = fminsearch(fun, x_0);   % Uruchomienie procedury minimalizacyjnej
+        \end{lstlisting}
+        \item \texttt{fminunc} - funkcja ta rozwiązuje problem optymalizacji metodami gradientowymi, gdzie gradient funkcji celu może być podany analitycznie przez użytkownika, lub w przypadku, gdy jest trudnoosiągalny, może być aproksymowany numerycznie wewnątrz funkcji \texttt{fminunc}.
+        Jej przykładowe użycie to:
+        \begin{lstlisting}[style=Matlab-editor]
+        % Definicja minimalizowanej funkcji - moze zwracac dodatkowo gradient
+        function [f,g] = rosenbrockwithgrad(x)
+            % Minimalizowana funkcja
+            f = 100*(x(2) - x(1)^2)^2 + (1-x(1))^2;
+
+            % Gradient
+            if nargout > 1
+                g = [-400*(x(2)-x(1)^2)*x(1)-2*(1-x(1));
+                    200*(x(2)-x(1)^2)];
+        end
+
+        fun = @rosenbrockwithgrad;      % Uchwyt do minimalizowanej funkcji
+        x_0 = [1; 1];                   % Warunek poczatkowy
+        x_opt = fminsearch(fun, x_0);   % Uruchomienie procedury minimalizacyjnej
+    \end{lstlisting}
+    \end{itemize}
+
+    %======================================================
+    \subsection{Optymalizacja z ograniczeniami}
+    Zadanie optymalizacji z ograniczeniami, z użyciem metod gradientowych, można rozwiązać w MATLABie za pomocą funkcji \texttt{fmincon}, z Optimization Toolbox.
+    Uwzględnia ona następujące ograniczenia:
+    $$
+        \left\{
+        \begin{array}{ll}
+            c(x) \leq 0    & \textrm{nieliniowe ograniczenia nierównościowe}\\
+            c_{eq}(x) = 0    & \textrm{nieliniowe ograniczenia równościowe}\\
+            Ax \leq b   & \textrm{liniowe ograniczenia nierównościowe}\\
+            A_{eq}x \leq b_{eq}   & \textrm{liniowe ograniczenia równościowe}\\
+            x_{l} \leq x \leq x_{u} & \textrm{ograniczenie na dolną i górną wartość}
+        \end{array}
+        \right\}
+    $$
+    Jeśli minimalizowana funkcja znana jest w postaci analitycznej, to można podać jawnie wartość jej gradientu, jednak gdy nie możemy go jawnie wyznaczyć, to funkcja użyje przybliżenia numerycznego.
+
+    Dla przykładu przedstawiona zostanie minimalizacja funkcji Rosenbrocka:
+    \begin{lstlisting}[style=Matlab-editor]
+        function [f,g] = rosenbrockwithgrad(x)
+            % Minimalizowana funkcja
+            f = 100*(x(2) - x(1)^2)^2 + (1-x(1))^2;
+
+            % Gradient
+            if nargout > 1
+                g = [-400*(x(2)-x(1)^2)*x(1)-2*(1-x(1));
+                    200*(x(2)-x(1)^2)];
+        end
+    \end{lstlisting}
+
+    Ustawiamy opcje minimalizacji
+    \begin{lstlisting}[style=Matlab-editor]
+        options = optimoptions("fmincon", ...
+            "SpecifyObjectiveGradient", true, ...
+            "Display", "iter", ...
+            "PlotFcn", @optimplotfval, ...
+            "OptimalityTolerance", 1e-8 ...
+        );
+    \end{lstlisting}
+
+    Minimalizacja
+    \begin{lstlisting}[style=Matlab-editor]
+        fun = @rosenbrockwithgrad;
+        x0 = [-1,2];
+        A = [];
+        b = [];
+        Aeq = [];
+        beq = [];
+        lb = [-2,-2];
+        ub = [2,2];
+        nonlcon = @(x)100*(x(2)-x(1)^2)^2 + (1-x(1))^2;
+        x = fmincon(fun, x0, A, b, Aeq, beq, lb, ub, nonlcon, options);
+    \end{lstlisting}
+
+    %======================================================
+    \subsection{Analityczne rozwiązywanie zadania optymalizacji}
+    Analityczne rozwiązanie zadania optymalizacji może polegać na analitycznym wyznaczeniu wskaźnika jakości w postaci $J_{1} = \frac{c_{n-1}}{a_{n}}$, a następnie numerycznej optymalizacji tej funkcji.
+    Może być to zrealizowane tak jak w poniższym skrypcie:
+    \begin{lstlisting}[style=Matlab-editor]
+        %% Definicja transmitancji - funkcja tf() nie obsluguje zmiennych symbolicznych
+        syms K_P
+        syms Gr(s) Go(s)
+        Gr(s) = K_P;
+        Go(s) = (s+1) / (s^3 + s^2 + s);
+        
+        Gopen(s) = Gr(s)*Go(s);
+        G(s) = Gopen(s) / (1 + Gopen(s));
+        S(s) = 1 / (1 + Gopen(s));
+        Gu(s) = Gr(s) / (1 + Gopen(s));
+        
+        %% Badanie stabilnosci - sprawdzenie warunkow wynikajacych z kryterium Hurwitza
+        [~, den_closed] = numden(G);
+        [den_closed_coeffs, ~] = coeffs(den_closed, s);
+        den_closed_coeffs_array = den_closed_coeffs(s);
+        
+        [H, delta] = hurwitz(den_closed_coeffs_array);
+        
+        solve(delta > 0, K_P)
+        
+        %% Transformacja uchybowa - wyznaczenie odpowiedzi transmitancji uchybowej na skok jednostkowy
+        [num_e, den_e] = numden(S / s);
+
+        % Wypisanie formul LateXa dla mianownika i licznika transformaty e(t)
+        clc;
+        [num_e_coeffs, ss] = coeffs(num_e, s);
+        latex(sum(num_e_coeffs .* ss))
+        
+        [den_e_coeffs, ss] = coeffs(den_e, s);
+        latex(sum(den_e_coeffs .* ss))
+
+        % Wyznaczenie wielomianu C(s)
+        syms c0 c1 c2
+        C(s) = c2*s^2 + c1*s + c0;
+        
+        left = num_e(s)*num_e(-s);
+        left_coeffs = coeffs(left, s);
+        right = den_e(-s)*C(s) + den_e(s)*C(-s);
+        right_coeffs = coeffs(right, s);
+        
+        conditions = [ ...
+            left_coeffs(1) == right_coeffs(1); ...
+            left_coeffs(2) == right_coeffs(2); ...
+            left_coeffs(3) == right_coeffs(3) ...
+        ];
+        c_solved = solve(conditions, [c0,c1, c2]);
+
+        % Wyznaczenie wskaznika jakosci J_1
+        c_2 = c_solved.c2;
+        latex(c_2)
+        
+        den_e_array = den_e_coeffs(s);
+        a3 = den_e_array(1);
+        
+        J = c_2 / a3;
+        
+        % Optymalizacja numeryczna wskaznika jakosci
+        j_numeric_e = @(x)(double(subs(J, {K_P}, x)));
+        
+        options = optimoptions("fmincon", ...
+            "Display", "iter", ...
+            "PlotFcn", @optimplotfval, ...
+            "OptimalityTolerance", 1e-4 ...
+        );
+        
+        x0 = [5];
+        A = [];
+        b = [];
+        Aeq = [];
+        beq = [];
+        lb = [0];
+        ub = [];
+        nonlcon = [];
+        x_opt_e = fmincon(j_numeric_e, x0, A, b, Aeq, beq, lb, ub, nonlcon, options);
+        
+        %% Transformacja obciazeniowa - wyznaczenie odpowiedzi transmitancji obciazeniowej na skok jednostkowy
+        [num_u, den_u] = numden(Gu / s);
+
+        % Wypisanie formul LateXa dla mianownika i licznika transformaty e(t)
+        clc;
+        [num_u_coeffs, ss] = coeffs(num_u, s);
+        latex(sum(num_u_coeffs .* ss))
+        
+        [den_u_coeffs, ss] = coeffs(den_u, s);
+        latex(sum(den_u_coeffs .* ss))
+
+        % Wyznaczenie wielomianu C(s)
+        syms c0 c1 c2
+        C(s) = c2*s^2 + c1*s + c0;
+        
+        left = num_u(s)*num_u(-s);
+        left_coeffs = coeffs(left, s);
+        right = den_u(-s)*C(s) + den_u(s)*C(-s);
+        right_coeffs = coeffs(right, s);
+        
+        conditions = [ ...
+            left_coeffs(1) == right_coeffs(1); ...
+            left_coeffs(2) == right_coeffs(2); ...
+            left_coeffs(3) == right_coeffs(3) ...
+        ];
+        c_solved = solve(conditions, [c0,c1, c2]);
+
+        % Wyznaczenie wskaznika jakosci J_1 dla u(t)
+        c_2 = c_solved.c2;
+        latex(c_2)
+        
+        den_e_array = den_e_coeffs(s);
+        a3 = den_e_array(1);
+        
+        J = c_2 / a3;
+        
+        % Optymalizacja numeryczna dla sumy e(t)^2 + u(t)^2
+        j_numeric_eu = @(x)(j_numeric_e(x) + double(subs(J, {K_P}, x)));
+        
+        options = optimoptions("fmincon", ...
+            "Display", "iter", ...
+            "PlotFcn", @optimplotfval, ...
+            "OptimalityTolerance", 1e-4 ...
+        );
+        
+        x0 = [5];
+        A = [];
+        b = [];
+        Aeq = [];
+        beq = [];
+        lb = [0];
+        ub = [];
+        nonlcon = [];
+        x_opt_eu = fmincon(j_numeric_eu, x0, A, b, Aeq, beq, lb, ub, nonlcon, options);
+    \end{lstlisting}
+
+    %======================================================
+    \subsection{Sumylacyjne rozwiązywanie zadania optymalizacji}
+    W sytuacji, gdy nie znamy analitycznej formuły na wskaźnik jakości, np. z powodu jego znacznego skomplikowania, można posiłkować się wynikami symulacyjnymi.
+    Można w tym celu wykorzystać model jak na rysunku (\ref{fig:model_symulacja}), w którym wyznaczane są odpowiednie przebiegi i całki.
+    Wówczas można użyć jednej z podanych wyżej funkcji optymalizacyjnych z funkcją celu, zdefiniowaną w MATLABie jako:
+    \begin{lstlisting}[style=Matlab-editor]
+        function j = wskaznik_jakosci(x)
+            global KP TI
+            KP = x(1);
+            TI = x(2);
+            output = sim("ura.slx");
+            j = output.je.Data(end) + output.ju.Data(end);
+        end
+    \end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Przebieg ćwiczenia}
+Dla każdego z podanych systemów w trakcie analizy należy dla układów 1 i 2:
+\begin{itemize}
+    \item utworzyć model symulacyjny układu sterowania w Simulinku (łącznie z wejściami zakłóceń),
+    \item wyznaczyć analitycznie ograniczenia na zakres zmiennych projektowych (w zależności od zadanej struktury regulatora) - zaznaczyć ten obszar na płaszczyźnie,
+    \item wykonać numerycznie optymalizacje ze względu na wskaźnik jakości $J_{1}$,
+    \item wykonać numerycznie optymalizację ze względu na wskaźnik jakości $J_{7}$,
+    \item wykonać numerycznie optymalizację ze względu na odporność na obciążenie,
+    \item wykonać numerycznie optymalizację ze względu na wskaźniki $J_{1}$  i na obciążenie,
+    \item dla każdego zestawu dobranych nastaw regulatora wykonać symulacyjnie:
+        \begin{itemize}
+            \item odpowiedź na skok jednostkowy bez zakłóceń (pokazać wartości sterowania),
+            \item odpowiedź na skok jednostkowy z zakłóceniem obciążeniowym (skok jednostkowy, ale w innej chwili niż wartość zadana)(pokazać wartości sterowania).
+        \end{itemize}
+\end{itemize}
+
+    %======================================================
+    \subsection{Układ 1}
+    Dla obiektu opisywanego transmitancją:
+    \begin{equation}
+        \label{eq:system_1}
+        G_{O}(s) = \frac{2s+3}{s^3+2s^2+s},
+    \end{equation}
+    w układzie regulacji automatycznej z rysunku (\ref{fig:uklad_regulacji}), rozważyć do optymalizacji parametrycznej regulatory:
+    \begin{itemize}
+        \item P: $G_{R,P}(s) = K_{P}$,
+        \item PD: $G_{R,PD}(s) = K_{P}(1 + T_{D}s)$.
+    \end{itemize}
+
+    %======================================================
+    \subsection{Układ 2}
+    Dla obiektu opisywanego transmitancją:
+    \begin{equation}
+        \label{eq:system_1}
+        G_{1}(s) = \frac{1}{s^2+0.5s+1},
+    \end{equation}
+    w układzie regulacji automatycznej z rysunku (\ref{fig:uklad_regulacji}), rozważyć do optymalizacji parametrycznej regulatory:
+    \begin{itemize}
+        \item P: $G_{R,P}(s) = K_{P}$,
+        \item PI: $G_{R,PD}(s) = K_{P}(1 + \frac{1}{T_{D}s})$.
+    \end{itemize}
+
+    %======================================================
+    \subsection{Układ 3}
+    Wyznaczyć optymalny regulator proporcjonalny $G_{R}(s) = K$, dla obiektu (w URA jak z rysunku (\ref{fig:uklad_regulacji})):
+    $$
+        G_{O}(s) = \frac{1}{s^2 + s + 1},
+    $$
+    minimalizujący czas narastania, przy przeregulowaniu nie przekraczającym $10\%$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\begin{thebibliography}{9}
+
+\bibitem{Mitkowski2007}
+  Mitkowski, W., Baranowski, J., Hajduk, K., Korytowski, A., Tutaj, A.,
+  \emph{Teoria Sterowania: Materiały Pomocnicze do Ćwiczeń Laboratoryjnych},
+  AGH Uczelniane wydawnictwo Naukowo-Dydaktyczne,
+  2007.
+
+\bibitem{Amborski1978}
+  Amborski, K., Marusak, A.,
+  \emph{Teoria Sterowania w Ćwiczeniach},
+  Państwowe Wydawnictwo Naukowe,
+  1978.
+
+\bibitem{Gessing1981}
+  Gessing, R., Latarnik, M., Skrzywan-Kossek, A.,
+  \emph{Zbiór Zadań z Teorii Nieliniowych Układów Regulacji i Sterowania},
+  Wydawnictwo Naukowo-Techniczne,
+  1981.
+
+\bibitem{Gibson1968}
+  Gibson, J. E.,
+  \emph{Nieliniowe Układy Sterowania Automatycznego},
+  Wydawnictwo Naukowo-Techniczne,
+  1968.
+
+\bibitem{Grabowski1999}
+  Grabowski P.,
+  \emph{Stabilność Układów Lurie},
+  AGH Uczelniane Wydawnictwo Naukowo-Dydaktyczne,
+  1999.
+
+
+\bibitem{Vukic2003}
+  Vukic Z., Kuljaca L., Donlagic D., Tesnjak S.,
+  \emph{Nonlinear Control Systems},
+  Marcel Dekker,
+  2003.
+
+\bibitem{Kabzinski2020}
+  Kabziński J.,
+  \emph{Teoria Sterowania: Projektowanie Układów Regulacji},
+  Państwowe Wydawnictwo Naukowe,
+  2020.
+
+\bibitem{Gorecki1993}
+  Górecki H.,
+  \emph{Optymalizacja Systemów Dynamicznych},
+  Państwowe Wydawnictwo Naukowe,
+  1993.
+
+\end{thebibliography}
+
+\end{document}

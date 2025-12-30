@@ -1,0 +1,1406 @@
+\documentclass{article}
+
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+
+\usepackage[margin=0.75in]{geometry}
+
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage[shortlabels]{enumitem}
+\usepackage{matlab-prettifier}
+
+\newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+
+\title{
+    Teoria Sterowania\\
+    \Large Kryterium Koła i Kryterium Popova
+}
+\author{Maciej Różewicz}
+\date{2025}
+
+\makeatletter         
+\def\@maketitle{
+\raggedright
+\begin{center}
+    \includegraphics[width=0.5\linewidth]{fig/agh_logo.PNG}\\[8ex]
+\end{center}
+\begin{center}
+    {\huge \bfseries \sffamily \@title }\\[4ex] 
+    {\large  \@author}\\[4ex] 
+    \@date\\[8ex]
+\end{center}}
+\makeatother
+
+\begin{document}
+\maketitle
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Cel ćwiczenia}
+Celem ćwiczenia jest zapoznanie się z dwoma kryteriami badania stabilności: kryterium Popova i kryterium koła.
+Obydwa służą do badania globalnej asymptotycznej stabilności tzw. układu Lurie (\ref{eq:uklad_lurie}).
+Obydwa kryteria są oparte na badaniu charakterystyki częstotliwościowej części liniowej układu, podobnie do kryterium Nyquista.
+Jednak pozwalają na rozpatrywanie znacznie szerszej klasy sterowań/części nieliniowych, które mogą być nie tylko nieliniowe i~niestacjonarne, ale nawet niejednoznaczne.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Wprowadzenie}
+    %======================================================
+    \subsection{Definicje}
+        %--------------------------------------------------
+        \subsubsection{Układ Lurie}
+        Bardzo często spotykanym w praktyce układem sterowania jest tzw. układ Lurie opisywany równaniem (\ref{eq:uklad_lurie}):
+        \begin{equation}
+            \label{eq:uklad_lurie}
+            \left\{
+            \begin{array}{l}
+                \dot{x} = Ax + bu\\
+                y = c^{T}x\\
+                u = -\varphi(y)
+            \end{array}
+            \right\}
+        \end{equation}
+        gdzie:
+        \begin{itemize}
+            \item $x \in \mathbb{R}^{n}$, $u \in \mathbb{R}$, $y \in \mathbb{R}$,
+            \item $A \in \mathbb{R}^{n \times n}$, $b \in \mathbb{R}^{n}$, $c \in \mathbb{R}^{n}$,
+            \item $\varphi(\cdot): \mathbb{R} \rightarrow \mathbb{R}$.
+        \end{itemize}
+    
+        \begin{equation}
+            \label{eq:uklad_lurie_transmitancja}
+            G(s) = c^{T}(sI - A)^{-1}b
+        \end{equation}
+        
+    
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.5\linewidth]{fig/04_kryterium_kola/lurie_bloki.PNG}
+            \caption{Schemat blokowy układu Lurie (\ref{eq:uklad_lurie}).}
+            \label{fig:enter-label}
+        \end{figure}
+    
+    
+    
+        \textbf{Uwaga}: można inaczej przedstawić układ - z dodatnim sprzężeniem zwrotnym. Wtedy odrobinę inaczej sformułowane jest kryterium koła i Popova.
+
+        %--------------------------------------------------
+        \subsubsection{Funkcja sektorowa}
+        Funkcja $\varphi(y,t)$ jest funkcją sektorową należącą do sektora $[k_{1}, k_{2}]$, jeśli spełnia warunki:
+        \begin{itemize}
+            \item $\varphi(0,t) = 0$ dla $t \in \mathbb{R}$,
+            \item $k_{1}y \leq \varphi(y,t) \leq k_{2}y$.
+        \end{itemize}  
+        Graficznie można interpretować warunek ten jako zawieranie się wykresu funkcji $\varphi(x)$ w odpowiednim stożku przedstawionym na rysunku (\ref{fig:funkcja_sektorowa}).
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.35\linewidth]{fig/04_kryterium_kola/funkcja_sektorowa.PNG}
+            \caption{Graficzna interpretacja warunków na funkcję sektorową.}
+            \label{fig:funkcja_sektorowa}
+        \end{figure}
+
+        %--------------------------------------------------
+        \subsubsection{Absolutna stabilność}
+        Układem absolutnie stabilnym nazywamy układ globalnie asymptotycznie stabilny.
+        Istnieje zatem jeden punkt równowagi układu.
+
+        Warunki konieczne absolutnej stabilności to:
+        \begin{itemize}
+            \item istnieje ściśle dodatnio określona, różniczkowalna funkcja $V(x)$,
+            \item $V(x)$ jest radialnie nieograniczona,
+            \item $\dot{V}(x)$ jest ściśle ujemnie określona.
+        \end{itemize}
+
+        %--------------------------------------------------
+        \subsubsection{System (ściśle) dodatnio rzeczywisty}\label{sec:spr}
+        Transmitancja $G(s)$ przedstawia tzw. system (ściśle) dodatnio określony (\textit{ang.} \textit{\textbf{(S)RP} - (Strictly) Positive Real}), jeśli jej część rzeczywista $Re\left\{P(\omega)\right\}$ jest zawsze większa lub równa (większa) zeru: $Re(G(s)) \geq (>) 0$.
+
+        \textbf{Twierdzenie}: Transmitancja $G(s)$ jest ściśle dodatnio określona wtedy i tylko wtedy, gdy:
+        \begin{itemize}
+            \item $G(s)$ jest stabilna,
+            \item część rzeczywista jest ściśle dodatnia na osi urojonych $i\omega$:
+            $$
+                \forall_{\omega \geq 0}Re\left\{ G(i\omega) \right\} > 0
+            $$
+        \end{itemize}
+
+
+        Przykładowo następujące transmitancje:
+        \begin{itemize}
+            \item $G(s) = \frac{1}{s} \rightarrow G(i\omega) = -\frac{i}{\omega}$ - jest PR (nie jest SPR) - cała charakterystyka leży na osi urojonych - rysunek (\ref{fig:spr_i}),
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[width=0.5\linewidth]{fig/04_kryterium_kola/spr_i.PNG}
+                    \caption{Charakterystyka Nyquista dla $G(s) = \frac{1}{s}$.}
+                    \label{fig:spr_i}
+                \end{figure}
+            \item $G(s) = \frac{1}{s+\alpha} \rightarrow G(i\omega) = \frac{\alpha}{\omega^2 + \alpha^2} - i\frac{\omega}{\omega^2 + \alpha^2}$, gdzie $\alpha > 0$ - jest SPR - rysunek (\ref{fig:spr_ii}),
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[width=0.5\linewidth]{fig/04_kryterium_kola/spr_ii.PNG}
+                    \caption{Charakterystyka Nyquista dla $G(s) = \frac{1}{s+\alpha}$.}
+                    \label{fig:spr_ii}
+                \end{figure}
+            \item $G(s) = \frac{1}{s^2 + 2s + 1} \rightarrow G(i\omega) = -\frac{\omega^2 - 1}{(\omega^2 - 1)^2 + 4\omega^{2}} - i\frac{2\omega}{(\omega^2 - 1)^2 + 4\omega^{2}}$ - nie jest PR ani SPR - rysunek (\ref{fig:spr_iii}),
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[width=0.5\linewidth]{fig/04_kryterium_kola/spr_iii.PNG}
+                    \caption{Charakterystyka Nyquista dla $G(s) = \frac{1}{s^2 + 2s+\alpha}$.}
+                    \label{fig:spr_iii}
+                \end{figure}
+            \item $G(s) = \frac{s^2 + s + 1}{s^3 + 3s^2 + 3s + 1} \rightarrow G(i\omega) = 
+            \frac{\left(w^2-1\right)\,\left(3\,w^2-1\right) + w\,\left(3\,w-w^3\right)}{{\left(3\,w-w^3\right)}^2+{\left(3\,w^2-1\right)}^2}
+            + i \frac{\left(w^2-1\right)\,\left(3\,w-w^3\right) - w\,\left(3\,w^2-1\right)}{{\left(3\,w-w^3\right)}^2+{\left(3\,w^2-1\right)}^2}$ - jest SPR - rysunek (\ref{fig:spr_iiii}).
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[width=0.5\linewidth]{fig/04_kryterium_kola/spr_iiii.PNG}
+                    \caption{Charakterystyka Nyquista dla $G(s) = \frac{s^2 + s + 1}{s^3 + 3s^2 + 3s + 1}$.}
+                    \label{fig:spr_iiii}
+                \end{figure}
+        \end{itemize}
+
+        Jak widać wyrażenia na $P(\omega)$ są dość złożone i niełatwo jest wprost zweryfikować nierówność $P(\omega) > 0$.
+        Dlatego opracowano szereg twierdzeń pozwalających na określenie tego bez konieczności rozwiązywania nierówności.
+        Jednym z najważniejszych jest twierdzenie Kalmana-Yakubovicha.
+
+        
+        \textbf{Twierdzenie (Kalmana-Yakubovitcha)}
+
+        Jeśli układ, który można przedstawić równaniami:% (\ref{eq:ky_system}):
+        %\begin{equation}
+        $$
+            %\label(eq:ky_system)
+            \left\{
+            \begin{array}{l}
+                \dot{x} = Ax + bu\\
+                y = c^{T}x
+            \end{array}
+            \right\},
+        $$
+        %\end{equation}
+        jest sterowalny\footnote{Sterowalność to własność układu sterowania polegająca na tym, że istnieje sterowanie przeprowadzające układ w pewnym skończonym przedziale czasu do zadanego stanu (np. położenia, prędkości, przyspieszenia itp.), przy spełnieniu warunków początkowych. Dla układów liniowych sterowalność można sprawdzić poprzez badanie algebraicznego warunku, rzędu tzw. macierzy Kalmana: $M = \begin{vmatrix}B & AB & A^{2}B & \cdots & A^{n-1}B\end{vmatrix}$ - układ jest sterowalny gdy jest ona pełnego rzędu.}, jego transmitancja mająca postać:
+        $$
+            G(s) = c^{T}(sI-A)^{-1}b
+        $$
+        jest ściśle dodatnio określona wtedy i tylko wtedy, gdy istnieją takie symetryczne dodatnio określone macierze $P$ i $Q$, że spełnione są jednocześnie równości (\ref{eq:kyp_warunki}):
+        \begin{equation}
+            \label{eq:kyp_warunki}
+            \left\{
+            \begin{array}{rcl}
+                A^{T}P + PA & = & -Q\\
+                Pb & = &  c
+            \end{array}
+            \right\}
+        \end{equation}
+
+        Znając powyższe twierdzenie można pokazać, że dla układu Lurie, gdzie część liniowa jest \textbf{SRP}, a element nieliniowy jest funkcją sektorową należącą do sektora $[0, +\infty)$, to układ jest absolutnie stabilny.
+        W tym celu przyjmujemy funkcję Lapunowa w postaci (\ref{eq:spr_lap}):
+        \begin{equation}
+            \label{eq:spr_lap}
+            V(x) = \frac{1}{2}x^{T}Px,
+        \end{equation}
+        gdzie $P$ spełnia równość (\ref{eq:kyp_warunki}).
+        Wówczas jej pochodna systemowa ma postać:
+        $$
+            \begin{array}{c}        
+                \dot{V}(x) = \dot{x}^{T}Px + x^{T}P\dot{x}
+                =
+                (Ax - b\varphi(c^{T}x))^{T}Px + x^{T}P(Ax - b\varphi(c^{T}x))
+                =\\
+                x^{T}(A^{T}P+PA)x -\varphi(c^{T}x)^{T}b^{T}Px - x^{T}Pb\varphi(c^{T}x)
+                =
+                -x^{T}Qx - 2x^{T}Pb\varphi(c^{T}x)
+                =\\
+                -x^{T}Qx - 2x^{T}c\varphi(c^{T}x)
+                \leq
+                -x^{T}Qx - 2x^{T}cc^{T}x
+                = -||x||^{2}_{Q} - 2||x||^{2}_{cc^{T}} \leq 0 
+            \end{array}  \footnote{Oznaczenie: $||x||_{A} = x^{T}Ax$}
+        $$
+        Jest ona ściśle ujemnie określona, zatem zerowy punkt równowagi $x_{e} = 0$ jest globalnie asymptotyczie stabilny.
+
+        %--------------------------------------------------
+        \subsubsection{Systemy dysypatywne}
+        Układ (\ref{eq:ukladdysypatywny})
+        \begin{equation}
+            \label{eq:ukladdysypatywny}
+            \left\{
+            \begin{array}{l}
+                \dot{x} = f(x, u, t)\\
+                y = h(x,t)
+            \end{array}
+            \right\}
+        \end{equation}
+        nazywany jest dysypatywnym jeśli istnieje ciągła funkcja $V(x,t)$, taka że:
+        \begin{itemize}
+            \item $V(x,t)$ jest dodatnio określona (tzn. $V(x, t) \geq 0$, $V(0,t) = 0$),
+            \item $\dot{V}(x, t) = y(t)^{T}u(t) - g(t)$,
+            \item $g(t) \geq 0$.
+        \end{itemize}
+
+        Fizyczna interpretacja takiej definicji jest taka, że zmiana energii układu ($\dot{V}(x, t)$) równa jest energii dodanej z zewnątrz ($y(t)^{T}u(t)$) oraz utraconej przez sam układ ($-g(t)$).
+        Układ taki ma ograniczone wyjście przy ograniczonym wejściu.
+
+        W przypadku liniowym, gdy układ opisywany jest transmitancją $G(s)$, warunkami jego dysypatywności są:
+        \begin{itemize}
+            \item wszystkie pierwiastki $\lambda_{i}$ równania charakterystycznego transmitancji spełniają warunek $Re\left\{\lambda_{i}\right\} \geq 0$,
+            \item $Re\left\{G(i\omega)\right\} \geq 0$, $\forall \omega \geq 0$.
+        \end{itemize}
+
+        Można pokazać też (na podstawie twierdzenia Kalmana-Yakubovicha-Popova), że wówczas funkcje $V(x)$ i $\dot{V}(x)$ mają postać:
+        \begin{itemize}
+            \item $V(x) = x^{T}Px$, $P=P^{T}>0$,
+            \item $\dot{V}(x) = yu - x^{T}Qx$, $Q=Q^{T}>0$,
+        \end{itemize}
+
+        Jeśli połączy się dwa systemy dysypatywne $S_{1}$ i $S_{2}$ - jak na rysunku (\ref{fig:feedback_pasywny}) - w układzie sprzężenie zwrotnego, z których każdy posiada odpowiednio funkcję $V_{1}(x)$ i $V_{2}(x)$, których pochodne wynoszą:
+        \begin{itemize}
+            \item $\dot{V}_{1}(x) = y_{1}^{T}u_{1} - g_{1}$,
+            \item $\dot{V}_{2}(x) = y_{2}^{T}u_{2} - g_{2}$.
+        \end{itemize}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.25\linewidth]{fig/04_kryterium_kola/feedback_pasywny.PNG}
+            \caption{Sprzężenie zwrotne dwóch systemów dysypatywnych $S_{1}$ i $S_{2}$.}
+            \label{fig:feedback_pasywny}
+        \end{figure}
+        Wówczas można skonstruować funkcję:
+        $$
+            V(x) = V_{1}(x) + V_{2}(x).
+        $$
+        Jej pochodna wynosi:
+        $$
+            \dot{V}(x)
+            =
+            \dot{V_{1}}(x) + \dot{V_{2}}(x)
+            =
+            y_{1}^{T}u_{1} + y_{2}^{T}u_{2} - g_{1} - g_{2}
+            =
+            y_{1}^{T}u_{1} - (u_{1}^{T}y_{1})^{T} - g_{1} - g_{2}
+            =
+            y_{1}^{T}(u_{1} - u_{1}) - g_{1} - g_{2}
+            =
+            -g_{1} - g_{2}
+        $$
+        Zatem jeśli $V(x)$ spełnia odpowiednie warunki, to jest funkcją Lapunowa dla układu przedstawionego na rysunku (\ref{fig:feedback_pasywny}).
+    
+    %======================================================
+    \subsection{Kryterium Popova}
+    \textbf{Twierdzenie 1 (Popova)}: jeżeli układ Lurie opisywany równaniami (\ref{eq:uklad_lurie}) spełnia warunki:
+    \begin{itemize}[(a)]
+        \item macierz $A$ jest hurwitzowska (tzn. widmo macierzy leży w lewej półpłaszczyźnie zespolonej) oraz para $(A, b)$ jest sterowalna,
+        \item nieliniowa funkcja $\varphi(\cdot)$ należy do sektora $[0, k]$,
+        \item istnieje dodatnie $\alpha$ - takie, że dla każdego $\omega \geq 0$ spełniona jest nierówność (\ref{eq:nierownosc_popova}) (nazywana nierównością Popova)
+        \begin{equation}
+            \label{eq:nierownosc_popova}
+            Re\left\{(1 + i\alpha\omega)G(i\omega) \right\} + \frac{1}{k} \geq \epsilon
+        \end{equation}
+        dla dowlonie małego $\epsilon > 0$
+    \end{itemize}
+    to zerowy punkt równowagi $x_{e} = 0$ jest \textit{globalnie asymptotycznie stabilny}.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.25\linewidth]{fig/04_kryterium_kola/popov_sektor.PNG}
+        \caption{Sektor Popova}
+        \label{fig:sektor_popova}
+    \end{figure}
+
+    Zmodyfikowana charakterystyka częstotliwościowa występująca w \textbf{twierdzeniu 1} $Re \left\{ (1 + i\alpha\omega)G(i\omega) \right\}$, nazywana jest charakterystyką Popova i oznaczana jako $G_{P}(i\omega)$:
+    \begin{equation}
+        \label{eq:charakterystyka_popova}
+        G_{P}(\omega) = P(\omega) + i\underbrace{\omega Q(\omega)}_{Q_{P}(\omega)} = P_{P}(\omega) + iQ_{P}(\omega)
+    \end{equation}
+
+    Po wprowadzeniu charakterystyki Popova można równanie (\ref{eq:nierownosc_popova}) zapisać w postaci:
+    $$
+        P_{P}(\omega) - \alpha Q_{P}(\omega) + \frac{1}{k} > 0
+    $$
+    Można zauważyć, że równanie to wyznacza prostą, nazywaną prostą Popova, na płaszczyźnie:
+    $$
+        P_{P}(\omega) > \alpha Q_{P}(\omega) - \frac{1}{k}
+    $$
+    Co oznacza, że charakterystyka Popova musi leżeć na prawo od prostej Popova - co pokazano na rysunku (\ref{fig:nierownosc_popova}).
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{fig/04_kryterium_kola/popov_interpretacja.PNG}
+        \caption{Interpretacja graficzna nierówności Popova (\ref{eq:nierownosc_popova}).}
+        \label{fig:nierownosc_popova}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1.0\linewidth]{fig/04_kryterium_kola/przykladowe.PNG}
+        \caption{Porównanie charakterystyk Nyquista i Popova dla kilku typów transmitancji.}
+        \label{fig:nyquist_vs_popova}
+    \end{figure}
+
+    Porównując ploty Nyquista i Popova można zauważyć, że:
+    \begin{itemize}
+        \item ploty $G(i\omega)$ i $G_{P}(i\omega)$ przecinają oś rzeczywistych w tym samym miejscu,
+        \item dla całego zakresu wartości $\omega \in (-\infty, +\infty)$ charakterystyka Popova, w przeciwieństwie do charakterystyki Nyquista, nie jest symetryczna względem osi rzeczywistych,
+        \item $G_{P}(i\omega)$ dla $\omega = 0$ zawsze rozpoczyna się na osi rzeczywistych, podczas gdy $G(i\omega)$ może rozpocząć się na osi urojonych,
+        \item jeśli $\lim_{\omega \rightarrow \infty} G(i\omega) = 0$, to $\lim_{\omega \rightarrow \infty} G_{P}(i\omega)$ może być równe lub różne od 0.
+    \end{itemize}
+
+    \textbf{Szkic dowodu} można przedstawić z pomocą schematu z rysunku (\ref{fig:feedback_pasywny}).
+    Gdzie blok $S_{1}$ jest transmitancją części liniowej $G(s)$, natomiast $s_{2}$ odpowiada części nieliniowej $\varphi(\cdot) \in [0,k]$.
+    Jeśli obydwa elementy są dysypatywne, to dowód jest zakończony.
+    W przeciwnym przypadku można wprowadzić dodatkowe, wzajemnie się redukujące przekształcenia w obydwu elementach układu.
+    Przykładowe przekształcenie pokazano na rysunku (\ref{fig:popv_szkic}).
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.75\linewidth]{fig/04_kryterium_kola/popov_szkic.PNG}
+        \caption{Schemat przekształceń dla kryterium Popova.}
+        \label{fig:popv_szkic}
+    \end{figure}
+
+    Wówczas, aby zapewnić stabilność, obydwa systemy zaznaczone niebieską przerywaną linią $S_{1}$ i $S_{2}$ powinny być dysypatywne:
+    \begin{description}
+      \item[$S_{1}$] \hfill \\
+        Transmitancja części $S_{1}$ liniowej wynosi:
+        $$
+            G_{S_{1}}(s) = (1+\alpha s)G(s) + \frac{1}{k}
+        $$
+        Zatem, aby była ona dysypatywna musi spełniać warunki:
+        \begin{itemize}
+            \item pierwiastki równania charakterystycznego $Re\left\{\lambda_{1}\right\} \geq 0$,
+            \item część rzeczywista transmitancji widmowej musi być większa od $0$:
+            $$
+                Re\left\{ (1+ i\alpha\omega )G(i\omega) + \frac{1}{k} \right\} \geq 0
+            $$
+        \end{itemize}
+      \item[$S_{2}$] \hfill \\ 
+      W przypadku części nieliniowej $S_{2}$ należy pokazać, że istnieje funkcja $V_{2}$, której pochodna wynosi:
+      $$
+        \dot{V}_{2} = \xi ^{T}u_{1} - g_{2}
+      $$
+      W tym celu rozpisujemy schemat blokowy na równanie różniczkowe i otrzymujemy:
+      $$
+        u_{2} = \sigma + \alpha\dot{\sigma} + \frac{1}{k}y_{2}
+      $$
+      $$
+        u_{2} = \sigma + \alpha\dot{\sigma} + \frac{1}{k}\varphi(\sigma)
+      $$
+      $$
+        \dot{\sigma} = -\frac{1}{\alpha}\sigma - \frac{1}{k\alpha}\varphi(\sigma) + u_{2}
+      $$
+      Wówczas definiujemy równanie wyjścia jako:
+      $$
+        y = \varphi(\sigma)
+      $$
+      Dla tak zdefiniowanego układu można podać funkcję $V_{2}$ postaci:
+      $$
+        V_{2}(\sigma) = \alpha\int_{0}^{\gamma}{\varphi(\gamma)d\gamma} > 0.
+      $$
+      A jej pochodna wynosi:
+      $$
+        \dot{V}_{2}(\sigma)
+        =
+        \alpha\varphi(\sigma)\dot{\sigma}
+        =
+        \alpha\varphi(\sigma) \left( -\frac{1}{\alpha}\sigma - \frac{1}{k\alpha}\varphi(\sigma) + u_{2} \right)
+        =
+        -\sigma\varphi(\sigma) - \frac{1}{k}\varphi(\sigma)^{2} + \varphi(\sigma)u_{2}
+        =
+        y_{2}u_{2} - g_{2}(\sigma)
+      $$
+      gdzie: $g_{2}(\sigma) = \sigma\varphi(\sigma) + \frac{1}{k}\varphi(\sigma)^{2} > 0$ dla $\varphi(\cdot) \in [o, k]$.
+    \end{description}
+    Zatem $S_{2}$ jest systemem dysypatywny, układ sterowania jest stabilny, a funkcja Lapunowa, którą można zastosować to:
+    $$
+        V(x) = x^{T}Px + \alpha\int_{0}^{c^{T}x}{\varphi(\gamma)d\gamma}
+    $$
+
+    %======================================================
+    \subsection{Kryterium Koła}
+    \textbf{Twierdzenie (Kryterium Koła)}: jeżeli układ Lurie opisywany równaniem (\ref{eq:uklad_lurie}), gdzie:
+    \begin{itemize}
+        \item macierz stanu $A$ nie posiada wartości własnych na osi urojonych,
+        \item element nieliniowy może być niestacjonarny, tzn. $u = -\varphi(y,t)$,
+        \item funkcja $\varphi(y,t)$ należy do sektora $[k_{1}, k_{2}]$,
+        \item istnieje $k_{0} \in [k_{1},k_{2}]$, takie że $Re\left\{ \lambda(A-bk_{0}c^{T}) \right\} < 0$,
+        \item spełniona jest nierówność:
+        $$
+            Re\left\{ [1 + k_{1}G(i\omega)]\overbar{[1 + k_{2}G(i\omega)]} \right\} > 0
+        $$
+    \end{itemize}
+    to zerowy punkt równowagi jest absolutnie stabilny.
+    
+    \textbf{Szkic dowodu:}
+    podobnie jak w przypadku kryterium Popova można dokonać wzajemnie się znoszących transformacji części liniowej i nieliniowej.
+    Można ich dokonać tak jak przedstawiono na rysunku (\ref{fig:intuicja_kolo_2}).
+
+    %Rozpatrzymy dwa przypadki funkcji $\varphi(y,t)$:
+    %\begin{description}
+    %    \item[$\varphi(y,t) \in (k_{1}, \infty)$] \hfill \\
+    %    W tym przypadku można zaproponować modyfikację układu jak na rysunku (\ref{fig:intuicja_kolo_1}).
+    %    \begin{figure}[H]
+    %        \centering
+    %        \includegraphics[width=0.75\linewidth]{fig/04_kryterium_kola/intuicja_kolo_1.PNG}
+    %        \caption{Schemat modyfikacji układu Lurie dl $\varphi(y,t) \in [k_{1}, \infty]$.}
+    %        \label{fig:intuicja_kolo_1}
+    %    \end{figure}
+    %    Rozważamy wówczas wirtualną transmitancję $\tilde{G}(s) = \frac{G(s)}{1+kG(s)}$ oraz funkcję nieliniową $\tilde{\varphi}(y,t) \in[k_{1}, \infty]$.
+    %    Wykorzystując zatem informacje z punktu \ref{sec:spr} można pokazać, że nowa wirtualna transmitancja $\tilde{G}(s)$ musi być SPR,zatem spełniony jest warunek:
+    %    $$
+    %        Re\left\{ \frac{G(i\omega)}{1+kG(i\omega)} \right\} > 0
+    %    $$
+        
+    %\item$\varphi(y,t) \in (k_{1}, k_{2})$] \hfill \\
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.75\linewidth]{fig/04_kryterium_kola/intuicja_kolo_2.PNG}
+        \caption{Schemat modyfikacji układu Lurie dla $\varphi(y,t) \in [k_{1}, k_{2}]$.}
+        \label{fig:intuicja_kolo_2}
+    \end{figure}
+    %\end{description}
+
+    Rozważamy wówczas wirtualną transmitancję $\tilde{G}(s) = \frac{1 + k_{2}G(s)}{1+k_{1}G(s)}$ oraz funkcję nieliniową $\tilde{\varphi}(y,t) = \frac{\varphi(y,t) - k_{1}}{k_{2} - \varphi(y,t)}y \in [0, \infty]$.
+    Wykorzystując zatem informacje z punktu \ref{sec:spr} można pokazać, że nowa wirtualna transmitancja $\tilde{G}(s)$ musi być SPR, zatem spełniony jest warunek:
+    $$
+        Re\left\{ \frac{1 + k_{2}G(s)}{1+k_{1}G(s)} \right\} > 0.
+    $$
+    Przekształcając powyższe wyrażenie można uzyskać warunek:
+    $$
+        Re\left\{ [1 + k_{1}G(i\omega)]\overbar{[1 + k_{2}G(i\omega)]} \right\} > 0.
+    $$
+    Co po rozpisaniu daje warunek:
+    $$
+        1 + (k_{1}+k_{2})P(\omega) + k_{1}k_{2}(P(\omega)^{2}+Q(\omega)^{2}) > 0,
+    $$
+    a dalej:
+    $$
+        \left(P(\omega) + \frac{1}{2}\frac{k_{1} + k_{2}}{k_{1}k_{2}}\right)^{2} + Q(\omega)^{2} > \frac{1}{4}\frac{(k_{1}-k_{2})^2}{k_{1}^{2}k{2}^{2}}.
+    $$
+    Oznacza to zatem, że charakterystyka Nyquista części liniowej:
+    \begin{itemize}
+        \item dla $m \geq 0$ oraz $m<0$ i $M<0$  nie przecina ani nie obejmuje koła o środku w punkcie $ \left(-\frac{1}{2}\frac{k_{1} + k_{2}}{k_{1}k_{2}}, 0\right)$ i promieniu $\frac{1}{2}\left| \frac{k_{1}-k_{2}}{k_{1}k_{2}} \right|$,
+        \item dla $m<0$ i $M>0$ leży wewnątrz wskazanego koła.
+    \end{itemize}
+
+    
+
+    %Warunki: $\tilde{G}(s)$ - SPR, $\tilde{\varphi}(y,t) \in [0, \infty)$
+    
+    %W przypadku kryterium koła rozważamy układ bardzo podobny do układ Lurie (\ref{eq:uklad_lurie}) jak w przypadku kryterium Popova, jednak w tym przypadku klasa nieliniowości jest rozszerzona - nie jest konieczny warunek stacjonarności, zatem sygnał sterujący jest postaci:
+    %$$
+    %    u = -\varphi(t,y)
+    %$$
+
+
+    %\begin{equation}
+    %    \label{eq:rownanie_kryterium_kola}
+    %    Re\left\{ [1 - m_{1}G(i\omega)][1 - m_{2}G(i\omega)]^{*} \right\} > 0
+    %\end{equation}
+    %Przekształcając to równanie otrzymuje się:
+    %$$
+    %    1 - (m_{1}+m_{2})P(\omega) + m_{1}m_{2}(P(\omega)^{2}+Q(\omega)^{2}) > 0
+    %$$
+    %$$
+    %    \left(P(\omega) - \frac{m_{1} + m_{2}}{2m_{1}m_{2}}\right)^{2} + Q(\omega)^{2} > \frac{m_{1}^{2}+m_{2}^{2} + 2m_{1}m_{2}(1 - 2m_{1}m_{2})}{4m_{1}^{2}m_{2}^{2}}
+    %$$
+    %Co oznacza, że charakterystyka Nyquista części liniowej układu musi zawierać się w kole.
+
+    %======================================================
+    %\subsection{Jakie funkcje obsługujemy?}
+    %Wiele rzeczywistych sterowań nie jest liniowych, ma ograniczenia, histerezę, itp., lecz spełniają one warunki sektorowe.
+    %Są to na przykład:
+    %\begin{itemize}
+    %    \item trójpołożeniowy
+    %    \item nasycenie
+    %    \item histerezy
+    %    \item luzy
+    %\end{itemize}
+
+    %\begin{figure}[H]
+    %    \centering
+    %    \includegraphics[width=0.25\linewidth]{fig/04_kryterium_kola/nasycenie.PNG}
+    %    \caption{Enter Caption}
+    %    \label{fig:enter-label}
+    %\end{figure}
+
+    %\begin{figure}[H]
+    %    \centering
+    %    \includegraphics[width=0.25\linewidth]{fig/04_kryterium_kola/trojpolozeniowy.PNG}
+    %    \caption{Enter Caption}
+    %    \label{fig:enter-label}
+    %\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Przykłady}
+    %======================================================
+    \subsection{Przykład 1}
+    Na podstawie kryterium Popova określić warunki wystarczające globalnej asymptotycznej stabilności dla układu (rysunek) L = 1
+
+    \begin{itemize}[(a)]
+        \item $G(s) = \frac{k}{Ts + 1}$,
+        \item $G(s) = \frac{k}{(T_{1}s + 1)(T_{2}s + 1)}$.
+    \end{itemize}
+    Znaleźć maksymalną wartość $L$, dla której będą spełnione warunki twierdzenia Popova.
+
+    \textbf{Ad. (a):}
+    
+    W pierwszej kolejności wyznaczamy charakterystykę Nyquista części liniowej badanego układu:
+    $$
+        G(i\omega) = \frac{k}{1+\omega^{2}T^{2}} + i \frac{-k\omega T}{1 + \omega^{2}T^{2}}
+    $$
+    Na jej podstawie wyznaczamy charakterystykę Popova:
+    $$
+        G_{P}(i\omega) = \frac{k}{1+\omega^{2}T^{2}} + i \frac{-k\omega^{2} T}{1 + \omega^{2}T^{2}}
+    $$
+    Posiadając tę charakterystykę zapisać można nierówność Popova:
+    $$
+        \frac{1}{L} + \inf_{\omega \geq 0} \left\{ \frac{k}{1+\omega^{2}T^{2}} + q \frac{k\omega^{2} T}{1 + \omega^{2}T^{2}} \right\} > 0
+    $$
+    Zgodnie z kryterium Popova wystarczy, iż istnieje jedna wartość $q>0$, taka, że spełniona jest nierówność Popova - wygodnie jest więc przyjąć sobie konkretną wartość $q$.
+    Zwykle dogodnym wyborem jest współczynnik kierunkowy stycznej do charakterystyki Popova w najbardziej wysuniętym na lewo przecięciu z osią rzeczywistych.
+    W rozważanym przypadku przyjmując za tą regułą $q = T$, otrzymuje się:
+    $$
+        \frac{1}{L} + \inf_{\omega \geq 0} \frac{k(1 + \omega^{2}T^{2})}{1 + \omega^{2}T^{2}} = \frac{1}{L} + k > 0
+    $$
+    Ponieważ $L$ i $k$ są dodatnie, to nierówność jest spełniona.
+
+    Interpretacja geometryczna uzyskanego wyniku pokazana jest na rysunku (\ref{fig:przyklad_1_1}).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.75\linewidth]{fig/04_kryterium_kola/przyklad_1_a.png}
+        \caption{Charakterystyka i prosta Popowa dla punktu (a) przykładu 1.}
+        \label{fig:przyklad_1_1}
+    \end{figure}
+    Dość łatwo z niej zauważyć, że dla dowolnych $L>0$ i $q \in (0, \infty)$ nierówność Popova będzie spełniona.
+    
+    \textbf{Ad. (b)}
+
+    Również w tym przypadku rozpoczynamy od wyznaczenia charakterystyki Nyquista:
+    $$
+        G(i\omega) = \frac{k(1-\omega^{2}T_{1}T_{2})}{(1+\omega^{2}T_{1}^{2})(1+\omega^{2}T_{2}^{2})} + \frac{-k\omega(T_{1}+T_{2})}{(1+\omega^{2}T_{1}^{2})(1+\omega^{2}T_{2}^{2})}
+    $$
+    Następnie na jej podstawie określamy charakterystykę Popova:
+    $$
+        G_{P}(i\omega) = \frac{k(1-\omega^{2}T_{1}T_{2})}{(1+\omega^{2}T_{1}^{2})(1+\omega^{2}T_{2}^{2})} + \frac{-k\omega^{2}(T_{1}+T_{2})}{(1+\omega^{2}T_{1}^{2})(1+\omega^{2}T_{2}^{2})}
+    $$
+    Kolejnym krokiem jest wyznaczenie nierówności Popova:
+    $$
+        \frac{1}{L} + \inf_{\omega \geq 0}\left\{ \frac{k(1-\omega^{2}T_{1}T_{2})}{(1+\omega^{2}T_{1}^{2})(1+\omega^{2}T_{2}^{2})} + q \frac{k\omega^{2}(T_{1}+T_{2})}{(1+\omega^{2}T_{1}^{2})(1+\omega^{2}T_{2}^{2})} \right\} > 0
+    $$
+    Przyjmując wartość $q$, zgodnie z poprzednio określoną regułą, otrzymuje się:
+    $$
+        q = \frac{1}{\lim_{\omega \rightarrow \infty} \frac{Q_{P}(\omega)}{P_{P}(\omega)}} = \frac{T_{1}T_{2}}{T_{1}+T_{2}}
+    $$
+    A więc nierówność Popova upraszcza się do postaci:
+    $$
+        \frac{1}{L} + \inf_{\omega \geq 0}\left\{ \frac{k}{(1+\omega^{2}T_{1}^{2})(1+\omega^{2}T_{2}^{2})} \right\} = \frac{1}{L} > 0
+    $$
+    Ponieważ $L>0$, to nierówność jest zawsze spełniona.
+    Jej interpretacja geometryczna pokazana jest na rysunku (\ref{fig:przyklad_1_b}).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.75\linewidth]{fig/04_kryterium_kola/przyklad_1_b.png}
+        \caption{Charakterystyka i prosta Popowa dla punktu (b) przykładu 1.}
+        \label{fig:przyklad_1_b}
+    \end{figure}
+    Ponieważ prosta Popowa przechodzi przez $(0,0)$, to układ jest stabilny dla każdego $L>0$.
+
+    %======================================================
+    \subsection{Przykład 2}
+    Na podstawie kryterium Popova określić zakres nasycenia $B>0$, dla którego układ przedstawiony na rysunku (\ref{fig:przyklad_2_uklad}) pozostaje globalnie asymptotycznie stabilny.
+    Gdzie część nieliniowa opisywana jest równaniem:
+    \begin{equation}
+        \label{eq:przyklad_5_phi}
+        \varphi(y)
+        =
+        \left\{
+        \begin{array}{ll}
+            B,  &   y>B\\
+            20y,                  &   |y| \leq B\\
+            -B,  &   y<-B\\
+        \end{array}
+        \right.
+    \end{equation}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{fig/04_kryterium_kola/przyklad_2_uklad.PNG}
+        \caption{Układ sterowania z przykładu 2.}
+        \label{fig:przyklad_2_uklad}
+    \end{figure}
+
+    W pierwszej kolejności wyznaczamy charakterystykę Nyquista:
+    $$
+        G(i\omega) = \frac{-6\omega^2+6}{{\left(11\omega-\omega^3\right)}^2+{\left(6\omega^2-6\right)}^2} + i \frac{-11\omega+\omega^3}{{\left(11\omega-\omega^3\right)}^2+{\left(6\omega^2-6\right)}^2}
+    $$
+    Następnie na jej podstawie określamy charakterystykę Popova - pokazaną na rysunku (\ref{fig:przyklad_2_charakterystyka_virtualny}):
+    $$
+        G_{P}(i\omega) = \frac{-6\omega^2+6}{{\left(11\omega-\omega^3\right)}^2+{\left(6\omega^2-6\right)}^2} + i \frac{-11\omega^2+\omega^4}{{\left(11\omega-\omega^3\right)}^2+{\left(6\omega^2-6\right)}^2}
+    $$
+    Oraz nierówność Popova:
+    $$
+        \frac{1}{L} + \inf_{\omega \geq 0}\left\{ \frac{-6\omega^2+6}{{\left(11\omega-\omega^3\right)}^2+{\left(6\omega^2-6\right)}^2} + q \frac{11\omega^2-\omega^4}{{\left(11\omega-\omega^3\right)}^2+{\left(6\omega^2-6\right)}^2} \right\} > 0
+    $$
+    Podobnie jak poprzednio, wartość $q$ można dobrać jako odwrotność nachylenia stycznej do charakterystyki Popova w punkcie przecięcia z osią rzeczywistych:
+    $$
+        q = \frac{
+            \frac{\partial P_{P}(\omega)}{\partial \omega}    
+        }{
+            \frac{\partial Q_{P}(\omega)}{\partial \omega}    
+        }
+        =
+        \frac{6}{11}
+    $$
+    Można sprawdzić, że rozważane wyrażenie dla tak dobranego $q$ przyjmuje infimum dla $\omega \rightarrow \infty$:
+    $$
+        \inf_{\omega \geq 0}\left\{ \frac{-6\omega^2+6}{{\left(11\omega-\omega^3\right)}^2+{\left(6\omega^2-6\right)}^2} + \frac{6}{11} \frac{-11\omega^2+\omega^4}{{\left(11\omega-\omega^3\right)}^2+{\left(6\omega^2-6\right)}^2} \right\}
+        = 
+        -\frac{1}{60}
+    $$
+    Zatem dla tak dobranego $q$ nierówność Popova ma postać:
+    $$
+        \frac{1}{L} - \frac{1}{60} > 0,
+    $$
+    nierówność ta jest spełniona dla $L<60$.
+    Geometryczną interpretację pokazano na rysunku (\ref{fig:przyklad_2_charakterystyka_virtualny}).
+
+    Maksymalny obszar Popova można odnaleźć też graficznie, przesuwając prostą Popova do charakterystyki Popova.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.75\linewidth]{fig/04_kryterium_kola/przyklad_2_charakterystyka.PNG}
+        \caption{Charakterystyka układu z przykładu 2 z zaznaczoną prostą Popova i maksymalnym zakresem obszaru Popova.}
+        \label{fig:przyklad_2_charakterystyka_virtualny}
+    \end{figure}
+
+    %======================================================
+    \subsection{Przykład 3}
+    Na podstawie kryterium Popova określić, czy układ przedstawiony na rysunku (\ref{fig:przyklad_3_uklad}) jest globalnie asymptotycznie stabilny dla nieliniowości określonej równaniem (\ref{eq:przyklad_3_nieliniowosc}):
+    \begin{equation}
+        \label{eq:przyklad_3_nieliniowosc}
+        \varphi(y)
+        =
+        \left\{
+        \begin{array}{ll}
+            -y + 1  &   y < -1\\
+            0  &   |y| \leq 1\\
+            y - 1  &   y > 1
+        \end{array}
+        \right..
+    \end{equation}
+    Znaleźć maksymalny sektor Popova dla części liniowej.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{fig/04_kryterium_kola/przyklad_3.PNG}
+        \caption{Układ sterowania z przykładu 3.}
+        \label{fig:przyklad_3_uklad}
+    \end{figure}
+
+    Podobnie jak poprzednio, rozpoczynamy od wyznaczenia charakterystyki Nyquista:
+    $$
+        G(i\omega) = -\frac{7\omega^2-8}{{\left(14\omega-\omega^3\right)}^2+{\left(7\omega^2-8\right)}^2}
+        +i
+        \frac{-14\omega+\omega^3}{{\left(14\omega-\omega^3\right)}^2+{\left(7\omega^2-8\right)}^2}.
+    $$
+    Następnie wyznaczamy charakterystykę Popova - przedstawioną na rysunku :
+    $$
+        G(i\omega) = -\frac{7\omega^2-8}{{\left(14\omega-\omega^3\right)}^2+{\left(7\omega^2-8\right)}^2}
+        +i
+        \frac{-14\omega^2+\omega^4}{{\left(14\omega-\omega^3\right)}^2+{\left(7\omega^2-8\right)}^2},
+    $$
+    i nierówność Popova:
+    $$
+        \frac{1}{L}
+        +
+        \inf_{\omega \geq 0}\left\{
+            -\frac{7\omega^2-8}{{\left(14\omega-\omega^3\right)}^2+{\left(7\omega^2-8\right)}^2}
+        +q
+        \frac{14\omega^2-\omega^4}{{\left(14\omega-\omega^3\right)}^2+{\left(7\omega^2-8\right)}^2}
+        \right\} > 0
+    $$
+    Również tym razem $q$ można wyznaczyć jako odwrotność nachylenia stycznej do charakterystyki Popova w punkcie przecięcia z osią rzeczywistych:
+    $$
+        q = \frac{
+            \frac{\partial P_{P}(\omega)}{\partial \omega}    
+        }{
+            \frac{\partial Q_{P}(\omega)}{\partial \omega}    
+        }
+        =
+        \frac{1}{2}.
+    $$
+    Dla tak dobranego $q$ nierówność Popova ma postać:
+    $$
+        \frac{1}{L} - \frac{1}{90} > 0,
+    $$
+    zatem maksymalny sektor Popova wyznacza $L < 90$.
+    Więc przedstawiony układ sterowania jest stabilny.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.75\linewidth]{fig/04_kryterium_kola/przyklad_3_charakterystyka.PNG}
+        \caption{Charakterystyka układu z przykładu 3 z zaznaczoną prostą Popova i maksymalnym zakresem obszaru Popova.}
+        \label{fig:przyklad_3_charakterystyka}
+    \end{figure}
+
+    %======================================================
+    \subsection{Przykład 4}
+    Znaleźć maksymalną wartość $U$ zapewniającą globalną stabilność dla układu przedstawionego na rysunku (\ref{fig:przyklad_4_uklad}).
+    Gdzie wartość zadana jest równa $w$, która jest stała i różna od 0.
+    Jeśli element nieliniowy ma następującą charakterystykę:
+    $$
+        \varphi(e)
+        =
+        \left\{
+        \begin{array}{lcl}
+            U   &   ,   &   e > \sqrt{U}\\
+            e^{2} sgn(e) &,& |e| \leq \sqrt{U} \\
+            -U  &   ,   &   e < -\sqrt{U}\\
+        \end{array}
+        \right. .
+    $$
+    Wyznaczyć uchyb ustalony układu w zależności od $w$.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{fig/04_kryterium_kola/przyklad_4_uklad.PNG}
+        \caption{Układ sterowania z przykładu 4.}
+        \label{fig:przyklad_4_uklad}
+    \end{figure}
+
+    Ponieważ $w \neq 0$, to środek układu współrzędnych nie będzie punktem równowagi układu.
+    Dlatego w pierwszej kolejności należy wyznaczyć nowy punkt równowagi, a dopiero potem badać stabilność, po przesunięciu układu współrzędnych.
+
+    Punktu równowagi szukamy w następujący sposób:
+    $$
+        \begin{array}{l}
+             0 = A\tilde{x} +b\tilde{u}\\
+             \tilde{u} = \varphi(w-y) = \varphi(w-\tilde{x}_{3})
+        \end{array},
+    $$
+    gdzie $A = \begin{vmatrix}
+        -3 & -3 & -1\\ 1 & 0 & 0\\ 0 & 1 & 0
+    \end{vmatrix}$, 
+    $b = \begin{vmatrix}
+        1\\ 0\\ 0
+    \end{vmatrix}$.
+
+    Wówczas:
+    \begin{itemize}
+        \item $\tilde{x}_{1} = \tilde{x}_{2} = 0$,
+        \item $
+            \tilde{x}_{3}
+            =
+            \left\{
+            \begin{array}{lcl}
+                -U  &   ,   &   w > -U + \sqrt{U}\\
+                -2|w|+1-\sqrt{1-4|w|} & , & |w| \leq -U + \sqrt{U}\\
+                U  &   ,   &   w < U + \sqrt{U}
+            \end{array}
+            \right. .
+        $
+    \end{itemize}
+
+    Nowy układ współrzędnych uzyskujemy poprzez transformację:
+    \begin{itemize}
+        \item $p = x - \tilde{x}$\\
+        \item $u_{p} = u - \tilde{u}$.
+    \end{itemize}
+    A system przyjmuje równania:
+    \begin{itemize}
+        \item $\dot{p} = Ap + bu_{p}$,
+        \item $u_{p} = \varphi(w - \tilde{x}_{3}-p_{3}) - \tilde{u} = \varphi_{p}(-p_{3})$.
+    \end{itemize}
+
+    Charakterystyka elementu nieliniowego może być więc ograniczona w następujący sposób:
+    $$
+        0 \leq (-p_{3})\varphi_{p}(-p_{3}) \leq Lp_{3}^{2}
+    $$
+    przy czym $L$ jest największym nachyleniem stycznej do tej charakterystyki:
+    $$
+        L = \max_{-\sqrt{U} \leq e \leq \sqrt{U}}\frac{du}{de} = 2\sqrt{U}.
+    $$
+    Maksymalny dopuszczalny zakres odczytujemy z charakterystyki Popova - rysunek (\ref{fig:przyklad_4_charakterystyka}).
+    Na tej podstawie określamy, że maksymalne dopuszczalne $L = 8$.
+    Zatem $U_{max} = 16$.
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.75\linewidth]{fig/04_kryterium_kola/przyklad_4_charakterystyka.png}
+        \caption{Charakterystyka Popova dla układu z przykładu 4.}
+        \label{fig:przyklad_4_charakterystyka}
+    \end{figure}
+
+    Uchyb ustalony wynosi:
+    $$
+        e_{u} = w - \tilde{x}_{3}.
+    $$
+
+    %======================================================
+    \subsection{Przykład 5}
+    Na podstawie kryterium Popova zbadać stabilność układu regulacji przedstawionego na rysunku (\ref{fig:przyklad_5_uklad}):
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{fig/04_kryterium_kola/przyklad_5_uklad.PNG}
+        \caption{Układ sterowania z przykładu 5.}
+        \label{fig:przyklad_5_uklad}
+    \end{figure}
+
+    Gdzie element nieliniowy opisywany jest następującym równaniem:
+    \begin{equation}
+        \label{eq:przyklad_5_phi}
+        \varphi(y)
+        =
+        \left\{
+        \begin{array}{ll}
+            4(y + \frac{1}{4}),  &   y>1\\
+            5y,                  &   |y| \leq 1\\
+            4(y - \frac{1}{4}),  &   y<-1\\
+        \end{array}
+        \right.
+    \end{equation}
+
+    Element liniowy układu sterowania jest w tym przypadku niestabilny, zatem nie spełnia on założeń kryterium Popova.
+    Jednak można "obejść" to ograniczenie poprzez dodanie bezinercyjnego sprzężenia zwrotnego $h$ do elementu liniowego oraz ten sam zabieg na elemencie nieliniowym $\varphi(\cdot)$, jak na rysunku (\ref{fig:przyklad_5_uklad_modyfikacja}).
+    Z wartością $h$ dobraną tak, by układ liniowy z dodanym sprzężeniem zwrotnym był stabilny i spełniał założenia kryterium Popova.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{fig/04_kryterium_kola/przyklad_5_uklad_modyfikacja.PNG}
+        \caption{Układ sterowania z przykładu 5 - zmodyfikowany.}
+        \label{fig:przyklad_5_uklad_modyfikacja}
+    \end{figure}
+    Gdzie zaznaczone na zielono elementy tworzą nowe, "wirtualne" układ liniowy i nieliniowość.
+    Analizując ten schemat łatwo zauważyć, że dodane w ten sposób elementy wzajemnie się znoszą, ale pozwalają na wydzielenie "wirtualnych" elementów.
+    Jak na rysunku (\ref{fig:przyklad_5_uklad_virtualny}).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{fig/04_kryterium_kola/przyklad_5_uklad_virtualny.PNG}
+        \caption{Układ sterowania z przykładu 5 - "wirtualny".}
+        \label{fig:przyklad_5_uklad_virtualny}
+    \end{figure}
+
+    Posiadając taki "wirtualny" układ spełniający założenia kryterium Popova, gdzie:
+    \begin{itemize}
+        \item $G_{v} = \frac{1}{s^{2}+2s+(h-3)}$,
+        \item $\varphi_{v}(y)
+        =
+        \left\{
+        \begin{array}{ll}
+            (4-h)(y + \frac{1}{4-h}),  &   y>1\\
+            (5-h)y,                  &   |y| \leq 1\\
+            (4-h)(y - \frac{1}{4-h}),  &   y<-1\\
+        \end{array}
+        \right.,
+        $
+    \end{itemize}
+    możemy zweryfikować stabilność układu wyjściowego.
+
+    Wówczas jak w poprzednich przypadkach najpierw wyznaczamy charakterystykę Nyquista:
+    $$
+        G(i\omega) = \frac{(h-3) - \omega^{2}}{[(h-3) - \omega^{2}]^{2} + 4\omega^{2}} + i\frac{-2\omega}{[(h-3) - \omega^{2}]^{2} + 4\omega^{2}}
+    $$
+    Następnie charakterystykę Popova:
+    $$
+        G_{P}(i\omega) = \frac{(h-3) - \omega^{2}}{[(h-3) - \omega^{2}]^{2} + 4\omega^{2}} + i\frac{-2\omega^{2}}{[(h-3) - \omega^{2}]^{2} + 4\omega^{2}}
+    $$
+    Na jej podstawie wyznaczamy nierówność Popova:
+    $$
+        \frac{1}{L} + \inf_{\omega \geq 0}\left\{\frac{(h-3) - \omega^{2}}{[(h-3) - \omega^{2}]^{2} + 4\omega^{2}} + q\frac{2\omega^{2}}{[(h-3) - \omega^{2}]^{2} + 4\omega^{2}} \right\} > 0
+    $$
+    
+    Mamy więc warunek:
+    $$
+        0 \leq \varphi_{v}(y)y = \varphi(y)y - hy^{2} \leq L y^{2}
+    $$
+    To jest:
+    $$
+        hy^{2} \leq \varphi(y)y \leq (L+h) y^{2}
+    $$
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{fig/04_kryterium_kola/przyklad_5_charakterystyka.PNG}
+        \caption{Charakterystyka układu "wirtualnego" z przykładu 5.}
+        \label{fig:przyklad_5_charakterystyka_virtualny}
+    \end{figure}
+
+    %======================================================
+    \subsection{Przykład 6}
+    Odnaleźć sektor dopuszczalny wynikający z kryterium koła dla układu Lurie, o części liniowej opisywanej transmitancją:
+    $$
+        G(s) = \frac{4}{(s+1)\left(\frac{1}{2}s+1\right)\left(\frac{1}{3}s+1\right)}
+    $$
+    Charakterystykę Nyquista rozważanej transmitancji przedstawiono na rysunku (\ref{fig:eprzyklad_6}):
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.75\linewidth]{fig/04_kryterium_kola/przyklad_6_kolo.png}
+        \caption{Charakterystyka Nyquista i odpowiednie koło dla przykładu 6.}
+        \label{fig:eprzyklad_6}
+    \end{figure}
+    Pokazano tam też również, iż można charakterystykę tę zamknąć w kole o środku w punkcie $(0, 0)$ i promieniu $4$.
+    Zatem sektor wynikający z kryterium koła to:
+    $$
+        \varphi(\cdot) \in (-0.25, 0.25).
+    $$
+
+    %======================================================
+    \subsection{Przykład 7}
+    Dla układu Lurie, gdzie część liniowa opisana jest równaniami (\ref{eq:system_7}):
+    \begin{equation}
+        \label{eq:system_7}
+        \begin{array}{l}
+            \dot{x} = Ax + bu\\
+            y = c^{T}x 
+        \end{array},
+    \end{equation}
+    gdzie:
+    \begin{itemize}
+        \item
+        $
+            A = \begin{bmatrix}
+                0 & 1 & 0 & 0\\
+                0 & 0 & 1 & 0\\
+                0 & 0 & 0 & 1\\
+                0 & -\gamma & -\beta & -\alpha
+            \end{bmatrix},
+        $
+        \item 
+        $
+            b = \begin{bmatrix} 0 & 0 & 0 & 1 \end{bmatrix}^{T},
+        $
+        \item 
+        $
+            c^{T} = \begin{bmatrix} 1 & 0 & 0 & 0 \end{bmatrix},
+        $
+        \item $\gamma = 16,\,\beta = 16.8,\,\alpha=1.8$.
+    \end{itemize}
+    Znaleźć sektor Popova dla statycznego regulatora nieliniowego.
+
+    Transmitancja części liniowej ma postać:
+    $$
+        G(s) = \frac{1}{s(s^{3} + \alpha s^{2} + \beta s + \gamma)}
+    $$
+    Widać, że jest to obiekt astatyczny, zatem niestabilny, możemy więc zastosować metodę wykorzystaną w \textbf{przykładzie 5}, gdzie dodano wirtualne statyczne sprzężenie zwrotne.
+    Możemy założyć, że wartość tego sprzężenia będzie wynosić $h = 1$, wówczas transmitancja "wirtualna" ma postać:
+    $$
+        G_{v}(s) = \frac{1}{s^{4} + \alpha s^{3} + \beta s^2 + \gamma s + 1}
+    $$
+    Charakterystyka Popova przedstawiona została na rysunku (\ref{fig:przyklad_7_uklad}).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{fig/04_kryterium_kola/przyklad_7_charakterystyka.PNG}
+        \caption{Charakterystyka Popova układu z przykładu 7.}
+        \label{fig:przyklad_7_uklad}
+    \end{figure}
+    Kształt tej charakterystyki nie pozwala poszukiwać wartości $L$ i $q$ jak poprzednio.
+    W ogólności poszukiwanie analityczne może być dość skomplikowane, jednak można dokonać takiego dopasowania prostej Popova graficznie.
+    W tym przykładzie można dobrać wartości $L = 32$ oraz $q = 0.3$ - rysunek (\ref{fig:przyklad_7_uklad_2}).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{fig/04_kryterium_kola/przyklad_7_charakterystyka2.PNG}
+        \caption{Charakterystyka Popova układu z przykładu 7 z prostą Popova.}
+        \label{fig:przyklad_7_uklad_2}
+    \end{figure}
+    Zatem estymowany sektor Popova to $[0, 32]$.
+    %======================================================
+    \subsection{Przykład 8}
+    Dla układu sterowania przedstawionego na rysunku (\ref{fig:przyklad_8_uklad}) określić warunki wystarczające stabilności absolutnej.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.75\linewidth]{fig/04_kryterium_kola/przyklad_8_uklad.PNG}
+        \caption{Schemat układu regulacji z przykładu 8.}
+        \label{fig:przyklad_8_uklad}
+    \end{figure}
+
+    Zadanie to można wykonać analogicznie jak zadanie z \textbf{przykładu 7}, wprowadzając wirtualne bezinercyjne sprzężenie zwrotne.
+    Można jednak skorzystać z pewnej modyfikacji kryterium Popova dla układów astatycznych.
+    Wówczas warunkami wystarczającymi absolutnej stabilności są:
+    \begin{enumerate}[(a)]
+        \item wszystkie bieguny transmitancji $G(s)$ mają ujemne części rzeczywiste, poza biegunem zerowym,
+        \item charakterystyka elementu nieliniowego spełnia ograniczenie:
+        $$
+            0 < \epsilon \leq \frac{\varphi(y)}{y} \leq m
+        $$
+        dla dowolnie małej dodatniej liczby $\epsilon$.
+        \item istniała liczba rzeczywista $q$, że:
+        $$
+            \frac{1}{L} + \inf_{\omega \geq 0}\left[ Re\left\{ (1 + i\omega q)G(i\omega) \right\} \right] > 0,
+        $$
+        \item część urojona charakterystyki amplitudowo-fazowej $G(i\omega)$ zmierza do $-\infty$ przy $\omega \rightarrow 0$:
+        $$
+            \lim_{\omega \rightarrow 0, \omega \geq 0}{Im\left\{ G(i\omega) \right\}} = -\infty.
+        $$
+    \end{enumerate}
+
+    Łatwo zauważyć, że rozważana transmitancja spełnia warunki tego kryterium: ma jeden biegun zerowy oraz dwa rzeczywiste ujemne.
+    Zatem spełniony jest warunek (a).
+
+    Zakładana charakterystyka elementu nieliniowego spełnia warunek (b).
+
+    Charakterystyka Nyquista ma postać:
+    $$
+        G(i\omega) = \frac{-3\omega^2}{{\left(2\omega-\omega^3\right)}^2+9\omega^4} + i\frac{\omega^3-2\omega}{{\left(2\omega-\omega^3\right)}^2+9\omega^4},
+    $$
+    a na jej podstawie wyznaczamy charakterystykę Popova:
+    $$
+        G(i\omega) = \frac{-3\omega^2}{{\left(2\omega-\omega^3\right)}^2+9\omega^4} + i\frac{\omega^4-2\omega^2}{{\left(2\omega-\omega^3\right)}^2+9\omega^4}.
+    $$
+    Widać zatem, że zachodzi warunek (4):
+    $$
+        \lim_{\omega \rightarrow 0, \omega \geq 0}{\frac{\omega^4-2\omega^2}{{\left(2\omega-\omega^3\right)}^2+9\omega^4}} = -\infty.
+    $$
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.75\linewidth]{fig/04_kryterium_kola/przyklad_8_charakterystyka.PNG}
+        \caption{Charakterystyka i prosta Popova dla przykładu 9.}
+        \label{fig:przyklad_8_charakterystyka}
+    \end{figure}
+
+    Szukamy zatem maksymalnej wartości $L$ i $q$, takich że prosta Popowa będzie powyżej charakterystyki Popova.
+    W tym celu możemy znaleźć jak poprzednio wartość $\omega$, dla której charakterystyka przecina oś rzeczywistych i wartość nachylenia stycznej do charakterystyki, stąd mamy wartość $q$:
+    $$
+        q = \frac{\frac{\partial P_{p}}{\partial \omega}}{\frac{\partial Q_{p}}{\partial \omega}} = \frac{3}{2}.
+    $$
+    Zatem nierówność z punktu (3) ma postać:
+    $$
+        \frac{1}{L} + \inf_{\omega \geq 0}\left[ \frac{-3\omega^2}{{\left(2\omega-\omega^3\right)}^2+9\omega^4} - \frac{3}{2}\frac{\omega^4-2\omega^2}{{\left(2\omega-\omega^3\right)}^2+9\omega^4} \right] > 0
+    $$
+    $$
+        \frac{1}{L} - \frac{1}{6} > 0 \implies L < 6
+    $$
+
+    Ostatecznie więc układ będzie stabilny dla $m < 6$.
+
+    %======================================================
+    \subsection{Przykład 9}
+    Dla jakiego zakresu wartości $U$ układ przedstawiony na rysunku (\ref{fig:przyklad_9_uklad}) będzie absolutnie stabilny?
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{fig/04_kryterium_kola/przyklad_9_uklad.PNG}
+        \caption{Schemat układu regulacji z przykładu 9.}
+        \label{fig:przyklad_9_uklad}
+    \end{figure}
+
+    W pierwszej kolejności można zauważyć, że nieliniowość w układzie spełnia założenia kryterium koła i mieści się w sektorze $[m_{1}, m_{2}] = [0, U]$ - rysunek (\ref{fig:przyklad_9_stozek}).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.25\linewidth]{fig/04_kryterium_kola/przyklad_9_stozek.PNG}
+        \caption{Nieliniowość z przykładu 9 z zaznaczonym sektorem.}
+        \label{fig:przyklad_9_stozek}
+    \end{figure}
+    Kryterium koła mówi nam, że warunkiem wystarczającym stabilności jest, aby charakterystyka Nyquista nie zawierała się w kole wyznaczanym przez wartości $m_{1}$ i $m_{2}$ w następujący sposób:
+    \begin{itemize}
+        \item środek koła: $\left( -\frac{1}{2} \left( \frac{1}{m_{1}} + \frac{1}{m_{2}} \right), 0 \right)$,
+        \item promień koła: $\frac{1}{2} \left| \frac{1}{m_{1}} - \frac{1}{m_{2}} \right|$.
+    \end{itemize}
+
+    W rozważanym przypadku $m_{1} = 0$, więc koło przekształca się w półpłaszczyznę położoną na lewo od prostej $x = -\frac{1}{m_{2}}$. Aby znaleźć więc wartość graniczną parametru $m_{2}$ należy znaleźć najmniejszą wartość $P(\omega)$:
+    $$
+        -\frac{1}{m_{2}} = \min_{\omega >= 0} P(\omega) = \min_{\omega >= 0} \frac{8 -\omega^2}{(\omega^2 - 8)^2 + 36\omega^2} \approx -0.0142977.
+    $$
+    Zatem wartość graniczna $m_{2}$ a więc i $U$ wynosi:
+    $$
+        m_{2} = U \approx 69.9413.
+    $$
+    Interpretacja graficzna przedstawiona została na rysunku (\ref{fig:przyklad_9_obszar}).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{fig/04_kryterium_kola/przyklad_9_obszar.PNG}
+        \caption{Obszar dopuszczalny wynikający z kryterium koła dla przykładu 9.}
+        \label{fig:przyklad_9_obszar}
+    \end{figure}
+
+    %======================================================
+    \subsection{Przykład 10}
+    Korzystając z kryterium koła określić przedział wartości współczynnika $m_{2}$, dla którego układ z rysunku (\ref{fig:przyklad_10_uklad}) jest globalnie asymptotycznie stabilny. Dla $m_{1} = 0.763$.    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{fig/04_kryterium_kola/przyklad_10_uklad.PNG}
+        \caption{Schemat układu regulacji z przykładu 10.}
+        \label{fig:przyklad_10_uklad}
+    \end{figure}
+    Kryterium koła mówi nam, że warunkiem wystarczającym stabilności jest, aby charakterystyka Nyquista nie zawierała się w kole wyznaczanym przez wartości $m_{1}$ i $m_{2}$ w następujący sposób:
+    \begin{itemize}
+        \item środek koła: $\left( -\frac{1}{2} \left( \frac{1}{m_{1}} + \frac{1}{m_{2}} \right), 0 \right)$,
+        \item promień koła: $\frac{1}{2} \left| \frac{1}{m_{1}} - \frac{1}{m_{2}} \right|$.
+    \end{itemize}
+    Ponieważ $m_{1}$ i $m_{2}$ są dodatnie, to okrąg ten będzie przecinał oś rzeczywistych w punktach $(0, \frac{1}{m_{1}})$ i $(0, \frac{1}{m_{2}})$.
+    Zadanie to można rozwiązać graficznie, wyrysowując okręgi tworzone przez przesuwanie punktu $(0, \frac{1}{m_{2}})$ coraz bardziej w kierunku dodatnim, aż okrąg będzie styczny do charakterystyki Nyquista.
+    Wynik przedstawiono na rysunku (\ref{fig:przyklad_10_obszar}).
+    A uzyskana wartość wynosi:
+    $$
+        m_{2} = 1.43.
+    $$
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{fig/04_kryterium_kola/przyklad_10_obszar.PNG}
+        \caption{Obszar dopuszczalny wynikający z kryterium koła dla przykładu 10.}
+        \label{fig:przyklad_10_obszar}
+    \end{figure}
+
+    %======================================================
+    \subsection{Przykład 11}
+    W układzie regulacji przedstawionym na rysunku (\ref{fig:przyklad_11_uklad}) wzmocnienie $k$ regulatora nieliniowego jest ciągłe i zmienne w czasie w granicach:
+    $$
+        m_{1} \leq k \leq m_{2}.
+    $$
+    Zakładając $m_{1} = 2$, znaleźć graniczną wartość $m_{2}$ wykorzystując kryterium koła.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{fig/04_kryterium_kola/przyklad_11_uklad.PNG}
+        \caption{Schemat układu regulacji z przykładu 11.}
+        \label{fig:przyklad_11_uklad}
+    \end{figure}
+
+    Transmitancja części liniowej posiada pierwiastek na osi urojonej, zatem nie spełnia ona wymogów kryterium koła.
+    Aby móc je zastosować, można wykorzystać przekształcenie identyczne jak w przykładzie 5.
+    A wartość $h$ można przyjąć jako 1.
+    
+    Wówczas badamy transmitancję:
+    $$
+        \hat{G}(s) = \frac{1}{s^2 + s + 1},
+    $$
+    a zmienne wzmocnienie regulatora ma ograniczenia:
+    $$
+        1 \leq k - 1 \leq m_{2}-1.
+    $$
+    Zatem zadanie możemy rozwiązać analogicznie jak w przypadku poprzednim - rozwiązanie przedstawione jest na rysunku (\ref{fig:przyklad_11_obszar}), a wartość graniczna wynosi:
+    $$
+        m_{2} = 7.83.
+    $$
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{fig/04_kryterium_kola/przyklad_11_obszar.PNG}
+        \caption{Obszar dopuszczalny wynikający z kryterium koła dla przykładu 11.}
+        \label{fig:przyklad_11_obszar}
+    \end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Jak to zrobić w MATLABie?}
+    %======================================================
+    \subsection{Wyznaczenie charakterystyki Popova - numeryczne}
+    Do graficznego wyznaczenia granicy sektoru Popova konieczna jest znajomość charakterystyki Popova.
+    MATLAB nie posiada wbudowanej funkcji do wyznaczenia tej charakterystyki, jednak można wyznaczyć ją na podstawie charakterystyki Nyquista w następujący sposób:
+    \begin{lstlisting}[style=Matlab-editor]
+        G = tf(1, [1 1 1 1]);
+        
+        w = logspace(-5, 5, 1000);
+        [Pn, Qn, w_output] = nyquist(G, w);
+
+        Pp = squeeze(Pn);
+        Qp = squeeze(Qn) .* w_output;
+
+        figure();
+        hold on;
+        grid on;
+        axis equal;
+        xlim("Re");
+        ylim("Im");
+        plot(Pp, Qp, "LineWidth", 2);
+    \end{lstlisting}
+
+    %======================================================
+    \subsection{Wyznaczenie charakterystyki Popova - symboliczne}
+    W celu analitycznego wyznaczenia obszaru Popova potrzebna jest znajomość wzorów na charakterystykę częstotliwościową części liniowej.
+    Można uzyskać je za pomocą Symbolic Toolbox MATLABa w następujący sposób:
+    \begin{lstlisting}[style=Matlab-editor]
+        syms s complex              % zdefiniowanie zmiennej zespolonej s
+        syms w h real positive      % zdefiniowanie zmiennych rzeczywistych
+        
+        num = k;                    % licznik transmitancji
+        den = sum(conv(conv([1, T1], [1, T2]), [1, T3]) .* [s^3 s^2 s 1]);  % mianownik transmitancji
+        
+        Gs = num / den;                 % definicja transmitancji operatorowej
+        Gw = subs(Gs, {s}, {1i * w});   % podstawiamy za s i*w aby uzyskac transmitancje widmowa
+        
+        Pn = real(Gw);  % czesc rzeczywista transmitancji operatorowej
+        Qn = imag(Gw);  % czesc urojona transmitancji operatorowej
+
+        % wyznaczamy charakterystyke Popova
+        Pp = Pn;
+        Qp = w * Qn;
+    \end{lstlisting}
+
+    %======================================================
+    \subsection{Wyznaczenie kąta nachylenia stycznej do charakterystyki Popova - symboliczne}
+    \begin{lstlisting}[style=Matlab-editor]
+        w0 = solve(Qp == 0);    % wyznaczenie czestotliwosci, dla ktorej charakterystyka przecina os rzeczywistych
+
+        diff_Pp = diff(Pp, w);  % wyznaczenie pochodnej P(w)
+        diff_Qp = diff(Qp, w);  % wyznaczenie pochodnej Q(w)
+        
+        one_over_q = subs(diff_Qp, {w}, {w0}) / subs(diff_Pp, {w}, {w0});   % obliczenie stosunku pochodnych dla w0
+        q = 1 / one_over_q; % wyznaczenie q
+    \end{lstlisting}
+
+    %======================================================
+    \subsection{Wyznaczenie maksymalnego obszaru Popova}
+    \begin{lstlisting}[style=Matlab-editor]
+        S = Pp - q*Qp;
+        diff_S = diff(S, w);
+        w_max = solve(diff_S == 0);
+        minus_one_over_L = subs(S, {w}, {w_max});
+    \end{lstlisting}    
+
+    %======================================================
+    \subsection{Wyznaczenie transmitancji}
+    Posiadając daną macierz tranzycji $A$, sterowania $b$ i obserwacji $c^{T}$ można wyznaczyć transmitancję układu liniowego w postaci:
+    $$
+        G(s) = c^{T}(sI - A)b.
+    $$
+    W MATLABie można wyznaczyć to za pomocą funkcji \texttt{ss2tf} w następujący sposób:
+    \begin{lstlisting}[style=Matlab-editor]
+        A = [-2 3; 1 0];    % macierz tranzycji
+        b = [1; 0];         % macierz sterowania
+        c = [0; 1];         % macierz obserwacji
+        d = 0;              % macierz bezposredniego sterowania
+
+        [num, den] = ss2tf(A, b, c', d);
+        G = tf(num, den);
+    \end{lstlisting}
+
+    %======================================================
+    \subsection{Realizacja transmitancji}
+    W przypadku odwrotnym, posiadając transmitancję, można wyznaczyć jej realizację, czyli macierze $A$, $b$, $c$ za pomocą funkcji \texttt{tf2ss} w następujący sposób:
+    \begin{lstlisting}[style=Matlab-editor]
+        licznik = [1];          % licznik transmitancji G(s)
+        mianownik = [1, 2, -3]; % mianownik transmitancji G(s)
+        
+        [A, b, c, d] = tf2ss(licznik, mianownik);
+    \end{lstlisting}
+
+
+    
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Przebieg ćwiczenia}
+Dla każdego z podanych systemów w trakcie analizy należy:
+\begin{itemize}
+    \item wyznaczyć transmitancję widmową - charakterystykę Nyquista,
+    \item charakterystykę Popova (jeśli można stosować kryterium Popova),
+    \item nierówność Popova (jeśli można stosować kryterium Popova),
+    \item wyrysować charakterystykę Popova i odpowiednią prostą Popova (jeśli można stosować kryterium Popova),
+    \item wyrysować charakterystykę Nyquista i odpowiednie "koło",
+    \item wyznaczyć sektor Popova, sektor dopuszczalny z kryterium koła,
+    \item porównać wyniki z obydwu kryteriów,
+    \item zamodelować układ w Simulinku i zweryfikować symulacyjnie uzyskane wyniki. 
+\end{itemize}
+
+    %======================================================
+    \subsection{System 1}
+    Wyznaczyć największy sektor dopuszczalny w kryterium Popova i kryterium koła dla układu opisanego transmitancją (\ref{eq:system_1}) oraz nieliniowym elementem $\varphi(\cdot)$.% przedstawionych na rysunku (\ref{fig:zad_1}).
+    \begin{equation}
+        \label{eq:system_1}
+        G_{1}(s) = \frac{4(1-5s)}{(1+3s)(1+2s)}
+    \end{equation}
+
+    %\begin{figure}[H]
+    %    \centering
+    %    \includegraphics[width=0.25\linewidth]{fig/04_kryterium_kola/trojpolozeniowy.PNG}
+    %    \caption{Enter Caption}
+    %    \label{fig:zad_1}
+    %\end{figure}
+
+    %======================================================
+    \subsection{System 2}
+    Dany jest system dynamiczny:
+    \begin{equation}
+        \begin{array}{l}
+            \dot{x} = Ax + bu\\
+            y = c^{T}x 
+        \end{array}
+    \end{equation}
+    gdzie:
+    \begin{equation}
+        A
+        =
+        \left[
+        \begin{array}{rrr}
+            -2 & 1 & 0\\
+            -1 & 0 & 1\\
+            -1 & 0 & 0
+        \end{array}
+        \right],\,
+        b
+        =
+        \left[
+        \begin{array}{r}
+            -1\\
+            0\\
+            0
+        \end{array}
+        \right],\,
+        c^{T}
+        =
+        \left[
+        \begin{array}{ccc}
+            1 & 0 & 0
+        \end{array}
+        \right].
+    \end{equation}
+    System ten objęto ujemnym sprzężeniem zwrotnym za pomocą nieliniowego, statycznego, stacjonarnego elementu o charakterystyce:
+    \begin{equation}
+        u = M \arctan{y},\,M>0.
+    \end{equation}
+    Określić możliwie największą wartość parametru $M$, przy której charakterystyka elementu nieliniowego mieści się jeszcze w sektorze Popova oraz sektorze dopuszczalnym dla kryterium koła.
+
+    %======================================================
+    \subsection{System 3}
+    Zbadać asymptotyczną stabilność globalną układu regulacji przedstawionego na rysunku (\ref{fig:zad3}).
+    Zakładamy, że w układzie może występować dozwolony element nieliniowy o charakterystyce $u = \varphi(y)$ spełniającej warunek $0 \leq y\varphi(y) \leq Ly^2$, dla $L = \frac{1}{2}$ i $L = 2$.
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{fig/04_kryterium_kola/zad3.PNG}
+        \caption{Układ dla zadania 3.}
+        \label{fig:zad3}
+    \end{figure}
+    Gdzie transmitancja wynosi:
+    $$
+        G(s) = \frac{s^2+s+1}{s^4 + 2s^3 + s^2 + s + 1}
+    $$
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\begin{thebibliography}{9}
+
+\bibitem{Mitkowski2007}
+  Mitkowski, W., Baranowski, J., Hajduk, K., Korytowski, A., Tutaj, A.,
+  \emph{Teoria Sterowania: Materiały Pomocnicze do Ćwiczeń Laboratoryjnych},
+  AGH Uczelniane wydawnictwo Naukowo-Dydaktyczne,
+  2007.
+
+\bibitem{Amborski1978}
+  Amborski, K., Marusak, A.,
+  \emph{Teoria Sterowania w Ćwiczeniach},
+  Państwowe Wydawnictwo Naukowe,
+  1978.
+
+\bibitem{Gessing1981}
+  Gessing, R., Latarnik, M., Skrzywan-Kossek, A.,
+  \emph{Zbiór Zadań z Teorii Nieliniowych Układów Regulacji i Sterowania},
+  Wydawnictwo Naukowo-Techniczne,
+  1981.
+
+\bibitem{Gibson1968}
+  Gibson, J. E.,
+  \emph{Nieliniowe Układy Sterowania Automatycznego},
+  Wydawnictwo Naukowo-Techniczne,
+  1968.
+
+\bibitem{Grabowski1999}
+  Grabowski P.,
+  \emph{Stabilność Układów Lurie},
+  AGH Uczelniane Wydawnictwo Naukowo-Dydaktyczne,
+  1999.
+
+
+\bibitem{Vukic2003}
+  Vukic Z., Kuljaca L., Donlagic D., Tesnjak S.,
+  \emph{Nonlinear Control Systems},
+  Marcel Dekker,
+  2003.
+
+\end{thebibliography}
+
+\end{document}

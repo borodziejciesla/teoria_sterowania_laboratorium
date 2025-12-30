@@ -1,0 +1,1295 @@
+\documentclass{article}
+
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+
+\usepackage[margin=0.75in]{geometry}
+
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage[shortlabels]{enumitem}
+\usepackage{matlab-prettifier}
+
+\title{
+    Teoria Sterowania\\
+    \Large Układy Dyskretne
+}
+\author{Maciej Różewicz}
+\date{2025}
+
+\makeatletter         
+\def\@maketitle{
+\raggedright
+\begin{center}
+    \includegraphics[width=0.5\linewidth]{fig/agh_logo.PNG}\\[8ex]
+\end{center}
+\begin{center}
+    {\huge \bfseries \sffamily \@title }\\[4ex] 
+    {\large  \@author}\\[4ex] 
+    \@date\\[8ex]
+\end{center}}
+\makeatother
+
+\begin{document}
+\maketitle
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Cel ćwiczenia}
+Celem ćwiczenia jest zapoznanie się z własnościami systemów dynamicznych dyskretnych w czasie.
+Systemy takie opisuje się zwykle za pomocą równań rekurencyjnych zamiast równań różniczkowych, oraz transmitancji opartej na transformacie $\mathcal{Z}$ zamiast transformacie Laplace'a.
+Z modelami takimi można spotkać się w praktyce bardzo często, praktycznie zawsze przy sterowaniu komputerowym i numerycznym rozwiązywaniu równań różniczkowych.
+
+Istnieją również przypadki, gdzie opis taki wynika wprost z jego natury.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Wprowadzenie}
+Najczęściej dyskretne równania układu regulacji uzyskiwane są w rezultacie cyfrowej realizacji algorytmów sterowania układami ciągłymi.
+Schemat takiego układu sterowania przedstawiony jest na rysunku (\ref{fig:schemat_regulacji_cyfrowej}).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{fig/06_uklady_dyskretne/dyskretny_schemat.png}
+    \caption{Schemat układu regulacji cyfrowej - algorytm regulacji realizowany na komputerze.}
+    \label{fig:schemat_regulacji_cyfrowej}
+\end{figure}
+Istotnym faktem jest, że w pamięci komputera przechowywane są tylko poszczególne próbki z pomiarów uzyskanych przez przetwornik analogowo-cyfrowy (A/C), zatem nie można mówić o funkcjach czasu, a o szeregach liczbowych.
+Matematycznie można operację próbkowania sygnału w dziedzinie czasu $x(t)$ zapisać jako iloczyn tego sygnału z szeregiem impulsów Diraca:
+$$
+    x^{D}(Tk) = \sum_{k=-\infty}^{\infty}{x(Tk)\cdot\delta(t-Tk)}.
+$$
+
+    %======================================================
+    \subsection{Dyskretyzacja}
+    W ogólności będziemy rozważać stacjonarne równania różniczkowe w postaci:
+    $$
+        \dot{x}(t) = f(x(t),u(t)).
+    $$
+    Jednak ponieważ będą nas interesowały jedynie wartości funkcji tylko w dyskretnych chwilach czasowych, możliwe do wyznaczenia na podstawie poprzednich, to możemy posłużyć się ogólną formułą:
+    \begin{equation}
+        \label{eq:dyskretyzacja_ogolna}
+        x(Tk + T) = \int_{Tk}^{Tk+T}{f(x(t), u(t))dt}.
+    \end{equation}
+    
+        %-------------------------------------------------
+        \subsubsection{Schemat różnicowy}
+        Podana powyżej formuła jest bardzo ogólna, jednak w wielu przypadkach trudna do analitycznego wyznaczenia.
+        Można wówczas wspomagać się pewnymi przybliżeniami.
+        Jedną z opcji jest przybliżenie pochodnej ilorazem różnicowym.
+        Można to zrobić na różne sposoby i otrzymujemy wówczas odpowiednio:
+        \begin{enumerate}[(a)]
+            \item aproksymacja lewostronna (\textit{backward}):
+            \begin{itemize}
+                \item $\dot{x}(Tk) = \lim_{\Delta \rightarrow 0} \frac{x(Tk) - x(Tk-\Delta)}{\Delta}  \approx \frac{x[Tk] -x[T(k-1)]}{T}$,
+                \item $\ddot{x}(Tk) = \lim_{\Delta \rightarrow 0} \frac{\dot{x}(Tk) - \dot{x}(Tk-\Delta)}{\Delta}  \approx \frac{x[Tk] - 2x[T(k-1)] + x[T(k-2)]}{T^2}$,
+                \item $\dddot{x}(Tk) = \lim_{\Delta \rightarrow 0} \frac{\ddot{x}(Tk) - \ddot{x}(Tk-\Delta)}{\Delta}  \approx \frac{x[Tk] - 3x[T(k-1)] + 3x[T(k-2)] + x[T(k-3)]}{T^3}$,
+                \item $\dots$,
+            \end{itemize}
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=0.5\linewidth]{fig/06_uklady_dyskretne/backward_int.png}
+                \caption{Aproksymacja lewostronna (\textit{backward}).}
+                \label{fig:enter-label}
+            \end{figure}
+
+            \item aproksymacja prawostronna (\textit{forward}):
+            \begin{itemize}
+                \item $\dot{x}(Tk) = \lim_{\Delta \rightarrow 0} \frac{x(Tk+\Delta) - x(Tk)}{\Delta}  \approx \frac{x[T(k+1)] - x[Tk]}{T}$,
+                \item $\ddot{x}(Tk) = \lim_{\Delta \rightarrow 0} \frac{\dot{x}(Tk+\Delta) - \dot{x}(Tk)}{\Delta}  \approx \frac{x[T(k+2)] - 2x[T(k+1)] + x[Tk]}{T^2}$,
+                \item $\dots$,
+            \end{itemize}
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=0.5\linewidth]{fig/06_uklady_dyskretne/forward_int.png}
+                \caption{Aproksymacja prawostronna (\textit{forward}).}
+                \label{fig:enter-label}
+            \end{figure}
+
+            \item aproksymacja symetryczna:
+            \begin{itemize}
+                \item $\dot{x}(Tk) = \lim_{\Delta \rightarrow 0} \frac{x(Tk+\Delta) - x(Tk-\Delta)}{\Delta}  \approx \frac{x[T(k+1)] - x[T(k-1)]}{T}$,
+                \item $\ddot{x}(Tk) = \lim_{\Delta \rightarrow 0} \frac{\dot{x}(Tk+\Delta) - \dot{x}(Tk-\Delta)}{\Delta}  \approx \frac{x[T(k+2)] - 2x[Tk] + x[T(k-2)]}{T^2}$,
+                \item $\dots$..
+            \end{itemize}
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=0.5\linewidth]{fig/06_uklady_dyskretne/tustin_int.png}
+                \caption{Aproksymacja symetryczna.}
+                \label{fig:enter-label}
+            \end{figure}
+        \end{enumerate}
+
+        \textbf{Przykład:} rozważmy równanie różniczkowe w postaci:
+        $$
+            a_{2}\ddot{x} + a_{1}\dot{x} + a_{0}x = b_{1}\dot{u} + b_{0}u.
+        $$
+        Stosując pokazane powyżej przybliżenia pochodnych, uzyskujemy odpowiednio:
+        \begin{enumerate} [(a)]
+            \item aproksymacja lewostronna:
+                $$
+                    a_{2} \frac{x[Tk] - 2x[T(k-1)] + x[T(k-2)]}{T^2}
+                    +
+                    a_{1} \frac{x[Tk] -x[T(k-1)]}{T}
+                    +
+                    a_{0} x[Tk]
+                    =
+                    b_{1} \frac{u[Tk] - u[T(k-1)]}{T}
+                    +
+                    b_{0} u[Tk],
+                $$
+                a po grupowaniu odpowiednich próbek sygnałów $x$ i $u$:
+                $$
+                    \left( \frac{a_{2}}{T^2} + \frac{a_{1}}{T} + a_{0} \right) x[Tk]
+                    -           
+                    \left( \frac{a_{2}}{T^2} + \frac{a_{1}}{T} \right) x[T(k-1)]
+                    +
+                    \frac{a_{2}}{T^2} x[T(k-2)]
+                    =
+                    \left( \frac{b_{1}}{T} + b_{0} \right) u[T(k-1)]
+                    +
+                    b_{0}  u[Tk],
+                $$
+
+            \item aproksymacja prawostronna:
+            $$
+                a_{2} \frac{x[T(k+2)] - 2x[T(k+1)] + x[Tk]}{T^2}
+                +
+                a_{1} \frac{x[T(k+1)] - x[Tk]}{T}
+                +
+                a_{0} x[Tk]
+                =
+                b_{1} \frac{u[T(k+1)] - u[Tk]}{T}
+                +
+                b_{0} u[Tk],
+            $$
+            a po grupowaniu odpowiednich próbek sygnałów $x$ i $u$:
+            $$
+                \frac{a_{2}}{T^2} x[T(k+2)]
+                +           
+                \left( \frac{a_{1}}{T} + \frac{a_{2}}{T^2} \right) x[T(k+1)]
+                +
+                \left( \frac{a_{2}}{T^2} - \frac{a_{1}}{T} + a_{0} \right) x[Tk]
+                =
+                \frac{b_{1}}{T} u[T(k+1)]
+                +
+                \left( b_{0} - \frac{b_{1}}{T} \right) u[Tk].
+            $$                
+        \end{enumerate}
+
+        Widać zatem, że postać uzyskanych równań różnicowych istotnie zależy od przyjętej aproksymacji.
+        Zatem nie można bezproblemowo przejść z układu dyskretnego na ciągły nie wiedząc o zastosowanej metodzie aproksymacji.
+
+        %--------------------------------------------------
+        \subsubsection{Równania rekurencyjne}
+        W przypadku układów liniowych w postaci
+        $$
+            \dot{x} = Ax + Bu
+        $$
+        wyrażenie (\ref{eq:dyskretyzacja_ogolna})  ma analityczne rozwiązanie.
+        $$
+            x(t) = e^{A(t-t_{0})}x(t_{0}) + \int_{t_{0}}^{t}{e^{A(t-\tau)}Bu(\tau)d\tau}
+        $$
+        Zakładając, że chwila początkowa $t_{0}$ będzie początkiem $k+1$-tego okresu próbkowania $t_{0} = Tk$, można wyznaczyć dokładna wartość na jego końcu $x[T(k+1)]$:
+        $$
+            x[T(k+1)] = e^{A(T(k+1) - Tk)}x(Tk) + \int_{Tk}^{Tk+s}{e^{A(T(k+1) - \tau)}Bu(\tau)d\tau}
+        $$
+        Można dokonać podstawienia $\xi = T(k+1) - \tau$, które implikuje $d\tau = -d\xi$ oraz zmianę granic całkowania:
+        $$
+            \tau=Tk \rightarrow \xi = T,\,\tau =Tk + \tau \rightarrow \xi = T-\tau
+        $$
+        Zakładamy, że sterowanie jest stałe na przedziale próbkowania, dlatego można $u[\tau]$ wyciągnąć poza całkę:
+        $$
+            x[T(k+1)] = e^{AT}x[Tk] + \left\{ \int_{T-\tau}^{T}{e^{A\xi}Bd\xi} \right\} u[Tk]
+        $$
+        Jeżeli $\tau = T$, to całkowanie obejmuje przedział $[0,T]$.
+        Równanie przyjmuje więc postać równania różnicowego, opisującego dyskretną postać $n$-tego rzędu:
+        \begin{equation}
+            \label{eq:rownanie_roznicowe}
+            x[T(k+1)] = A_{D}x[Tk] + B_{D}u[Tk]
+        \end{equation}
+        Zapisując skrótowo $x_{k} = x[Tk]$, mamy postać:
+        $$
+            x_{k+1} = A_{D}x_{k} + B_{D}u_{k},
+        $$
+        gdzie:
+        \begin{itemize}
+            \item $A_{D} = e^{AT}$,
+            \item $B_{D} = \int_{0}^{T}{e^{A\tau}Bd\tau}$.
+        \end{itemize}
+
+        Macierze te można wyznaczyć np. w następujący sposób:
+        \begin{enumerate}
+            \item $A_{D} =e^{AT} = Pe^{JT}P^{-1}$, gdzie:
+                \begin{itemize}
+                    \item $P$ - macierz modalna macierzy $A$ - złożona z wektorów głównych macierzy $A$,
+                    \item $J$ - postać Jordana macierzy $A$,
+                \end{itemize}
+
+            \item $B_{D} = \int_{0}^{T}{e^{A\tau}Bd\tau} = A^{-1}\left( e^{AT} - I \right)B$.
+        \end{enumerate}
+
+        Jak wygląda rozwiązanie?
+        $$
+            x_{1} = A_{D}x_{0} + B_{D}u_{0}
+        $$
+        $$
+            x_{2}
+            =
+            A_{D}x_{1} + B_{D}u_{1}
+            =
+            A_{D}\left( A_{D}x_{0} + B_{D}u_{0} \right) + B_{D}u_{1}
+            =
+            A_{D}^{2}x_{0} + A_{D}B_{D}u_{0} + B_{D}u_{1}
+        $$
+        $$
+            \vdots
+        $$
+        $$
+            x_{n} = A_{D}^{n}x_{0}
+            +
+            \begin{bmatrix}
+                \begin{array}{ccccc}
+                    A_{D}^{n-1}B_{D} & A_{D}^{n-1}B_{D} & \dots & A_{D}B_{D}    & B_{D}
+                \end{array}
+            \end{bmatrix}
+            \cdot
+            \begin{bmatrix}
+                \begin{array}{c}
+                    u_{0}\\ u_{1}\\ \vdots\\    u_{n-2}\\ u_{n-1}
+                \end{array}
+            \end{bmatrix}
+        $$
+
+        \textbf{Przykład:} rozważmy układ:
+        $$
+            \ddot{y} + \dot{y} = u,
+        $$
+        który przekształcamy do postaci macierzowej prze podstawienie $x_{1} = y,\,x_{2} = \dot{y}$:
+        $$
+            \begin{bmatrix}
+            \begin{array}{c}
+                \dot{x}_{1}\\
+                \dot{x}_{2}
+            \end{array}                
+            \end{bmatrix}
+            =
+            \begin{bmatrix}
+            \begin{array}{rr}
+                0 & 1\\
+                0 & -1
+            \end{array}                
+            \end{bmatrix}
+            \cdot
+            \begin{bmatrix}
+            \begin{array}{c}
+                x_{1}\\
+                x_{2}
+            \end{array}                
+            \end{bmatrix}
+            +
+            \begin{bmatrix}
+            \begin{array}{c}
+                0\\
+                1
+            \end{array}                
+            \end{bmatrix}
+            u
+            = Ax + Bu
+        $$
+        Macierze układu dyskretnego wynoszą:
+        \begin{itemize}
+            \item $ A_{D} = 
+            \begin{bmatrix}
+            \begin{array}{rc}
+                1 & -1\\
+                0 & 1
+            \end{array}                
+            \end{bmatrix}
+            \cdot
+            \begin{bmatrix}
+            \begin{array}{rc}
+                1 & 0\\
+                0 & e^{-T}
+            \end{array}                
+            \end{bmatrix}
+            \cdot
+            \begin{bmatrix}
+            \begin{array}{rc}
+                1 & 1\\
+                0 & 1
+            \end{array}                
+            \end{bmatrix}
+            =
+            \begin{bmatrix}
+            \begin{array}{rc}
+                1 & 1-e^{-T}\\
+                0 & e^{-T}
+            \end{array}                
+            \end{bmatrix}
+            $,
+            \item $ B_{D} = 
+            \begin{bmatrix}
+            \begin{array}{c}
+                T + e^{-T} - 1\\
+                1 - e^{-T}
+            \end{array}                
+            \end{bmatrix}
+            $
+        \end{itemize}
+
+        %------------s
+        \subsubsection{Transformata $\mathcal{Z}$}
+        Układ z idealnym impulsatorem daje sterowanie
+        $$
+            u^{D}(t) = \sum_{k=0}^{\infty}{u[Tk]\delta(t-Tk)}.
+        $$
+        Transformata Laplace'a:
+        $$
+            U^{D(s)}
+            =
+            \int_{0}^{\infty}{\left[ u[Tk]\delta(t-Tk) \right]e^{-st}dt}
+            =
+            \sum_{k=0}^{\infty}{u[Tk]}\cdot \int_{0}^{\infty}{\delta(t-Tk)e^{-st}dt}
+            =
+            \sum_{k=0}^{\infty}{u[Tk]}e^{-Tks}.
+        $$
+        Robiąc podstawienie $z = e^{Ts}$ otrzymuje się:
+        \begin{equation}
+            \label{eq:transformata_z}
+            U^{D(s)}|_{e^{Ts}=z} = \infty_{k=0}^{\infty}{u[Tk]\cdot z^{-k}}
+        \end{equation}
+
+
+        Niektóre właściwości transformaty $\mathcal{Z}$:
+        \begin{enumerate}
+            \item $y_{k} = w_{k} + x_{k} \rightarrow Y(z) = W(z) + X(z)$ - transformata sumy jest sumą transformat,
+            \item $\mathcal{Z}\left\{ x(n-k) \right\} = z^{-k}\mathcal{Z}\left\{ x(n) \right\} = z^{-k}X(z)$ - opóźnienie sygnału o $k$ próbek odpowiada przemnożeniu sygnału o $z^{-k}$,
+            \item $\mathcal{Z}\left\{y_{k} \sum_{m=-\infty}^{\infty}{x_m}y_{n-m} \right\} = \mathcal{Z}\left\{ x_{n} \right\}\cdot \mathcal{Z}\left\{ y_{n} \right\} = X(z)Y(z)$ - transformata splotu jest iloczynem transformat,
+            \item $\lim_{n\rightarrow\infty}y_{n} = \lim_{z\rightarrow 1}{(1-z^{-1})}Y(z)$
+        \end{enumerate}
+
+        
+        \begin{table}[H]
+            \centering
+            \begin{tabular}{|c|c|c|c|}
+                \hline
+                Oryginał    &   Transformata $\mathcal{L}$  &   Transformata $\mathcal{Z}$ bez członu ZOH   & Transformata $\mathcal{Z}$ z członem ZOH\\
+                \hline
+                $1(t)$  &   $\frac{1}{s}$   &   $\frac{z}{z-1}$ &   $\frac{T}{z-1}$\\
+                \hline
+                $t$     &   $\frac{1}{s^2}$ &   $\frac{Tz}{(z-1)^2}$    &   $\frac{T^{2}(z+1)}{2(z-1)^{2}}$\\
+                \hline
+                $1(t)\frac{t^2}{2}$ &   $\frac{1}{s^3}$  &  $\frac{Tz(z+1)}{2(z-1)^3}$  &   $\frac{T^{3}(z^{2}+4z+1)}{3(z-1)^{3}}$\\
+                \hline
+                $1(t)e^{-at}$ & $\frac{1}{s+a}$ &   $\frac{z}{z-e^{-aT}}$  &    $\frac{1-e^{aT}}{a(z-e^{-aT})}$ \\
+                \hline
+                $1(t)\sin{(\omega t)}$  &   $\frac{\omega^2}{s^2 + \omega^2}$  &    $\frac{z\omega\sin{\omega T}}{z^2 - 2z\cos{(\omega T)} + 1}$  & $\frac{(z+1)(1-\cos{(\omega T)})}{z^2 - 2z\cos{(\omega T)}+1}$ \\
+                \hline
+            \end{tabular}
+            \caption{Transformaty $\mathcal{Z}$ wybranych sygnałów.}
+            \label{tab:transformata_z_sygnaly}
+        \end{table}
+
+        Można zauważyć, że z podstawienia zastosowanego do transformaty $\mathcal{Z}$ wynika:
+        $$
+            z = e^{Ts} = e^{T(\alpha + i\beta)} = e^{\alpha T}e^{iT\beta} = e^{\alpha T} \left( \cos{(T\beta)} + i \sin{(T\beta)} \right)
+        $$
+        zatem $z$ jest punktem na okręgu o promieniu $e^{T\alpha}$ na płaszczyźnie zespolonej.
+        Można więc zauważyć, że dla $\alpha < 0$, czyli lewej półpłaszczyzny zespolonej, $z$ będzie leżało w okręgu jednostkowym.
+        Oznacz to, że przekształcenie to przekształca lewą półpłaszczyznę w okrąg jednostkowy.
+
+        %++++++++++++++++++++++++++++
+        \subsubsection{Aproksymacja transmitancji dyskretnej}
+        Przy wprowadzaniu transformaty $\mathcal{Z}$  wprowadzone zostało podstawienie $z = e^{Ts}$, zatem aby transmitancję $G(s)$ przekształciś w transmitancję dyskretną w dziedzinie operatora $z$ wystarczy wykonać podstawienia za $s$.
+        Niestety nie istnieje wygodna do użycia dokładna wartość $s$ wyznaczana z $z$, dlatego wprowadzono kilka wygodnych aproksymacji:
+        \begin{enumerate} [(a)]
+            \item metoda całkowania "do przodu" (\textit{forward})
+            $$
+                z = e^{sT} = 1+sT + \frac{s^2T^2}{2} + \dots \approx 1 + sT \implies s = \frac{z-1}{T}
+            $$
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=0.5\linewidth]{fig/06_uklady_dyskretne/forward_transform.png}
+                \caption{Przekształcenie lewej półpłaszczyzny dla aproksymacji \textit{forward}.}
+                \label{fig:enter-label}
+            \end{figure}
+            
+            \item metoda całkowania "do tyłu" (\textit{backward}):
+            $$
+                z = e^{sT} = \frac{1}{e^{-sT}} \approx \frac{1}{1 - sT} \implies s = \frac{z-1}{Tz}
+            $$
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=0.5\linewidth]{fig/06_uklady_dyskretne/backward_transform.png}
+                \caption{Przekształcenie lewej półpłaszczyzny dla aproksymacji \textit{backward}.}
+                \label{fig:enter-label}
+            \end{figure}
+            
+            \item całkowania metodą trapezów (metoda \textit{Tustina}):
+            $$
+                z = e^{sT} = \frac{1 + e^{sT}}{1 + e^{-sT}} \approx \frac{2 + sT}{ 2 - sT} \implies s = \frac{2}{T}\frac{z-1}{z+1}
+            $$
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=0.5\linewidth]{fig/06_uklady_dyskretne/tustin_transform.png}
+                \caption{Przekształcenie lewej półpłaszczyzny dla aproksymacji Tustina.}
+                \label{fig:enter-label}
+            \end{figure}
+        \end{enumerate}
+
+        \textbf{Przykład:} rozważmy transmitancję obiektu inercyjnego pierwszego rzędu:
+        $$
+            G(s) = \frac{a}{s+a}
+        $$
+        \begin{itemize}
+            \item metoda \textit{forward}:
+            $$
+                G_{D,F}(z) = \frac{a}{\frac{z-1}{T} + a} = \frac{aT}{z-1+aT}
+            $$
+            \item metoda \textit{backward}:
+            $$
+                G_{D,B}(z) = \frac{a}{\frac{z-1}{Tz} + a} = \frac{aTz}{z(1+aT)-1}
+            $$
+            \item metoda \textit{Tustina}:
+            $$
+                G_{D,T}(z) = \frac{a}{\frac{2}{T}\frac{z-1}{z+1} + a} = \frac{aT(z+1)}{z(2+aT)-2+aT}
+            $$
+        \end{itemize}
+
+        %++++++++++++++++++++++++++++
+        \subsubsection{Ekstrapolator zerowego rzędu}
+        Przedstawiona w poprzednim punkcie metoda analizuje sygnał jako \textit{de facto} ciąg impulsów.
+        O ile jest to prawda w przypadku pomiaru, gdzie faktycznie otrzymujemy wartości sygnału zmierzone w konkretnych chwilach czasu, to w przypadku sterowania nie jest to już prawdą.
+        Ponieważ sterowanie w zdecydowanej większości praktycznych przypadków nie jest podawane jako seria impulsów, lecz jako stała wartość podtrzymywana przez okres próbkowania - tzw. ekstrapolacja zerowego rzędu (ang. \textit{zero order hold} - \textbf{ZOH}).
+        Co pokazano na rysunku (\ref{fig:implse_to_zoh}).
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.5\linewidth]{fig/06_uklady_dyskretne/implse_to_zoh.png}
+            \caption{Ekstrapolacja zerowego rzędu.}
+            \label{fig:implse_to_zoh}
+        \end{figure}
+        matematycznie można to osiągnąć poprzez wykonanie splotu funkcji impulsowej z funkcją prostokątną:
+        $$
+            h(s) = \mathbf{1}(t) - \mathbf{1}(t-T) \implies H(s) = \frac{1}{s} - e^{-Ts}\frac{1}{s} = \frac{1 - e^{-Ts}}{s} 
+            \approx
+            \frac{T}{s},\,{\text{dla $T\approx 0$}}.
+        $$
+        Zatem w schemacie blokowym można dodać dodatkowy blok \textbf{ZOH}, który realizuje transmitancję $H(s)$:
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.5\linewidth]{fig/06_uklady_dyskretne/zoh.png}
+            \caption{Ekstrapolacja zerowego rzędu - schemat blokowy.}
+            \label{fig:implse_to_zoh}
+        \end{figure}
+        Zatem transmitancja dyskretna wynosi:
+        $$
+            G(z) = \mathcal{Z}\left\{ \mathcal{L}^{-1} \left\{ G(s)\frac{1-e^{-Ts}}{s} \right\} \right\} 
+            =
+            (1-z^{-1})\mathcal{Z}\left\{ \mathcal{L}^{-1} \left\{ \frac{G(s)}{s} \right\} \right\} 
+            =
+            \frac{z-1}{z}\mathcal{Z}\left\{ g(kT) \right\},
+        $$
+        gdzie $g(kT)$ jest ciągiem próbek.
+        
+        
+    %======================================================
+    \subsection{Dyskretna wersja twierdzenia Lapunowa}
+    Rozważamy dyskretny system dynamiczny opisywany równaniem (\ref{eq:system_dyskretny}):
+    \begin{equation}
+        \label{eq:system_dyskretny}
+        \left\{
+        \begin{array}{rcl}
+            x(k+1)  &   =   &   f[x(k)]\\
+            x(0)    &   =   & x_{0}
+        \end{array}
+        \right\},
+    \end{equation}
+    przy czym bez straty ogólności możemy założyć, że $f(0) = 0$.
+    To jeśli istnieje ciągła, dodatnio określona na pewnym otoczeniu zerowego punktu równowagi $D$ funkcja $V(x)$
+    Która spełnia warunki:
+    \begin{itemize}
+        \item $V(x) > 0m\, \forall x \in D - \{0\}$,
+        \item $\Delta V(x) = V(f[x]) - V(x) \leq 0, \, \forall x\in D$,
+    \end{itemize}
+    to punkt $0$ jest stabilny, a funkcję $V$ nazywamy dyskretną funkcją Lapunowa.
+
+    \textbf{Przykład:} rozważmy równanie różniczkowe:
+    $$
+        \dot{x} = -ax,
+    $$
+    które jest stabilne dla $a>0$, a które można przekształcić do postaci dyskretnej za pomocą
+    \begin{enumerate}[(a)]
+        \item aproksymacji schematami różnicowymi:
+        $$
+            \frac{k_{k+1}-x_{k}}{T} = -ax_{k} \implies x_{k+1} = (1-aT)x_{k} = f[x_{k}], \, T>0.
+        $$
+        Możemy przyjąć funkcję Lapunowa w postaci:
+        $$
+            V(x_{k}) = x_{k}^{2},
+        $$
+        a jej $\Delta$ wynosi:
+        $$
+            \Delta V(x_{k})
+            =
+            V(f[x_{k}]) - V(x_{k})
+            =
+            (1-aT)^{2}x_{k}^{2} - x_{k}^{2}
+            =
+            x_{k}^{2}aT(1-2aT).
+        $$
+        Zatem, żeby była ona ujemne musi zachodzić warunek:
+        $$
+            aT \in (0, 2) \implies a>0,\,a<\frac{2}{T} \implies a>0\,\text{gdy}\,T\rightarrow0.
+        $$
+        widać zatem, że przybliżenie schematem różnicowym zawęża zakres stabilności wraz ze wzrostem okresu dyskretyzacji $T$,
+
+        \item równaniami różnicowymi:
+        $$
+            x_{k+1} = A_{D} x_{k},\,\text{gdzie}\,A_{D} = e^{-aT}.
+        $$
+        Funkcję Lapunowa zakładamy jak poprzednio, zatem w tym przypadku jej $\Delta$ wynosi:
+        $$
+            \Delta V(x_{k}) = V(f(x_{k})) - V(x_{k}) = e^{-2aT}x_{k}^{2} - x_{k}^{2} = x_{k}^{2}(e^{-2aT} -1) < 0,\,\text{dla}\, a>0,
+        $$
+        zatem widać, iż taka metoda wyznaczania równania dyskretnego nie jest obarczona błędem jak aproksymacja schematami różnicowymi.
+    \end{enumerate}
+
+    Podobnie jak w przypadku ciągłym nie istnieje uniwersalna metoda wyznaczania funkcji Lapunowa.
+    Jednak również i tym razem dla szczególnego przypadku, równania liniowego:
+    \begin{equation}
+        \label{eq:lin_dysk}
+        x_{k+1} = Ax_{x}    
+    \end{equation}
+    
+    \textbf{Twierdzenie:} jeśli dla równania dyskretnego, liniowego (\ref{eq:lin_dysk}) istnieje rozwiązanie $P=P^{T}>0$ dyskretnego równania Lapunowa (\ref{eq:dysk_lapunowa})
+    \begin{equation}
+        \label{eq:dysk_lapunowa}
+        A^{T}PA - P = -Q,
+    \end{equation}
+    gdzie $Q=Q^{T}>0$, to układ (\ref{eq:lin_dysk}) jest globalnie asymptotycznie stabilny, a $V(x) = x^{T}Px$ jest jego funkcją Lapunowa.
+    A jej delta na trajektoriach systemu ma postać:
+    $$
+        \Delta V(x_{k}) = V(Ax_{k}) - V(x_{k}) = (Ax_{x})^{T}P(Ax_{k}) - x_{k}^{T}Px_{k} =x_{k}^{T}A^{T}PAx_{k} - x_{k}^{T}Px_{k} = x_{k}^{T}(A^{T}PA-P)x_{k} < 0
+    $$
+
+    %======================================================
+    \subsection{Kryteria stabilności}
+    Mówimy, że wielomian dyskretny
+    \begin{equation}
+            \label{eq:wielomian}
+            w(z) = a_{n}z^n + a_{n-1}z^{n-1} + \dots + a_{1}z + a_{0}
+        \end{equation}
+    jest stabilny asymptotycznie, gdy jego pierwiastki leżą w kole jednostkowym.
+    Do stwierdzenia, czy jego pierwiastki spełniają ten warunek bez ich bezpośredniego wyznaczania, można użyć np. jednego z poniższych kryteriów.
+
+        %--------------------------------------------------
+        \subsubsection{Kryterium stabilności I}
+        Znając współczynniki $a_{i}$ wielomianu $w(z)$ możemy wyznaczyć tzw. macierz symetryczną Schura-Cohna w postaci:
+        \begin{equation}
+            \label{eq:schu_cohen}
+            P = S_{1}^{T}S_{1} - S_{2}^{T}S_{2},
+        \end{equation}
+        gdzie:
+        \begin{itemize}
+            \item $
+                S_{1}
+                =
+                \begin{bmatrix}
+                \begin{array}{ccccc}
+                    a_{n}   &   a_{n-1}     &   \dots   &   a_{2}       &   a_{1}\\
+                    0       &   a_{n}       &   \dots   &   a_{3}       &   a_{2}\\
+                    \vdots  &   \vdots      &   \dots   &   \vdots      &   \vdots\\
+                    0       &   0           &   \dots   &   0           &   a_{n}
+                \end{array}
+                \end{bmatrix}
+            $,
+
+            \item $
+                S_{2}
+                =
+                \begin{bmatrix}
+                \begin{array}{ccccc}
+                    a_{0}   &   a_{1}   &   \dots   &   a_{n-2} &   a_{n-1}\\
+                    0       &   a_{0}   &   \dots   &   a_{n-3} &   a_{n-2}\\
+                    \vdots  &   \vdots  &   \dots   &   \vdots  &   \vdots\\
+                    0       &   0       &   \dots   &   0       &   a_{0}
+                \end{array}
+                \end{bmatrix}
+            $.
+        \end{itemize}
+        Podstawiając macierze $S_{1}$ i $S_{2}$ do równania (\ref{eq:schu_cohen}) otrzymuje się wyrażenie na element $p_{ij}$ macierzy $P$:
+        \begin{equation}
+            \label{eq:schu_cohen_pij}
+            p_{ij} = \sum_{t=0}^{i-1}{
+            \left( a_{n-i+t}a_{n-j+t+1} - a_{i-1-t}a_{j-1-t} \right)
+            },\,j\geq0.
+        \end{equation}
+
+        Wówczas:
+        \begin{enumerate}
+            \item Wielomian (\ref{eq:wielomian}) jest stabilny asymptotycznie wtedy i tylko wtedy, gdy macierz $P$ (równanie (\ref{eq:schu_cohen})) jest dodatnio określona, czyli zachodzą warunki:
+            \begin{itemize}
+                \item $P_{1} = p_{11} > 0$,
+                \item $P_{2}
+                =
+                \begin{vmatrix}
+                \begin{array}{cc}
+                    p_{11}  &   p_{12}\\
+                    p_{21}  &   p_{22}
+                \end{array}
+                \end{vmatrix} > 0
+                $,
+                \item $\vdots$
+                \item $P_{n} = |P| > 0$.
+            \end{itemize}
+
+            \item Jeżeli $P_{i} \neq 0$ dla $i = 1, \dots, n$, to wielomian (\ref{eq:wielomian}) ma $k$ pierwiastków wewnątrz koła jednostkowego oraz $n-k$ na zewnątrz koła jednostkowego, przy czym zachodzi równość:
+            \begin{equation}
+                \label{eq:stab_kryt_k}
+                k = n - V(1, P_{1}, \dots, P_{n}),
+            \end{equation}
+            gdzie $V(e_{0}, e_{1}, \dots, e_{n})$ oznacza liczbę zmian znaku ciągu $e_{0}, e_{1}, \dots, e_{n}$.
+        \end{enumerate}
+
+        %--------------------------------------------------
+        \subsubsection{Kryterium stabilności II}
+        Znając współczynniki $a_{i}$ wielomianu (\ref{eq:wielomian}) można wyznaczyć tablicę:
+        \begin{equation}
+            \label{eq:kryterium_tablica}
+            \left\{
+            \begin{array}{cccc}
+                c_{1,1} &   c_{1,2} &   \dots   &   c_{1,n+1} \\
+                d_{1,1} &   d_{1,2} &   \dots   &   d_{1,n+1} \\
+                c_{2,1} &   c_{2,2} &   \dots   &   c_{2,n} \\
+                d_{2,1} &   d_{2,2} &   \dots   &   d_{2,n} \\
+                c_{3,1} &   c_{3,2} &   \dots   &   c_{2,n-1} \\
+                d_{3,1} &   d_{3,2} &   \dots   &   d_{2,n-1} \\
+                \vdots  &   \vdots  &   \vdots  &   \vdots\\
+                c_{n+1, 1}  & & &\\
+                d_{n+1, 1}  & & &
+            \end{array}
+            \right\},
+        \end{equation}
+        gdzie:
+        \begin{itemize}
+            \item $c_{1,j+1} = a_{n-j}$, $d_{1,j+1} = a_{j}$, dla $j=0, 1, \dots, n$,
+            \item 
+            $
+                c_{ij}
+                =
+                \begin{vmatrix}
+                \begin{array}{cc}
+                    c_{i-1,1}   &   c_{i-1,j+1}\\
+                    d_{i-1,1}   &   d_{i-1,j+1}
+                \end{array}
+                \end{vmatrix}
+            $, dla $i = 1, \dots, n$, $j = 0, \dots, n-1$,
+            \item $d_{ij} = c_{n-i,j+i-3}$.
+        \end{itemize}
+
+        Wówczas:
+        \begin{enumerate}
+            \item Wielomian (\ref{eq:wielomian}) jest stabilny asymptotycznie wtedy i tylko wtedy, gdy elementy $d_{i,1}$ pierwszej kolumny tablicy (\ref{eq:kryterium_tablica}) spełniają warunki:
+            $$
+                d_{2, 1} > 0, d_{i,1} < 0,\, \text{dla}\,i = 3, \dots, n+1.
+            $$
+
+            \item Jeżeli $d_{i,1} \neq 0$ dla $i=1, \dots, n+1$ to wielomian (\ref{eq:wielomian}) ma $k$ pierwiastków wewnątrz koła jednostkowego i $n-k$ poza kołem jednostkowym, przy czym $k$ jest liczbą ujemnych iloczynów ciągu:
+            $$
+                d_{k} = (-1)^{k} \cdot d_{2,1} \cdot d_{3,1} \cdot \dots \cdot d_{k+1, 1}, \, \text{dla}\, k = 1, 2, \dots, n.
+            $$
+        \end{enumerate}
+
+    %======================================================
+    \subsection{Kryteria niestabilności}
+    Mówimy, że wielomian dyskretny
+    $$
+        w(z) = a_{n}z^n + a_{n-1}z^{n-1} + \dots + a_{1}z + a_{0}
+    $$
+    jest niestabilny gdy jego pierwiastki leżą poza kołem jednostkowym.
+    Do stwierdzenia czy jego pierwiastki spełniają ten warunek bez ich bezpośredniego wyznaczania można użyć np. jednego z poniższych kryteriów.
+
+        %--------------------------------------------------
+        \subsubsection{Kryterium niestabilności I}
+        Wielomian (\ref{eq:wielomian}) jest niestabilny jeżeli zachodzi warunek:
+        $$
+            w(1) = \sum_{k=0}^{n}{a_{k}}
+            \left\{
+            \begin{array}{ccl}
+                > 0 & \text{dla}    &   a_{n} > 0\\
+                < 0 & \text{dla}    &   a_{n} < 0
+            \end{array}
+            \right\},
+        $$
+        lub
+        $$
+            (-1)^{n}w(-1) =
+            \left\{
+            \begin{array}{ccl}
+                > 0 & \text{dla}    &   a_{n} > 0\\
+                < 0 & \text{dla}    &   a_{n} < 0
+            \end{array}
+            \right\}.
+        $$
+
+        %--------------------------------------------------
+        \subsubsection{Kryterium niestabilności II}
+        Liniowy układ dyskretny opisany równaniem
+        $$
+            x_{k+1} = Ax_{k},
+        $$
+        gdzie:
+        \begin{itemize}
+            \item $A
+            =
+            \begin{bmatrix}
+            \begin{array}{cccc}
+                a_{11}  &   a_{12}  &   \dots   &   a_{1n}\\
+                a_{21}  &   a_{22}  &   \dots   &   a_{2n}\\
+                \vdots  &   \dots   &   \dots   &   \vdots\\
+                a_{n1}  &   a_{n2}  &   \dots   &   a_{nn}
+            \end{array}
+            \end{bmatrix}
+            \in \mathbb{R}^{n \times n},
+            $
+            \item $x_{i} \in \mathbb{R}^{n}$.
+        \end{itemize}
+        jest niestabilny asymptotycznie, jeżeli:
+        $$
+            \sum_{i=1}^{n}{|a_{ii}|} \geq n
+        $$
+
+    %======================================================
+    \subsection{Dobór okresu próbkowania}
+    Podstawowym twierdzeniem dotyczącym doboru okresu próbkowania/dyskretyzacji jest tzw. twierdzenie Shannona.
+    Mówi ono nam, że aby sygnał ciągły mógł być jednoznacznie odtworzony z dyskretnych próbek, musi być on próbkowany z częstotliwością $f_{p}$ co najmniej dwa razy większą niż maksymalna częstotliwość widma sygnału $f_{g}$, zatem:
+    $$
+        f_{p} > 2f_{g}.
+    $$
+    W przypadku układów sterowania, gdzie nie mamy z góry zadanego sygnału wyjściowego, zatem i jego częstotliwości, to graniczna wartość częstotliwości może być wyznaczona jako częstotliwość odcięcia (czyli częstotliwość, dla której tłumienie staje się większe od 3 dB), odczytana z charakterystyki Bodego obiektu sterowania.
+
+    Nie bez znaczenia w przypadku sterowania cyfrowego jest też minimalny czas konieczny na realizację sterowania.
+    Czyli czas wykonywania pomiaru, przesłania z czujnika do układu mikroprocesorowego, czas wyznaczenia sterowania oraz czas konieczny na przesłanie sygnału sterującego do elementu wykonawczego.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Przykłady}
+    %======================================================
+    \subsection{Przykład 1}
+    Rozważamy układ o transmitancji:
+    $$
+        G(s) = \frac{s+1}{s^2 + s+ 1}.
+    $$
+    Sprawdźmy realizację różnych metod dyskretyzacji dostępnych w MATLABie na podstawie odpowiedzi skokowej układu po dyskretyzacji.
+    Wyniki przedstawiono na rysunku (\ref{fig:przyklad_1}).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.75\linewidth]{fig/06_uklady_dyskretne/przyklad_1.png}
+        \caption{Realizacja różnych metod dyskretyzacji.}
+        \label{fig:przyklad_1}
+    \end{figure}
+    
+    %======================================================
+    \subsection{Przykład 2}
+    Rozważmy ciągły układ liniowy:
+    $$
+        \left\{
+        \begin{array}{l}
+
+            \dot{x}
+            =
+            \begin{bmatrix}
+            \begin{array}{rr}
+                -1 & 5\\
+                0 & -2
+            \end{array}                
+            \end{bmatrix}
+            x
+            +
+            \begin{bmatrix}
+            \begin{array}{c}
+                0\\
+                1
+            \end{array}                
+            \end{bmatrix}
+            u
+            \\
+
+            \\
+
+            y
+            =
+            \begin{bmatrix}
+            \begin{array}{cc}
+                1 & 0
+            \end{array}                
+            \end{bmatrix}
+            x
+            
+        \end{array}
+        \right\},
+    $$
+    Z regulatorem liniowym:
+    $$
+        u = Ky.
+    $$
+    Można zauważyć, np. korzystając z kryterium Nyquista, że układ ten będzie stabilizowany, dla każdego $K>0$, dla ustalenia uwagi przyjmijmy $K=5$.
+
+    Załóżmy, że czas próbkowania w układzie sterowania cyfrowego wynosi $T=0.1$, wówczas macierze układu zdyskretyzowanego mają postać:
+    \begin{itemize}
+        \item $A_{D}
+        =
+        \left[\begin{array}{cc} {\mathrm{e}}^{-T} & 5\,{\mathrm{e}}^{-T}-5\,{\mathrm{e}}^{-2\,T}\\ 0 & {\mathrm{e}}^{-2\,T} \end{array}\right]|_{T=0.1}
+        =
+        \left[\begin{array}{cc} 0.9048 & 0.4305\\ 0 & 0.8187 \end{array}\right]
+        $,
+        \item $B_{D}
+        =
+        \left[\begin{array}{c} \frac{5\,{\mathrm{e}}^{-2\,T}}{2}-5\,{\mathrm{e}}^{-T}+\frac{5}{2}\\ \frac{1}{2}-\frac{{\mathrm{e}}^{-2\,T}}{2} \end{array}\right]|_{T=0.1}
+        =
+        \left[\begin{array}{c} 0.0226\\ 0.0906 \end{array}\right]
+        $,
+        \item $C_{D} = \begin{bmatrix}
+            \begin{array}{cc}
+                1 & 0
+            \end{array}                
+            \end{bmatrix}$,
+        \item $D_{D} = 0$.
+    \end{itemize}
+
+    Budujemy model symulacyjny, w którym jednocześnie wykonamy symulację układu ciągłego i dyskretnego:
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{fig/06_uklady_dyskretne/Screenshot from 2024-05-12 15-53-29.png}
+        \caption{Model symulacyjny dla przykładu 2.}
+        \label{fig:enter-label}
+    \end{figure}
+
+    Wyniki symulacji przedstawiono na rysunku(\ref{fig:wyjscie_przyklad_2}).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{fig/06_uklady_dyskretne/przyklad_2_dyskretne.png}
+        \caption{Wyjście układu sterowania z czasem ciągłym i dyskretnym dla przykładu 2.}
+        \label{fig:wyjscie_przyklad_2}
+    \end{figure}
+    Na wykresie tym widać znaczące rozbieżności między przebiegiem układu z czasem ciągłym i dyskretnym.
+    Wynikają one z dyskretyzacji i faktu, że sterowanie podawane jako stała wartość na przedziale inaczej wpływa na układ.
+    Ogólnie można zauważyć, iż wraz ze wzrostem czasu dyskretyzacji różnice te będą się powiększać.
+    A przy odpowiednio dużym okresie dyskretyzacji może powodować destabilizację układu starowania, co pokazano na rysunku (\ref{fig:wyjscie_przyklad_2_2}).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{fig/06_uklady_dyskretne/przyklad_2_dyskretne_2.png}
+        \caption{Wyjście układu sterowania z czasem ciągłym i dyskretnym, z różnymi okresami dyskretyzacji, dla przykładu 2.}
+        \label{fig:wyjscie_przyklad_2_2}
+    \end{figure}
+    
+
+    %======================================================
+    \subsection{Przykład 3}
+    Rozważmy ciągły układ liniowy:
+    $$
+        \left\{
+        \begin{array}{l}
+
+            \dot{x}
+            =
+            \begin{bmatrix}
+            \begin{array}{rr}
+                -1 & 5\\
+                0 & -2
+            \end{array}                
+            \end{bmatrix}
+            x
+            +
+            \begin{bmatrix}
+            \begin{array}{c}
+                0\\
+                1
+            \end{array}                
+            \end{bmatrix}
+            u
+            \\
+
+            \\
+
+            y
+            =
+            \begin{bmatrix}
+            \begin{array}{cc}
+                1 & 0
+            \end{array}                
+            \end{bmatrix}
+            x
+            
+        \end{array}
+        \right\},
+    $$
+    Z regulatorem liniowym:
+    $$
+        u = Ky.
+    $$
+    Czyli ten sam układ co poprzednio, jednak tym razem regulator nie będzie projektowany dla układu ciągłego lecz dla układu po dyskretyzacji.
+    Oznacz to, że będziemy poszukiwać $K$ zapewniającego, iż wartości własne macierzy
+    $$
+        A_{z} = A_{D} - B_{D}KC_{D} = 
+        \left[\begin{array}{cc} {\mathrm{e}}^{-T}-\mathrm{K}\,\left(\frac{5\,{\mathrm{e}}^{-2\,T}}{2}-5\,{\mathrm{e}}^{-T}+\frac{5}{2}\right) & 5\,{\mathrm{e}}^{-T}-5\,{\mathrm{e}}^{-2\,T}\\ +\mathrm{K}\,\left(\frac{{\mathrm{e}}^{-2\,T}}{2}-\frac{1}{2}\right) & {\mathrm{e}}^{-2\,T} \end{array}\right].
+    $$
+    będą leżeć wewnątrz koła jednostkowego.
+
+    Wielomian charakterystyczny układu zamkniętego ma postać:
+    $$
+        w(z) = z^2+\left(-\frac{{\mathrm{e}}^{-3\,T}\,\left(2\,{\mathrm{e}}^{2\,T}+2\,{\mathrm{e}}^T+5\,\mathrm{K}\,{\mathrm{e}}^T-10\,\mathrm{K}\,{\mathrm{e}}^{2\,T}+5\,\mathrm{K}\,{\mathrm{e}}^{3\,T}\right)}{2}\right)\,z-\frac{{\mathrm{e}}^{-3\,T}\,\left(5\,\mathrm{K}-10\,\mathrm{K}\,{\mathrm{e}}^T+5\,\mathrm{K}\,{\mathrm{e}}^{2\,T}-2\right)}{2}.
+    $$
+    Do znalezienia zakresu $K$ stabilizującego układ zamknięty możemy wykorzystać pierwsze z podanych kryteriów, zatem wyznaczamy:
+    \begin{itemize}
+        \item $
+        S_{1}
+        =
+        \left[\begin{array}{cc} 1 & -\frac{{\mathrm{e}}^{-3\,T}\,\left(2\,{\mathrm{e}}^{2\,T}+2\,{\mathrm{e}}^T+5\,\mathrm{K}\,{\mathrm{e}}^T-10\,\mathrm{K}\,{\mathrm{e}}^{2\,T}+5\,\mathrm{K}\,{\mathrm{e}}^{3\,T}\right)}{2}\\ 0 & 1 \end{array}\right],
+        $
+        \item $
+        S_{2}
+        =
+        \left[\begin{array}{cc} -\frac{{\mathrm{e}}^{-3\,T}\,\left(5\,\mathrm{K}-10\,\mathrm{K}\,{\mathrm{e}}^T+5\,\mathrm{K}\,{\mathrm{e}}^{2\,T}-2\right)}{2} & -\frac{{\mathrm{e}}^{-3\,T}\,\left(2\,{\mathrm{e}}^{2\,T}+2\,{\mathrm{e}}^T+5\,\mathrm{K}\,{\mathrm{e}}^T-10\,\mathrm{K}\,{\mathrm{e}}^{2\,T}+5\,\mathrm{K}\,{\mathrm{e}}^{3\,T}\right)}{2}\\ 0 & -\frac{{\mathrm{e}}^{-3\,T}\,\left(5\,\mathrm{K}-10\,\mathrm{K}\,{\mathrm{e}}^T+5\,\mathrm{K}\,{\mathrm{e}}^{2\,T}-2\right)}{2} \end{array}\right],
+        $
+        \item $
+        P = S_{1}^{T}S_{1} - S_{2}^{T}S_{2}
+        $
+        %\left[\begin{array}{cc} 1-\frac{{\mathrm{e}}^{-6\,T}\,{\left(5\,\mathrm{K}-10\,\mathrm{K}\,{\mathrm{e}}^T+5\,\mathrm{K}\,{\mathrm{e}}^{2\,T}-2\right)}^2}{4} & -\frac{{\mathrm{e}}^{-3\,T}\,\left(2\,{\mathrm{e}}^{2\,T}+2\,{\mathrm{e}}^T+5\,\mathrm{K}\,{\mathrm{e}}^T-10\,\mathrm{K}\,{\mathrm{e}}^{2\,T}+5\,\mathrm{K}\,{\mathrm{e}}^{3\,T}\right)}{2}-\frac{{\mathrm{e}}^{-6\,T}\,\left(5\,\mathrm{K}-10\,\mathrm{K}\,{\mathrm{e}}^T+5\,\mathrm{K}\,{\mathrm{e}}^{2\,T}-2\right)\,\left(2\,{\mathrm{e}}^{2\,T}+2\,{\mathrm{e}}^T+5\,\mathrm{K}\,{\mathrm{e}}^T-10\,\mathrm{K}\,{\mathrm{e}}^{2\,T}+5\,\mathrm{K}\,{\mathrm{e}}^{3\,T}\right)}{4}\\ -\frac{{\mathrm{e}}^{-3\,T}\,\left(2\,{\mathrm{e}}^{2\,T}+2\,{\mathrm{e}}^T+5\,\mathrm{K}\,{\mathrm{e}}^T-10\,\mathrm{K}\,{\mathrm{e}}^{2\,T}+5\,\mathrm{K}\,{\mathrm{e}}^{3\,T}\right)}{2}-\frac{{\mathrm{e}}^{-6\,T}\,\left(5\,\mathrm{K}-10\,\mathrm{K}\,{\mathrm{e}}^T+5\,\mathrm{K}\,{\mathrm{e}}^{2\,T}-2\right)\,\left(2\,{\mathrm{e}}^{2\,T}+2\,{\mathrm{e}}^T+5\,\mathrm{K}\,{\mathrm{e}}^T-10\,\mathrm{K}\,{\mathrm{e}}^{2\,T}+5\,\mathrm{K}\,{\mathrm{e}}^{3\,T}\right)}{4} & 1-\frac{{\mathrm{e}}^{-6\,T}\,{\left(5\,\mathrm{K}-10\,\mathrm{K}\,{\mathrm{e}}^T+5\,\mathrm{K}\,{\mathrm{e}}^{2\,T}-2\right)}^2}{4} \end{array}\right].
+    \end{itemize}
+    Niestety warunki staja się skomplikowane i trudno wyznaczyć ogólny warunek na $K$ w zależności od czasu dyskretyzacji $T$.
+    Dlatego skupimy się na konkretnym czasie $T=0.5$, który destabilizował układ regulacji przy $K$ dobranym dla układu z czasem ciągłym.
+    Wówczas mamy:
+    $$
+        A_z = 
+        \begin{bmatrix}
+            \begin{array}{rr}
+                0.3870\cdot K + 0.6065 & 1.1933\\
+                0.3161\cdot K & 0.3679
+            \end{array}                
+            \end{bmatrix}
+    $$
+    Na tej podstawie otrzymujemy warunek $K<3.3093$, a przykładowe przebiegi pokazano na rysunku.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{fig/06_uklady_dyskretne/przyklad_3_dyskretne.png}
+        \caption{Przykładowe przebiegi dla układu z przykładu 3.}
+        \label{fig:enter-label}
+    \end{figure}
+
+    %======================================================
+    \subsection{Przykład 4}
+    Rozważmy układ liniowy:
+    $$
+        x_{k+1}
+        = Ax_{k} =
+        \begin{bmatrix}
+        \begin{array}{ccc}
+            0   &   1   &   0\\
+            0   &   0   &   1\\
+            -0.3&   -0.6&   -3.2
+        \end{array}
+        \end{bmatrix}
+        x_{k}.
+    $$
+    Sprawdzić czy układ jest niestabilny?
+    \begin{enumerate}
+        \item \textbf{Kryterium I}: wielomian charakterystyczny ma postać:
+        $$
+            w(z) = det(Iz - A)
+            =
+            \begin{vmatrix}
+            \begin{array}{ccc}
+                z   &   1   &   0\\
+                0   &   z   &   1\\
+                0.3 &   0.6 &   z+3.2
+            \end{array}
+            \end{vmatrix}
+            =
+            z^{3} + 3.2z^{2} + 0.6z + 0.3
+        $$.
+        Zgodnie z kryterium sprawdzamy:
+        $$
+            w(1) = 5.1 > 0,
+        $$
+        zatem ponieważ $a_{n} > 0$, to układ jest niestabilny.
+
+        \item \textbf{Kryterium II}: zgodnie z kryterium sprawdzamy odpowiednią sumę:
+        $$
+            \sum_{i=1}^{3}{|a_{ii}|} = 3.2 > 3,
+        $$
+        zatem również na podstawie tego kryterium stwierdzamy niestabilność.
+    \end{enumerate}
+
+    %======================================================
+    \subsection{Przykład 5}
+    Wyznaczyć liczbę pierwiastków znajdujących się wewnątrz koła jednostkowego wielomianu
+    $$
+        w(z) = z^{3} - z^{2} + 2z + 3.
+    $$
+
+    Zgodnie z \textbf{kryterium stabilności I} wyznaczamy macierze:
+    \begin{itemize}
+        \item
+        $
+        S_{1}
+        =
+        \begin{bmatrix}
+        \begin{array}{crr}
+            1   &   -1  &   2\\
+            0   &   1   &   -1\\
+            0   &   0   &   1
+        \end{array}
+        \end{bmatrix},
+        $
+
+        \item
+        $
+        S_{2}
+        =
+        \begin{bmatrix}
+        \begin{array}{ccr}
+            3   &   2   &   -1\\
+            0   &   3   &   2\\
+            0   &   0   &   3
+        \end{array}
+        \end{bmatrix},
+        $
+
+        \item 
+        $
+        P = S_{1}^{T}S_{1} - S_{2}^{T}S_{2}
+        =
+        \begin{bmatrix}
+        \begin{array}{rrr}
+            -8  &   -7   &   5\\
+            -7  &   -11  &   -7\\
+            5   &   -7   &   -8
+        \end{array}
+        \end{bmatrix}.
+        $
+    \end{itemize}
+    Minory główne macierzy $P$ wynoszą:
+    \begin{itemize}
+        \item $P_{1} = -8$,
+        \item $P_{2} = 39$,
+        \item $P_{3} = 845$.
+    \end{itemize}
+    Zatem ciąg $1, P_{1}, P_{2}, P_{3}$ ma dwie zmiany znaku, a z tego wynika, że liczba pierwiastków wewnątrz koła jednostkowego wynosi:
+    $$
+        k = n - V(1, -8, 39, 845) = 1.
+    $$
+
+    %======================================================
+    %\subsection{Przykład 5}
+   
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Jak to zrobić w MATLABie?}
+    %======================================================
+    \subsection{Dyskretyzacja systemu liniowego}
+    Control System Toolbox MATLABa posiada funkcję \texttt{c2d}, która służy do przejścia z modelu czasem ciągłym na model z czasem dyskretnym z zadanym czasem dyskretyzacji i podaną metodą.
+    Funkcja ta działa z modelem ciągłym podanym w  postaci równań stanu jak i transmitancji.
+    \begin{lstlisting}[style=Matlab-editor]
+        %% Systenm ciagly
+        % Ddefinicja rownan stanu systemu liniowego
+        A = [-1 2; 0.1 -1];
+        B = [0;1];
+        C = [1, 0];
+        D = 0;
+        ct_ss = ss(A, B, C, D);
+        % Wyznaczenie transmitancji
+        [num, den] = ss2tf(A, B, C, D);
+        ct_tf = tf(num, den);
+        
+        %% Dyskretyzacja
+        T = 1;
+        dt_ss = c2d(ct_ss, T, 'zoh');
+        dt_tf = c2d(ct_tf, T, 'tustin');
+    \end{lstlisting}
+
+    Funkcja ta obsługuje następujące metody dyskretyzacji:
+    \begin{itemize}
+        \item \texttt{zoh},
+        \item \texttt{foh},
+        \item \texttt{impulse},
+        \item \texttt{tustin},
+        \item \texttt{matched},
+        \item \texttt{least-squares},
+        \item \texttt{damped}.
+    \end{itemize}
+
+    %======================================================
+    \subsection{Analityczne wyznaczenie macierzy układu dyskretnego}
+    Funkcja \texttt{c2d} wyznacza numeryczne wartości układu dyskretnego.
+    Wartości symboliczne dla równania (\ref{eq:rownanie_roznicowe}) można wyznaczać w następujący sposób:
+    \begin{lstlisting}[style=Matlab-editor]
+        A = [-1 1; 0 -1];
+        B = [0;1];
+        C = [1, 0];
+        D = 0;
+        
+        [P,J] = jordan(A);
+        syms T
+        
+        Ad = P * expm(J*T) * inv(P);
+        Bd = inv(A) * (expm(A*T) - eye(size(A))) * B;
+        Cd = C;
+        Dd = D;
+    \end{lstlisting}
+
+    %======================================================
+    \subsection{Łączenie czasu dyskretnego i ciągłego w jednej symulacji}
+    W przypadku gdy chcemy w jednym modelu Simulinka połączyć symulację działania obiektu ciągłego wraz z naszym projektowanym regulatorem realizowanym cyfrowo działającym z czasem dyskretnym możemy stosować 2 bloki:
+    \begin{itemize}
+        \item ZOH - ekstrapolator zerowego rzędu, wówczas "obudowując" model takimi blokami zapewniamy, że symulacja modelu będzie wykonywana w czasie ciągłym, natomiast na zewnątrz czas może być dyskretny,
+        \item Rate-Transition - blok ten pozwala ustalać czasy symulacji z jakimi będą wykonywane otoczone nim elementy modelu, jest to bardziej ogólna metoda niż ZOH, pozwala na ustawianie wielu różnych bloków czasowych w modelu.
+    \end{itemize}
+    Przykład użycia tych bloków pokazano na rysunku (\ref{fig:zoh_rt}).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.75\linewidth]{fig/06_uklady_dyskretne/simulink_model.png}
+        \caption{Zastosowanie bloków ZOH i Rate-Transition w modelu Simulinka}
+        \label{fig:zoh_rt}
+    \end{figure}
+        
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Przebieg ćwiczenia}
+W trakcie realizacji ćwiczeń należy dla każdego z przykładów:
+\begin{itemize}
+    \item wyznaczyć regulator proporcjonalny stabilizujący układ po zamknięciu pętli sprzężenia zwrotnego,
+    \item wyznaczyć maksymalny okres dyskretyzacji wynikający z charakterystyki częstotliwościowej,
+    \item zamodelować układ w Simulinku - użyć modelu ciągłego i "obudować" go blokami ZOH,
+    \item wyznaczyć odpowiedź na wymuszenie skokowe układu ciągłego i dyskretnego - wyznaczyć analitycznie lub symulacyjnie maksymalny okres próbkowania, dla którego regulator wyznaczony dla układu ciągłego zapewni stabilność przy sterowaniu dyskretnym,
+    \item dokonać dyskretyzacji układu ciągłego - metodą z punktu 2.1.2 dla układu danego w postaci równań stanu, metodą Tustina dla układów danych w postaci transmitancji,
+    \item wyznaczyć dyskretny regulator proporcjonalny stabilizujący układ sterowania,
+    \item wyznaczyć odpowiedź na wymuszenie skokowe układu ciągłego i dyskretnego,
+    \item wyznaczyć model dyskretne dla różnych metod dyskretyzacji dostępnych w metodzie \texttt{c2d}, porównać odpowiedzi na skok jednostkowy układu ciągłego i układów dyskretnych, porównać zakres $K$ stabilizujących dla różnych metod dyskretyzacji.
+\end{itemize}
+    %======================================================
+    \subsection{System 1}
+    $$
+        \dot{x}
+        =
+        \begin{bmatrix}
+        \begin{array}{rr}
+            -1 & 1\\
+            0 & -1
+        \end{array}                
+        \end{bmatrix}
+        x
+        +
+        \begin{bmatrix}
+        \begin{array}{c}
+            0\\
+            1
+        \end{array}                
+        \end{bmatrix}
+        u
+    $$
+    $$
+        y
+        =
+        \begin{bmatrix}
+        \begin{array}{cc}
+            1 & 0
+        \end{array}                
+        \end{bmatrix}
+        x
+    $$
+
+    %======================================================
+    \subsection{System 2}
+    $$
+        \dot{x}
+        =
+        \begin{bmatrix}
+        \begin{array}{rr}
+            -1 & 1\\
+            0 & 1
+        \end{array}                
+        \end{bmatrix}
+        x
+        +
+        \begin{bmatrix}
+        \begin{array}{c}
+            0\\
+            1
+        \end{array}                
+        \end{bmatrix}
+        u
+    $$
+    $$
+        y
+        =
+        \begin{bmatrix}
+        \begin{array}{cc}
+            1 & 0
+        \end{array}                
+        \end{bmatrix}
+        x
+    $$
+
+    %======================================================
+    \subsection{System 3}
+    $$
+        G(s) = \frac{1}{s+1}
+    $$
+
+    %======================================================
+    \subsection{System 3}
+    $$
+        G(s) = \frac{1}{s(s^2+s+1)}
+    $$
+   
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\begin{thebibliography}{9}
+
+\bibitem{Mitkowski2007}
+  Mitkowski, W., Baranowski, J., Hajduk, K., Korytowski, A., Tutaj, A.,
+  \emph{Teoria Sterowania: Materiały Pomocnicze do Ćwiczeń Laboratoryjnych},
+  AGH Uczelniane wydawnictwo Naukowo-Dydaktyczne,
+  2007.
+
+\bibitem{Amborski1978}
+  Amborski, K., Marusak, A.,
+  \emph{Teoria Sterowania w Ćwiczeniach},
+  Państwowe Wydawnictwo Naukowe,
+  1978.
+
+\bibitem{Gessing1981}
+  Gessing, R., Latarnik, M., Skrzywan-Kossek, A.,
+  \emph{Zbiór Zadań z Teorii Nieliniowych Układów Regulacji i Sterowania},
+  Wydawnictwo Naukowo-Techniczne,
+  1981.
+
+\bibitem{Gibson1968}
+  Gibson, J. E.,
+  \emph{Nieliniowe Układy Sterowania Automatycznego},
+  Wydawnictwo Naukowo-Techniczne,
+  1968.
+
+\bibitem{Grabowski1999}
+  Grabowski P.,
+  \emph{Stabilność Układów Lurie},
+  AGH Uczelniane Wydawnictwo Naukowo-Dydaktyczne,
+  1999.
+
+  \bibitem{Byrski2007}
+  Byrski W.,
+  \emph{Obserwacja i sterowanie w systemach dynamicznych},
+  Wydawnictwo Naukowo-Dydaktyczne AGH,
+  2007.
+
+  \bibitem{Kaczorek1993}
+  Kaczorek T.,
+  \emph{Teoria sterowania i systemów},
+  Państwowe Wydawnictwo Naukowe,
+  1993.
+
+\end{thebibliography}
+
+\end{document}
