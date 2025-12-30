@@ -10,6 +10,7 @@
 \usepackage{float}
 \usepackage[shortlabels]{enumitem}
 \usepackage{matlab-prettifier}
+\usepackage{tcolorbox}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 
@@ -200,9 +201,10 @@ Jeżeli istnieje funkcja $V: D \rightarrow \mathbb{R}$, która jest:
 to punkt równowagi $x_{e} = 0$ układu (\ref{eq:sys_stac}) jest stabilny.
 A jeśli pochodna systemowa jest ujemnie określona w $D$, to punkt równowagi $x_{e} = 0$ układu (\ref{eq:sys_stac}) jest asymptotycznie stabilny.
 
-
+\begin{tcolorbox}[colback=blue!5, colframe=blue!75!black, title=Ważne]
 Twierdzenie Lapunowa dostarcza warunek konieczny i wystarczający stabilności punktu równowagi, jednak nie dostarcza żadnej informacji o tym, jak odnaleźć funkcję $V(x)$. Odnalezienie tej funkcji jest zasadniczą trudnością w badaniu stabilności.
 W punkcie \ref{sec:dobor_funkcji} podano kilka metod poszukiwania funkcji Lapunowa.
+\end{tcolorbox}
 
 \textbf{\textit{Dowód:}}
 \textit{Stabilność:}

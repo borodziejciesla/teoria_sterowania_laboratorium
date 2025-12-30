@@ -1,18 +1,21 @@
 #!/bin/bash
 
-# Nazwa folderu na pliki tymczasowe
+# Nazwa folderu wynikowego
 OUT_DIR="build"
 
-# Tworzenie folderu, jeśli nie istnieje
+# Tworzy folder, jeśli nie istnieje
 mkdir -p "$OUT_DIR"
 
-echo "Kompilacja plików .tex do folderu $OUT_DIR..."
+echo "Kompilacja plików .tex..."
 
-# -pdf: generuje PDF
-# -outdir: wskazuje folder na pliki wynikowe i tymczasowe
+# -pdf: wymusza PDF
+# -outdir: kieruje WSZYSTKO (pdf + tymczasowe) do folderu build
+# -interaction=nonstopmode: nie przerywa pracy przy błędach
+latexmk -pdf -interaction=nonstopmode -outdir="$OUT_DIR" *.tex
+latexmk -pdf -interaction=nonstopmode -outdir="$OUT_DIR" *.tex
 latexmk -pdf -interaction=nonstopmode -outdir="$OUT_DIR" *.tex
 
-# Opcjonalnie: Kopiowanie gotowych PDF-ów z powrotem do głównego folderu
-cp "$OUT_DIR"/*.pdf . 2>/dev/null
+# Jeśli chcesz usunąć pliki tymczasowe z folderu build (zostawiając tylko PDF):
+# latexmk -c -outdir="$OUT_DIR"
 
-echo "Gotowe! Pliki PDF znajdziesz w folderze głównym oraz w '$OUT_DIR'."
+echo "Zakończono. Wszystkie pliki znajdziesz w folderze: $OUT_DIR"
