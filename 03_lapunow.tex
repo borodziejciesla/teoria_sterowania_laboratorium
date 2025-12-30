@@ -71,12 +71,13 @@ $$
 $$
 dla pewnego $T>0$ i każdego $t>t_{0}$, to nazywamy je cyklem granicznym. Trajektoria w przestrzeni stanów, odpowiadająca cyklowi granicznemu, ma postać zamkniętej krzywej.
 
+\begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
 Przykładem cyklu granicznego jest tak zwany oscylator Van der Pola:
 \begin{equation}\label{eq:van_der_pol}
     \left\{
     \begin{array}{l}
          \dot{x}_{1} = x_{2}\\
-         \dot{x}_{2} = -x_{1} + (1-x_{1]})x_{2} 
+         \dot{x}_{2} = -x_{1} + (1-x_{1})x_{2} 
     \end{array}
     \right\}.
 \end{equation}
@@ -87,7 +88,13 @@ Na rysunku (\ref{fig:van_der_pol}) przedstawiono portret tego układu, gdzie wyr
     \caption{Portret fazowy dla oscylatora Van der Pola (równanie \ref{eq:van_der_pol}).}
     \label{fig:van_der_pol}
 \end{figure}
-Niekoniecznie musi być tylko jeden cykl graniczny, może być ich dowolna ilość, nawet nieskończenie wiele, jak w układzie (\ref{eq:cykle_graniczne}):
+\end{tcolorbox}
+
+Liczba cykli granicznych nie musi być ograniczona tylko do jednego' lub nawet
+skończonej liczby - może być ich dowolna ilość, nawet nieskończenie wiele.
+
+\begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
+Rozważmy układ (\ref{eq:cykle_graniczne}):
 \begin{equation}\label{eq:cykle_graniczne}
     \left\{
     \begin{array}{l}
@@ -111,6 +118,7 @@ Portret fazowy tego układu pokazany jest na rysunku (\ref{fig:cykle_graniczne})
     \caption{Portret fazowy dla układu opisanego układem równań \ref{eq:cykle_graniczne}.}
     \label{fig:cykle_graniczne}
 \end{figure}
+\end{tcolorbox}
 
 \textbf{Definicja 4}
 Punkt równowagi $x_{e}$  układu (\ref{eq:sys}) nazywamy stabilnym w sensie Lapunowa, jeśli dla dowolnych $t_{0} > 0$, $\epsilon > 0$ istnieje liczba $\delta_{\epsilon} > 0$ (może zależeć od $t_{0}$ i $\epsilon$) taka, że:
@@ -159,7 +167,7 @@ Funkcja $V: D \rightarrow \mathbb{R}$ jest nazywana:
     \item ujemnie określoną (półokreśloną), jeśli $-V(x)$ jest dodatnio określona (półokreślona).
 \end{itemize}
 
-\textbf{Przykład}
+\begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
 Rozważmy układ opisany układem równań (\ref{eq:przyklad_zbiezny_niestabilny}).
 \begin{equation}
     \label{eq:przyklad_zbiezny_niestabilny}
@@ -178,6 +186,7 @@ Kilka jego przykładowych trajektorii okazano na rysunku (\ref{fig:enter-label})
     \caption{Przykładowe trajektorie dla układu (\ref{eq:przyklad_zbiezny_niestabilny}).}
     \label{fig:enter-label}
 \end{figure}
+\end{tcolorbox}
 
 Dalsze definicje i twierdzenia odnoszą się do systemów stacjonarnych:
 \begin{equation}\label{eq:sys_stac}
@@ -209,7 +218,7 @@ W punkcie \ref{sec:dobor_funkcji} podano kilka metod poszukiwania funkcji Lapuno
 \textbf{\textit{Dowód:}}
 \textit{Stabilność:}
 Zgodnie z \textit{definicją 4 }weźmy liczbę $\epsilon > 0$.
-Załóżmy, że kula o promieniu $\epsilon$ zawiera się w zbiorze $D$:
+Załóżmy, że kula o promieniu $\epsilon$ zawiera się w~zbiorze $D$:
 $$
     K_{\epsilon} = \left\{ x\in \mathbb{R}^{n}: \lVert x \rVert \leq \epsilon \right\} \subset D.
 $$
@@ -278,12 +287,13 @@ Funkcja $V:D\rightarrow\mathbb{R}$ spełniająca założenia twierdzenia Lapunow
 \textbf{Twierdzenie 2 (Lapunowa o niestabilności)}
 Jeżeli istnieje funkcja $V:D\rightarrow \mathbb{R}$ różniczkowalna w sposób ciągły, dodatnio określona w pewnym otoczeniu punktu równowagi $x_{e} = 0$ i taka, że jej pochodna systemowa $\dot{V}:D\rightarrow\mathbb{R}$ jest dodatnio określona w pewnym zbiorze $G = \left\{ x \in K_{\epsilon} : V(x) > 0 \right\}$, gdzie $K_{\epsilon} = \left\{ x \in \mathbb{R}^{n}: \lVert x \rVert \leq \epsilon \right\} \subset D$, to punkt równowagi $x_{e} = 0$ jest niestabilny.
 
+\begin{tcolorbox}[colback=blue!5, colframe=blue!75!black, title=Ważne]
 \textbf{Funkcje Lapunowa dla układów liniowych}
 W przypadku układów liniowych, które mają ściśle określoną strukturę:
 \begin{equation}\label{eq:sys_lin}
     \dot{x} = Ax
 \end{equation}
-dlatego można wykazać, że jeśli istnieje dodatnio określona i symetryczna macierz $P \in \mathbb{R}^{n}$, która spełnia tzw. równanie Lapunowa:
+można wykazać, że jeśli istnieje dodatnio określona i symetryczna macierz $P \in \mathbb{R}^{n}$, która spełnia tzw. równanie Lapunowa:
 \begin{equation}\label{eq:rownanie_lapunowa}
     A^{T}P + PA = -Q
 \end{equation}
@@ -296,7 +306,9 @@ A jej pochodna systemowa ma postać:
 \begin{equation}\label{eq:lin_lap_div}
     \dot{V}(x) = \dot{x}^{T}Px + xP\dot{x} = x^{T}(A^{T}P + PA)x = -x^{T}Qx
 \end{equation}
-Jest to równoważne z położeniem widma macierzy $A$ w lewej półpłaszczyźnie zespolonej.
+Jest to równoważne z położeniem widma macierzy $A$ w lewej półpłaszczyźnie
+zespolonej.
+\end{tcolorbox}
 
 \textbf{Twierdzenie 3 (pośrednia metoda Lapunowa)}
 Jeżeli badany układ \ref{eq:sys_stac} jest tzw. systemem \textit{słabo-nieliniowym}, tzn. można go zapisać w postaci:
@@ -322,7 +334,17 @@ Wówczas stabilność punktu równowagi zależy od widma macierzy $A$ (jej warto
     \item Jeżeli wartości własne macierzy $A$ leżą w lewej półpłaszczyźnie zespolonej i choć jeden na osi urojonych, to nie można wnioskować o stabilności punktu równowagi na podstawie przybliżenia liniowego.
 \end{enumerate}
 
+\begin{tcolorbox}[colback=orange!5, colframe=orange!75!black, title=Uwaga]
+Możliwość zastosowania analizy układu zlinearyzowanego wynika z~twierdzenia
+Hartmana-Grobmana, które mówi, że w~otoczeniu punktu równowagi układ nieliniowy
+jest topologicznie równoważny z~jego przybliżeniem liniowym (możemy znaleźć lokalny
+homeomorfizm z~układu nieliniowego w~liniowy), o~ile wszystkie
+wartości własne macierzy $A$ mają część rzeczywistą różną od zera.
+Oznacza to, że w~takim przypadku zachowanie układu nieliniowego w~otoczeniu
+punktu równowagi jest podobne do zachowania układu liniowego. 
+\end{tcolorbox}
 
+\begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
 Dla \textbf{przykładu} rozpatrzmy prosty układ pierwszego rzędu:
 $$
     \dot{x} = ax + bx^3.
@@ -342,12 +364,18 @@ Mamy zatem 3 przypadki:
     \item $a=0$ - wtedy o stabilności decyduje $r(x) = bx^3$ - jeśli $b<0$ to stabilny, a jeśli $b>0$ to niestabilny.
 \end{itemize}
 Prosto jest to zweryfikować bezpośrednią metodą Lapunowa, przyjmując funkcję Lapunowa $V(x) = \frac{1}{2}x^{2}$.
+\end{tcolorbox}
 
 \textbf{Definicja 14}
-Funkcja $V:D\rightarrow\mathbb{R}$ jest nazywana radialnie nieograniczoną, jeśli $\lVert x \rVert \rightarrow \infty$ implikuje $V(x) \rightarrow \infty$
+Funkcja $V:D\rightarrow\mathbb{R}$ jest nazywana radialnie nieograniczoną, jeśli $\lVert x \rVert \rightarrow \infty$ implikuje $V(x) \rightarrow \infty$.
 
 \textbf{Twierdzenie 4 (o globalnej stabilności asymptotycznej)}
 jeśli istnieje radialnie nieograniczona, ciągle różniczkowalna, dodatnio określona w $\mathbb{R}^{n}$ funkcja $V: D \rightarrow \mathbb{R}$, taka, że jej pochodna systemowa jest ujemnie określona w $\mathbb{R}^{n}$, to punkt równowagi $x_{e} = 0$ układu (\ref{eq:sys_stac}) jest globalnie asymptotycznie stabilny.
+
+\begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
+    TODO: Przykład na to, że radialna ograniczoność jest konieczna do globalnej
+    stabilności asymptotycznej.
+\end{tcolorbox}
 
 \textbf{Twierdzenie 5 (o stabilności wykładniczej)}
 Jeżeli istnieje funkcja $V:D\rightarrow\mathbb{R}$ różniczkowalna w sposób ciągły i taka, że dla pewnych dodatnich stałych $k_{1}$, $k_{2}$, $k_{3}$, $h$ są spełnione na zbiorze $D$ warunki:
@@ -441,7 +469,8 @@ Jeżeli istnieje funkcja Lapunowa $V(x)$ oraz zachodzą warunki:
 to $G$ jest obszarem atrakcji, a trajektorie zbiegają do maksymalnego zbioru inwariantnego zawartego w $G$.
 
 
-\textbf{Intuicja}: Z twierdzenia tego wynika, iż zbiór poziomicowy funkcji Lapunowa jest zbiorem niezmienniczym.
+\begin{tcolorbox}[colback=pink!5, colframe=pink!75!black, title=Intuicja]
+Z twierdzenia tego wynika, iż zbiór poziomicowy funkcji Lapunowa jest zbiorem niezmienniczym.
 Ponieważ warunek $\dot{V}(x) = <\nabla V(x), f(x)> < 0$ oznacza, że kąt pomiędzy gradientem funkcji Lapunowa a trajektorią systemu należy do przedziału $(\frac{\pi}{2}, \frac{3\pi}{2})$, a więc są skierowane do wewnątrz zbioru.
 Jak pokazano na rysunku \ref{fig:invariant_set}.
 \begin{figure}[H]
@@ -450,8 +479,9 @@ Jak pokazano na rysunku \ref{fig:invariant_set}.
     \caption{Geometryczna interpretacja warunku na inwariantność zbioru poziomicowego.}
     \label{fig:invariant_set}
 \end{figure}
+\end{tcolorbox}
 
-\textbf{Przykład}
+\begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
 Rozważmy prosty układ pierwszego rzędu:
 $$
     \dot{x} = -x + x^3.
@@ -474,11 +504,10 @@ $$
     \dot{V}(x) = -x^{2}+x^{4} = x^{2}\left(x^{2}-1\right) \implies \dot{V}(x) \leq 0 \, dla \, x \in(-1, 1).
 $$
 Zatem $x \in(-1, 1)$ jest obszarem atrakcji stabilnego punktu równowagi.
-
-
+\end{tcolorbox}
 
 \textbf{Twierdzenie 11 (Poincare)}
-Jeżeli cykl graniczny istnieje, to musi okrążać co najmniej jeden punkt równowagi, a do tego zachodzi równość:
+Jeżeli cykl graniczny istnieje, to musi okrążać co najmniej jeden punkt równowagi, a~do tego zachodzi równość:
 \begin{equation}
     \label{eq:poincare}
     N = S + 1,
@@ -489,11 +518,12 @@ gdzie:
     \item $S$ - liczba punktów równowagi typu siodło.
 \end{itemize}
 
-\textbf{Intuicja:}
+\begin{tcolorbox}[colback=pink!5, colframe=pink!75!black, title=Intuicja]
 Każdy zamknięty kontur posiada tak zwany indeks, czyli liczbę obiegów wektora $\varphi(x_{1}, x_{2}) = \arctan{\left( \frac{\dot{x}_{1}}{\dot{x}_{2}} \right)}$.
 Można pokazać, że dla konturu otaczającego pojedynczy punkt równowagi indeks ten wynosi 1 dla punktów równowagi typu węzeł, ognisko i gwiazda, natomiast dla punktu typu siodło indeks wynosi -1.
 Dodatkowo można udowodnić, że indeks konturu w przypadku okrążania wielu punktów równowagi jest równy sumie indeksów wszystkich punktów równowagi w konturze.
 Zatem jeśli ich suma wynosi 1 ($N-S = 1$), to  można je traktować poniekąd jak pojedynczy punkt równowagi - jeśli zawiera on stabilny cykl graniczny, to wszystkie trajektorie będą do niego zmierzać - jak do stabilnego punktu równowagi.
+\end{tcolorbox}
 
 \textbf{Twierdzenie 12 (Poincare-Bendixona)}
 Jeśli trajektorie nieliniowego, stacjonarnego układu drugiego rzędu (\ref{eq:sys_stac}) pozostają w ograniczonym obszarze $\Omega$, to wówczas zachodzi jedna z możliwości:
@@ -512,7 +542,7 @@ Jeśli trajektorie nieliniowego, stacjonarnego układu drugiego rzędu (\ref{eq:
 \textbf{Twierdzenie 13 (Bendixona)}
 Dla układu nieliniowego (\ref{eq:sys_stac}) drugiego rzędu, na obszarze $\Omega$ nie istnieje żaden cykl graniczny, jeśli $\frac{\partial f_{1}}{\partial x_{1}} + \frac{\partial f_{2}}{\partial x_{2}}$ nie zmienia na nim znaku ani nie zanika tożsamościowo do zera.
 
-\textbf{Przykład}
+\begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
 Rozważmy układ:
 \begin{equation}
     \label{eq:bendixon}
@@ -536,7 +566,7 @@ Portret fazowy tego układu pokazano na rysunku.
     \caption{Portret fazowy układu (\ref{eq:bendixon}).}
     \label{fig:bendixon}
 \end{figure}
-
+\end{tcolorbox}
 
     %=======================================================
     \subsection{Metody poszukiwania funkcji Lapunowa}\label{sec:dobor_funkcji}
@@ -646,6 +676,7 @@ Portret fazowy tego układu pokazano na rysunku.
             \item Sprawdzamy, czy $V$ jest dodatnio określona.
         \end{enumerate}
 
+        \begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
         Dla zobrazowania tej metody rozważmy układ:
         $$
             \left\{
@@ -682,6 +713,7 @@ Portret fazowy tego układu pokazano na rysunku.
         $$
             V(x) = \frac{1}{2}(x_{1}^{2} + x_{2}^{2}).
         $$
+        \end{tcolorbox}
 
         %-------------------------------------------------------
         \subsubsection{Neuralna}
@@ -1572,7 +1604,8 @@ Portret fazowy tego układu pokazano na rysunku.
         co zapewnia asymptotyczną stabilność punktu równowagi.
         Metodę tę można uogólnić dla $u \in \mathbb{R}^{m}$.
 
-        \textbf{Przykład}: stabilizujemy układ w punkcie $x_{e} = 0$:
+        \begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
+        Stabilizujemy układ w punkcie $x_{e} = 0$:
         $$
             \dot{x} = x - 2x^{3} + (x+1)u(x),
         $$
@@ -1598,6 +1631,7 @@ Portret fazowy tego układu pokazano na rysunku.
             \end{array}
             \right\}.
         $$
+        \end{tcolorbox}
     
         \item[Rozwiązywanie online problemu programowania kwadratowego]:
         Obecnie, gdy sterowniki dysponują mikroprocesorami o dużej mocy obliczeniowej, można na bieżąco wyznaczać sterowanie poprzez rozwiązywanie problemu programowania kwadratowego.
@@ -1608,7 +1642,7 @@ Portret fazowy tego układu pokazano na rysunku.
                  \text{przy ograniczeniu:}\, \mathcal{L}_{f}V(x) + \mathcal{L}_{g}V(x)u < 0
             \end{array}.
         $$
-        Dość łatwo zauważyć, że metoda ts jest bardzo elastyczna, można wprowadzić inny wskaźnik jakości oraz inne ograniczenia.
+        Dość łatwo zauważyć, że metoda ta jest bardzo elastyczna, można wprowadzić inny wskaźnik jakości oraz inne ograniczenia.
     \end{description}
     
     %=======================================================
@@ -1617,7 +1651,8 @@ Portret fazowy tego układu pokazano na rysunku.
     W metodzie tej projektuje się kolejne elementy funkcji Lapunowa, zakładając, że możemy sterować poszczególnymi zmiennymi stanu i dzielimi wirtualnie układ na podsystemy i zaczynając od pierwszego idziemy "do końca".
     Dokładny opis tej metody jest dość obszerny, dlatego tutaj zostanie zaprezentowany tyko przykład.
 
-    \textbf{Przykład}: celem jest stabilizacja zerowego punktu równowagi układu:
+    \begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
+    Celem jest stabilizacja zerowego punktu równowagi układu:
     $$
         \left\{
         \begin{array}{l}
@@ -1680,6 +1715,7 @@ Portret fazowy tego układu pokazano na rysunku.
         $$
         zatem uzyskujemy stabilność asymptotyczną.
     \end{itemize}
+    \end{tcolorbox}
     Można ogólnie wymienić trzy kluczowe elementy metody "kroków wstecz":
     \begin{itemize}
         \item sterowanie wirtualne,
