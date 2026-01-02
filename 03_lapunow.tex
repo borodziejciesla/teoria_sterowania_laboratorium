@@ -19,7 +19,7 @@
     \Large Metoda Lapunowa
 }
 \author{Maciej Różewicz}
-\date{2025}
+\date{\today}
 
 \makeatletter         
 \def\@maketitle{
@@ -345,7 +345,7 @@ punktu równowagi jest podobne do zachowania układu liniowego.
 \end{tcolorbox}
 
 \begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
-Dla \textbf{przykładu} rozpatrzmy prosty układ pierwszego rzędu:
+Rozpatrzmy prosty układ pierwszego rzędu:
 $$
     \dot{x} = ax + bx^3.
 $$
@@ -363,7 +363,7 @@ Mamy zatem 3 przypadki:
     \item $a>0$ - wówczas układ niestabilny,
     \item $a=0$ - wtedy o stabilności decyduje $r(x) = bx^3$ - jeśli $b<0$ to stabilny, a jeśli $b>0$ to niestabilny.
 \end{itemize}
-Prosto jest to zweryfikować bezpośrednią metodą Lapunowa, przyjmując funkcję Lapunowa $V(x) = \frac{1}{2}x^{2}$.
+Łatwo jest to zweryfikować bezpośrednią metodą Lapunowa, przyjmując funkcję Lapunowa $V(x) = \frac{1}{2}x^{2}$.
 \end{tcolorbox}
 
 \textbf{Definicja 14}
@@ -373,8 +373,56 @@ Funkcja $V:D\rightarrow\mathbb{R}$ jest nazywana radialnie nieograniczoną, jeś
 jeśli istnieje radialnie nieograniczona, ciągle różniczkowalna, dodatnio określona w $\mathbb{R}^{n}$ funkcja $V: D \rightarrow \mathbb{R}$, taka, że jej pochodna systemowa jest ujemnie określona w $\mathbb{R}^{n}$, to punkt równowagi $x_{e} = 0$ układu (\ref{eq:sys_stac}) jest globalnie asymptotycznie stabilny.
 
 \begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
-    TODO: Przykład na to, że radialna ograniczoność jest konieczna do globalnej
-    stabilności asymptotycznej.
+    Rozważmy układ opisany równaniami:
+    $$
+        \left\{
+        \begin{array}{l}
+             \dot{x}_{1} = x_{1} + x_{2}\\
+             \dot{x}_{2} = -\frac{x_{1}}{(1 + x_{1}^{2})^{2}} - x_{2}
+        \end{array}
+        \right\},
+    $$
+    posiadający jededny punkt równowagi w początku układu współrzędnych,
+    dla którego kandydatem na funkcję Lapunowa jest:
+    $$
+        V(x) = \frac{x_{1}^{2}}{1 + x_{1}^{2}} + x_{2}^{2}.
+    $$
+    $V(x)$ jest dodatnio określona dla wszystkich $x \neq 0$, a jej pochodna systemowa ma postać:
+    $$
+        \dot{V}(x) = -\frac{2x_{1}^{2}}{(1 + x_{1}^{2})^{2}} - 2x_{2}^{2}
+    $$
+    jest ujemnie określona wszędzie poza punktem równowagi systemu.
+
+    Sprawdźmy granice. Jeśli $x_2=0$ i $x_1 \rightarrow \infty$:
+    $$
+        \lim_{x_1 \rightarrow \infty} V(x_1, 0) = \lim_{x_1 \rightarrow \infty}  \frac{x_{1}^{2}}{1 + x_{1}^{2}} = 1.
+    $$
+    Zatem funkcja Lapunowa nie jest radialnie ograniczona, a tym samym nie możemy
+    wnioskować o globalnej stabilności asymptotycznej punktu równowagi.
+    Poziomice $V(x)=c$ dla $c<1$ są krzywymi zamkniętymi. Jednak dla $c=1$,
+    poziomica to $x_2^2 = 1 - \frac{x_1^2}{1 + x_1^2} = \frac{1}{1 + x_1^2}$,
+    czyli $x_2 = \pm \frac{1}{\sqrt{1 + x_1^2}}$. Ta krzywa rozciąga się do
+    nieskończoności wzdłuż osi $x_1$.
+    
+    Jeśli warunek radialnej nieograniczoności nie jest spełniony, nie możemy
+    zagwarantować, że trajektorie startujące z dalekich punktów (gdzie $V(x)\geq
+    1$) zostaną „ściągnięte” do początku układu. Mogą one uciec do
+    nieskończoności, mimo że ich „energia” $V$ stale maleje (dąży np. do wartości
+    $1$ od góry).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{fig/03_lapunow/radialna_nieograniczonosc.eps}
+        \caption{Funkcja Lapunowa $V(x)$ jest radialnie ograniczona -
+        zbiór poziomicowy dla $V(x) = 1$ jest nieodomknięty.}
+    \end{figure}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=blue!5, colframe=blue!75!black, title=Ważne]
+Aby udowodnić Globalną Stabilność Asymptotyczną (GAS), „miska” potencjału $V$
+musi rosnąć w nieskończoność w każdym kierunku. Jeśli miska ma „krawędź” na
+skończonej wysokości (tak jak funkcja $\frac{x_1^2}{1 + x_1^2}$), trajektoria
+może się z niej „wylać”, a udowodniona zostanie co najwyżej stabilność lokalną
+wewnątrz tej "miski".
 \end{tcolorbox}
 
 \textbf{Twierdzenie 5 (o stabilności wykładniczej)}
@@ -493,7 +541,12 @@ Graficznie przedstawiono to na rysunku (\ref{fig:la_calle_przyklad}):
     \caption{Ilustracja do twierdzenia o obszarze przyciągania.}
     \label{fig:la_calle_przyklad}
 \end{figure}
-Dość łatwo zauważyć, że obszar pomiędzy $-1$ a $1$ jest stabilny - dla dodatnich położeń prędkość jest ujemna i ściąga stan do zera, dla ujemnych jest dodatnia i też przyciąga stan do zera.
+Dość łatwo zauważyć, że obszar pomiędzy $-1$ a $1$ jest stabilny - dla dodatnich
+położeń prędkość jest ujemna i ściąga stan do zera, dla ujemnych jest dodatnia i
+też przyciąga stan do zera.
+Natomiast poza tym obszarem stan oddala się do nieskończoności - położenia
+powyżej/ poniżej $1$/$-1$ powodują prędkości odpowiednio dodatnie/ujemne - czyli
+systemoddala się od punktu równowagi.
 
 Można rozważyć funkcję Lapunowa:
 $$
