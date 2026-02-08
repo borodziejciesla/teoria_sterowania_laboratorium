@@ -5,12 +5,13 @@
 
 \usepackage[margin=0.75in]{geometry}
 
-\usepackage{graphicx} % Required for inserting images
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{float}
 \usepackage[shortlabels]{enumitem}
+\usepackage{float}
+\usepackage{graphicx} % Required for inserting images
 \usepackage{matlab-prettifier}
+\usepackage{tcolorbox}
 
 \title{
     Teoria Sterowania\\
@@ -120,7 +121,8 @@ $$
             \end{figure}
         \end{enumerate}
 
-        \textbf{Przykład:} rozważmy równanie różniczkowe w postaci:
+        \begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
+        Rozważmy równanie różniczkowe w postaci:
         $$
             a_{2}\ddot{x} + a_{1}\dot{x} + a_{0}x = b_{1}\dot{u} + b_{0}u.
         $$
@@ -179,6 +181,7 @@ $$
 
         Widać zatem, że postać uzyskanych równań różnicowych istotnie zależy od przyjętej aproksymacji.
         Zatem nie można bezproblemowo przejść z układu dyskretnego na ciągły nie wiedząc o zastosowanej metodzie aproksymacji.
+        \end{tcolorbox}
 
         %--------------------------------------------------
         \subsubsection{Równania rekurencyjne}
@@ -261,7 +264,8 @@ $$
             \end{bmatrix}
         $$
 
-        \textbf{Przykład:} rozważmy układ:
+        \begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
+        Rozważmy układ:
         $$
             \ddot{y} + \dot{y} = u,
         $$
@@ -337,6 +341,7 @@ $$
             \end{bmatrix}
             $
         \end{itemize}
+        \end{tcolorbox}
 
         %------------s
         \subsubsection{Transformata $\mathcal{Z}$}
@@ -438,7 +443,8 @@ $$
             \end{figure}
         \end{enumerate}
 
-        \textbf{Przykład:} rozważmy transmitancję obiektu inercyjnego pierwszego rzędu:
+        \begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
+        Rozważmy transmitancję obiektu inercyjnego pierwszego rzędu:
         $$
             G(s) = \frac{a}{s+a}
         $$
@@ -456,6 +462,7 @@ $$
                 G_{D,T}(z) = \frac{a}{\frac{2}{T}\frac{z-1}{z+1} + a} = \frac{aT(z+1)}{z(2+aT)-2+aT}
             $$
         \end{itemize}
+        \end{tcolorbox}
 
         %++++++++++++++++++++++++++++
         \subsubsection{Ekstrapolator zerowego rzędu}
@@ -514,7 +521,8 @@ $$
     \end{itemize}
     to punkt $0$ jest stabilny, a funkcję $V$ nazywamy dyskretną funkcją Lapunowa.
 
-    \textbf{Przykład:} rozważmy równanie różniczkowe:
+    \begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
+    Rozważmy równanie różniczkowe:
     $$
         \dot{x} = -ax,
     $$
@@ -554,6 +562,7 @@ $$
         $$
         zatem widać, iż taka metoda wyznaczania równania dyskretnego nie jest obarczona błędem jak aproksymacja schematami różnicowymi.
     \end{enumerate}
+    \end{tcolorbox}
 
     Podobnie jak w przypadku ciągłym nie istnieje uniwersalna metoda wyznaczania funkcji Lapunowa.
     Jednak również i tym razem dla szczególnego przypadku, równania liniowego:

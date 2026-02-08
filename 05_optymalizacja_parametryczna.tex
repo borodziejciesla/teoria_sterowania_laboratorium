@@ -5,13 +5,14 @@
 
 \usepackage[margin=0.75in]{geometry}
 
-\usepackage{graphicx} % Required for inserting images
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{float}
 \usepackage[shortlabels]{enumitem}
+\usepackage{float}
+\usepackage{graphicx} % Required for inserting images
 \usepackage{matlab-prettifier}
 \usepackage{multirow}
+\usepackage{tcolorbox}
 
 \title{
     Teoria Sterowania\\
@@ -99,7 +100,8 @@ Często wymagania te są sprzeczne i poszukiwać trzeba pomiędzy nimi kompromis
         \subsubsection{Całkowe wskaźniki jakości}
         Jednymi z najczęściej używanych wskaźników jakości są tzw. całkowe wskaźniki jakości:
         \begin{enumerate}[(a)]
-            \item całka z kwadratu uchybu sterowania:
+            \item całka z kwadratu uchybu sterowania (ang. \textit{Integral
+            Square Error} - \textbf{ISE}):
                 \begin{equation}
                     \label{eq:j1}
                     J_{1} = \int_{0}^{\infty}{e(t)^{2}dt},
@@ -111,13 +113,14 @@ Często wymagania te są sprzeczne i poszukiwać trzeba pomiędzy nimi kompromis
                     J_{2} = \int_{0}^{\infty}{e(t)^{p}dt},
                 \end{equation}
     
-            \item całka z modułu uchybu sterowania:
+            \item całka z modułu uchybu sterowania (ang. \textit{Integral Absolute Error} - \textbf{IAE}):
                 \begin{equation}
                     \label{eq:j3}
                     J_{3} = \int_{0}^{\infty}{|e(t)|dt},
                 \end{equation}
     
-            \item całka ważona względem czasu sterowania (aby wskaźnik taki miał sens $p$ musi być parzyste):
+            \item całka ważona względem czasu sterowania (aby wskaźnik taki miał
+            sens $p$ musi być parzyste) (ang. \textit{Integral Time-weighted Square Error} - \textbf{ITSE}):
                 \begin{equation}
                     \label{eq:j4}
                     J_{4} = \int_{0}^{\infty}{e(t)^{p}t^{q}dt},
@@ -134,13 +137,39 @@ Często wymagania te są sprzeczne i poszukiwać trzeba pomiędzy nimi kompromis
                     \label{eq:j6}
                     J_{6} = \int_{0}^{\infty}{x^{T}(t)Hx(t)dt},\,H=H^{T}>0,
                 \end{equation}
+
+            \item całka z kwadratu wyjścia układu regulacji (ang.
+            \textit{Integral Square Output} - \textbf{ISO}) (dla stabilizacji w zerze):
+                \begin{equation}
+                    \label{eq:j7}
+                    J_{7} = \int_{0}^{\infty}{y^{2}(t)dt},\,y(t) \in \mathbb{R}
+                \end{equation}
     
             \item wskaźnik mieszany uwzględniający koszt sterowania:
                 \begin{equation}
-                    \label{eq:j7}
-                    J_{7} = \int_{0}^{\infty}{(\alpha_{1}e(t)^{2} + \alpha_{1}u(t)^{2})dt}, \alpha_{1}, \alpha_{2} \in \mathbf{R}_{+}.
+                    \label{eq:j8}
+                    J_{8} = \int_{0}^{\infty}{(\alpha_{1}e(t)^{2} + \alpha_{2}u(t)^{2})dt}, \alpha_{1}, \alpha_{2} \in \mathbb{R}_{+}.
                 \end{equation}
         \end{enumerate}
+
+        \begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
+            Rożne wskaźniki jakości mogą prowadzić do różnych optymalnych nastaw
+            regulatora, a co za tym idzie, do różnych przebiegów sygnałów w
+            układzie regulacji.
+            Poniżej przedstawiono przebiegi sygnału wyjściowego układu regulacji
+            oraz sygnału sterujacegodla różnych wskaźników jakości obiektu o
+            transmitancji:
+            $$
+                G(s) = \frac{1}{s(s+1)^{2}},
+            $$
+            z użyciem regulatora proporcjonalnego.
+            \begin{figure}[H]
+            \centering
+            \includegraphics[width=1.0\linewidth]{fig/05_optymalizacja_parametryczna/przyklad_calkowe.eps}
+            \caption{Przebiegi dla optymalizacji względem różnych wskaźników jakości.}
+            \label{fig:przyklad_calkowe}
+        \end{figure}
+        \end{tcolorbox}
 
         %--------------------------------------------------
         \subsubsection{Niecałkowe wskaźniki jakości}
@@ -239,7 +268,39 @@ Często wymagania te są sprzeczne i poszukiwać trzeba pomiędzy nimi kompromis
         $$
             \dot{e}(t) \rightarrow E_{p}(s) = sE(s).
         $$
-        Zatem powtarzamy postępowanie dla $J_{1}$, ale z transformatą $E_{p}(s)$.
+        Zatem powtarzamy postępowanie dla $J_{1}$, ale z transformatą
+        $E_{p}(s)$.
+        
+        \item $J_{7} = \int_{0}^{\infty}{y^{2}(t)dt}$ - całka z kwadratu wyjścia
+        układu regulacji może zostać wyznaczona z wykorzystaniem równania
+        Lapunowa:
+        $$
+            A^{T}P + PA = -cc^{T}, P = P^{T} > 0.
+        $$
+        Wówczas jeśli istnieje rozwiązanie tego równania, to układ jest stabilny
+        i posiada funkcję Lapunowa 
+        $V(x) = x^{T}Px$ a jej pochodna wzdłuż trajektorii układu wynosi
+        $\dot{V}(x) = -x^{T}\left(A^{T}P + PA\right)x$.
+        Natomiast wskaźnik jakości $J_{8}$ jest skończony i wynosi:
+        $$
+            J_{7} = x^{T}(0)Px(0).
+        $$
+        Ponieważ:
+        $$
+        \begin{array}{c}
+        J_{7} = \int_{0}^{\infty}{y^{2}(t)dt}} = \int_{0}^{\infty}{x^{T}(t)cc^{T}x(t)dt} = \\
+        
+        = -\int_{0}^{\infty}{x^{T}(t)\left(A^{T}P + PA\right)x(t)dt} = -\int_{0}^{\infty}{\dot{V}(x(t))dt} = -\left[ V(x(t)) \right]|_{0}^{\infty} = \\
+
+        = -\lim_{t\rightarrow \infty} \left[V(x(t))\right] + V(x(0)) = 0 + V(x(0)) = x^{T}(0)Px(0).
+
+        % = x^{T}(0)\left\{\int_{0}^{\infty}{e^{A^{T}t}cc^{T}e^{At}dt}\right\}x(0)
+        % = x^{T}(0) \left\{\int_{0}^{\infty}{A^{T}e^{A^{T}t}cc^{T}e^{At} + e^{A^{T}t}cc^{T}e^{At}Adt}\right\} x(0)\\
+
+        % = x^{T}(0) \left\{\int_{0}^{\infty}{\frac{\partial}{\partial t} \left(e^{A^{T}t}cc^{T}e^{At}\right)dt}\right\} x(0) = 
+        % \lim_{t\rightarrow \infty} \left\{ e^{A^{T}t}cc^{T}e^{At} \right\} - cc^{T}= -cc^{T}.
+        \end{array}
+        $$
     \end{enumerate}
     %======================================================
     \subsection{Wyznaczanie niecałkowych wskaźników jakości}
@@ -263,7 +324,7 @@ Często wymagania te są sprzeczne i poszukiwać trzeba pomiędzy nimi kompromis
             \tau_{r} = \frac{4}{\xi\omega_{n}},
         $$
         %\item \textit{Czas narastania}
-        \item \textit{Przeregulowanie} - przeregulowanie można okreśłić na podstawie wzorU:
+        \item \textit{Przeregulowanie} - przeregulowanie można okreśłić na podstawie wzoru:
         $$
             \kappa = e^{-\frac{\pi\xi}{\sqrt{1-\xi^2}}},
         $$
@@ -279,25 +340,67 @@ Często wymagania te są sprzeczne i poszukiwać trzeba pomiędzy nimi kompromis
     %\subsection{Optymalizacja odporności}
     %======================================================
     \subsection{Optymalizacja wielokryterialna}
-    W praktyce inżynierskiej bardzo często spotykane są problemy, które wymagają optymalizacji względem więcej niż jednego kryterium.
-    Nierzadko nie są one wzajemnie przeliczalne, więc nie można ich sprowadzić do pojedynczego skalarnego przypadku.
-    Ponadto bywa, iż kryteria, względem których wykonujemy optymalizację, są wzajemnie sprzeczne - jak np. żądanie jak najszybszej reakcji na zmiany wartości zadanej i minimalizacja energii sterowania.
-    Formalnie można zapisać, że zadanie optymalizacji wielokryterialnej jest poszukiwaniem minimum wektora wskaźników jakości $F(x) = \begin{bmatrix} F_{1} & \cdots & F_{n}\end{bmatrix} \in R^{n}$.
+    W praktyce inżynierskiej bardzo często spotykane są problemy,
+    które wymagają optymalizacji względem więcej niż jednego kryterium.
+    Nierzadko nie są one wzajemnie przeliczalne, więc nie można ich
+    sprowadzić do pojedynczego skalarnego przypadku.
+    Ponadto bywa, iż kryteria, względem których wykonujemy optymalizację,
+    są wzajemnie sprzeczne - jak np. żądanie jak najszybszej reakcji na
+    zmiany wartości zadanej i minimalizacja energii sterowania.
+    Formalnie można zapisać, że zadanie optymalizacji wielokryterialnej
+    jest poszukiwaniem minimum wektora wskaźników jakości
+    $F(x) = \begin{bmatrix} F_{1} & \cdots & F_{n}\end{bmatrix} \in R^{n}$.
     Jednak problematyczne jest określenie, czym właściwie jest minimum wektora.
     Gdyż minimum dla każdego z kryteriów osiągane jest zwykle w innym punkcie.
-    Dlatego poszukuje się rozwiązań kompromisowych, na tzw. zbiorze (froncie) Pareto, będącym zbiorem rozwiązań, dla których co najmniej jedno kryterium osiąga lepszy wynik niż dla innych punktów - rysunek (\ref{fig:enter-label}).
+    Dlatego poszukuje się rozwiązań kompromisowych, na tzw. zbiorze (froncie)
+    Pareto, będącym zbiorem rozwiązań, dla których co najmniej jedno kryterium
+    osiąga lepszy wynik niż dla innych punktów - rysunek (\ref{fig:enter-label}).
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.35\linewidth]{fig/05_optymalizacja_parametryczna/Screenshot from 2024-04-28 00-49-05.png}
         \caption{Zbiór (front) Pareto.}
         \label{fig:enter-label}
     \end{figure}
-    Nierzadko jednak można zadanie to uprościć i zastosować tzw. metodę skalaryzacji, która polega na przekształceniu zadania optymalizacji wielokryterialnej w zadanie optymalizacji skalarnej poprzez nadanie każdemu ze wskaźników jakości wagi i zsumowanie ich:
-    $$
-        \mathbf{F} = \nu F = \sum_{i}^{n}\nu_{i}F_{i}, \nu_{i} > 0.
-    $$
-    Można wówczas pokazać, że jeśli $\hat{\textbf{F}}$ jest minimum lokalnym, to odpowiadający mu wektor $F$ leży na zbiorze Pareto.
-    
+    Nierzadko jednak można zadanie to uprościć i zastosować i stosować pewne
+    uproszczenia, najczęściej są to:
+    \begin{itemize}
+        \item \textbf{Metoda skalaryzacji}, która polega na przekształceniu
+        zadania optymalizacji wielokryterialnej w~zadanie optymalizacji
+        skalarnej poprzez nadanie każdemu ze wskaźników jakości wagi i~zsumowanie ich:
+        $$
+            \mathbf{F} = \nu F = \sum_{i}^{n}\nu_{i}F_{i}, \nu_{i} > 0.
+        $$
+        Można wówczas pokazać, że jeśli $\hat{\textbf{F}}$ jest minimum lokalnym, to
+        odpowiadający mu wektor $F$ leży na zbiorze Pareto.
+        Wagi $\nu_{i}$​ odzwierciedlają priorytety projektanta. Ważne
+        jest, aby suma wag była równa jedności ($\Sum\nu_{i} = 1$) oraz
+        aby poszczególne wskaźniki $F_i$​ były znormalizowane (sprowadzone
+        do wspólnego rzędu wielkości). W~przeciwnym razie wskaźnik o~większej
+        wartości bezwzględnej zdominuje pozostałe, niezależnie od przypisanej mu
+        wagi.
+        
+        \item \textbf{Metoda ograniczeń}, która polega na wybraniu jednego
+        z~kryteriów
+        jako funkcji celu, a~pozostałe traktuje się jako ograniczenia, które muszą być spełnione:
+        $$
+            \min F_{1}(x) \quad \text{przy} \quad F_{i}(x) \leq \varepsilon_{i}, i = 2, \ldots, n,
+        $$
+        gdzie $\varepsilon_{i}$​ to dopuszczalne poziomy dla pozostałych
+        kryteriów. W~ten sposób
+        można skupić się na optymalizacji jednego kryterium, jednocześnie
+        zapewniając,
+        że pozostałe nie przekroczą określonych wartości. Jednak wybór
+        odpowiednich poziomów $\varepsilon_{i}$​ może być trudny i wymagać
+        eksperymentowania, aby znaleźć kompromis między różnymi kryteriami.
+
+        \item \textbf{Metoda punktu utopijnego} polega na zdefiniowaniu
+        punktu utopijnego, który reprezentuje idealne wartości wszystkich
+        kryteriów (zwykle jest to punkt, w~którym wszystkie kryteria osiągają
+        swoje minimum i jest niemożliey do osiągnięcia). Następnie poszukuje
+        się rozwiązania, które jest jak najbliżej tego punktu utopijnego,
+        mierząc odległość między kandydatami a~punktem utopijnym. Najczęściej
+        stosowaną miarą odległości jest norma euklidesowa:
+    \end{itemize} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Przykłady}
