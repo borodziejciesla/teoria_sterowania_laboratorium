@@ -778,9 +778,52 @@ $$
     $$
     W przypadku układów sterowania, gdzie nie mamy z góry zadanego sygnału wyjściowego, zatem i jego częstotliwości, to graniczna wartość częstotliwości może być wyznaczona jako częstotliwość odcięcia (czyli częstotliwość, dla której tłumienie staje się większe od 3 dB), odczytana z charakterystyki Bodego obiektu sterowania.
 
-    Nie bez znaczenia w przypadku sterowania cyfrowego jest też minimalny czas konieczny na realizację sterowania.
-    Czyli czas wykonywania pomiaru, przesłania z czujnika do układu mikroprocesorowego, czas wyznaczenia sterowania oraz czas konieczny na przesłanie sygnału sterującego do elementu wykonawczego.
+        %--------------------------------------------------
+        \subsubsection{Reguła krotności pasma}
+        W praktyce inżynierskiej częstotliwość próbkowania
+        $f_p$​ dobiera się jako wielokrotność częstotliwości granicznej
+        obiektu $f_g$​ (częstotliwości odcięcia). Powszechnie stosowane
+        przedziały to:
+        \begin{itemize}
+            \item dla układów o niskich wymaganiach: $f_p \approx 10 \cdot f_g$,
+            \item dla układów o wysokich wymaganiach: $f_p \approx (20\div40) \cdot f_g$.
+        \end{itemize}
 
+        %--------------------------------------------------
+        \subsubsection{Próbkowanie a czas odpowiedzi skokowej}
+        Jeśli dysponujemy charakterystyką czasową obiektu, okres
+        próbkowania $T_p$​ można odnieść do parametrów czasowych:
+        \begin{itemize}
+            \item czas narastania ($\tau_r$): zaleca się, aby
+            w~czasie narastania sygnału mieściło się od 4 do 10 próbek.
+            \item stała czasowa ($\tau$): Dla obiektów inercyjnych często przyjmuje się $T_p \approx 0.1 \cdot \tau$.
+        \end{itemize}
+
+        %--------------------------------------------------
+        \subsubsection{Ograniczenia sprzętowe i "Real-Time"}
+        Nie bez znaczenia w przypadku sterowania cyfrowego jest
+        też minimalny czas konieczny na realizację sterowania.
+        Czyli czas wykonywania pomiaru, przesłania z czujnika do
+        układu mikroprocesorowego, czas wyznaczenia sterowania oraz
+        czas konieczny na przesłanie sygnału sterującego do elementu
+        wykonawczego.
+        W systemach czasu rzeczywistego mus być zatem spełniony warunek:
+        $$
+            T_p > T_{pomiar} + T_{przeslanie} + T_{obliczenie} + T_{przeslanie\_sterowania},
+        $$
+        \begin{itemize}
+            \item $T_{pomiar}$ - czas wykonywania pomiaru,
+            \item $T_{przeslanie}$ - czas przesyłania danych z czujnika do układu sterującego,
+            \item $T_{obliczenie}$ - czas obliczania sterowania,
+            \item $T_{przeslanie\_sterowania}$ - czas przesyłania sygnału sterującego do elementu wykonawczego.
+        \end{itemize}
+
+
+    \begin{tcolorbox}[colback=orange!5, colframe=orange!75!black, title=Uwaga]
+        Zbyt wysoka częstotliwość próbkowania również może być
+        problematyczna - prowadzi do dużych błędów przy obliczaniu
+        różniczek (człon D w regulatorze PID) ze względu na szum kwantyzacji.
+    \end{tcolorbox}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Przykłady}
