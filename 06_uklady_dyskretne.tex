@@ -818,6 +818,15 @@ $$
             \item $T_{przeslanie\_sterowania}$ - czas przesyłania sygnału sterującego do elementu wykonawczego.
         \end{itemize}
 
+        %--------------------------------------------------
+        \subsubsection{Zjawisko aliasingu i filtry antyaliasingowe}
+        Należy pamiętać, że jeśli w sygnale pomiarowym występują zakłócenia 
+        o~częstotliwościach wyższych niż częstotliwość Nyquista ($f_N = f_p/2$),
+        zostaną one „nałożone” na pasmo użyteczne jako błędy
+        niskoczęstotliwościowe.
+        Aby temu zapobiec, przed przetwornikiem ADC stosuje się analogowe
+        filtry dolnoprzepustowe (antyaliasingowe).
+
 
     \begin{tcolorbox}[colback=orange!5, colframe=orange!75!black, title=Uwaga]
         Zbyt wysoka częstotliwość próbkowania również może być
