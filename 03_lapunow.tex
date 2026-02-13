@@ -1629,6 +1629,102 @@ Portret fazowy tego układu pokazano na rysunku.
         \label{fig:przyklad_9_a_2_b_1}
     \end{figure}
 
+    %-------------------------------------------------------
+    \subsubsection{Przykład 10 (Adaptacyjny tempomat samochodowy)}
+    Adaptacyjny tempomat samochodowy (ACC - Adaptive Cruise Control) jest
+    systemem, który automatycznie dostosowuje prędkość pojazdu do warunków
+    ruchu, utrzymując bezpieczną odległość od pojazdu poprzedzającego.
+    Wykorzystuje on różne czujniki, takie jak radar czy kamera, do
+    monitorowania otoczenia i podejmowania decyzji dotyczących przyspieszania
+    lub hamowania.
+    Schematycznie jest to przedstawione na rysunku (\ref{fig:acc}).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.25\linewidth]{fig/03_lapunow/snipping_ACC_Case.png}
+        \caption{Schemat zachowanai adaptacyjnego tempomatu samochodowego.}
+        \label{fig:acc}
+    \end{figure}
+
+    Można rozważyć prosty model dynamiki pojazdu, który opisuje jego prędkość
+    $v$ i położenie $x$:
+    \begin{equation}
+        \label{eq:acc_model}
+        \begin{bmatrix}
+            \dot{x}\\
+            \dot{v}
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            v\\
+            -\frac{1}{m}F_{r}(v)
+        \end{bmatrix}
+        +
+        \begin{bmatrix}
+            0\\
+            \frac{1}{m}
+        \end{bmatrix}u,
+    \end{equation}
+    gdzie:
+    \begin{itemize}
+        \item $x$ - położenie pojazdu,
+        \item $v$ - prędkość pojazdu,
+        \item $m$ - masa pojazdu,
+        \item $F_{r}(v) = f_{0} + f_{1}v + f_{2}v^{2}$ - siła oporu ruchu, która jest funkcją prędkości,
+        \item $u$ - siła sterująca (np. siła hamowania lub przyspieszania).
+    \end{itemize}
+    Znając dokładnie parametry siły oporu ruchu, można zaprojektować sterowanie,
+    które zapewni stabilność układu
+    $$
+        u = F_{r}(v) - K(v - v_{d}).
+    $$
+    Wówczas układ zamyka się w postaci:
+    \begin{equation}
+    \label{eq:acc_closed_loop}
+        \begin{bmatrix}
+            \dot{x}\\
+            \dot{v}
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            v\\
+            -\frac{K}{m}(v - v_{d})
+        \end{bmatrix}.
+    \end{equation}
+    Wówczas można zaproponować funkcję Lapunowa w postaci:
+    \begin{equation}
+    \label{eq:acc_v}
+    V(x, v) = \frac{1}{2}(v - v_{d})^{2}.
+    \end{equation}
+    Jej pochodna systemowa ma postać:
+    \begin{equation}
+    \label{eq:acc_vp}
+    \dot{V}(x, v) = -\frac{K}{m}(v - v_{d})^{2}.
+    \end{equation}
+    Jest ona ujemna wszędzie poza osią $v = v_{d}$, gdzie jest równa 0.
+    Zatem na podstawie twierdzenia LaSalle'a sprawdzamy czy istnieją 
+    zbiory inwariantne na tej osi:
+    $$
+        \begin{bmatrix}
+            \dot{x}\\
+            \dot{v}
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            v_{d}\\
+            0
+        \end{bmatrix},
+    $$
+    widać zatem, że jeśli prędkość pojazdu osiągnie wartość zadaną, to
+    pozostanie na niej, a~położenie będzie się zmieniać liniowo w~czasie.
+    Zatem jest to zbiór inwariantny (zbiór $E$) i na podstawie twierdzenia LaSalle'a wszystkie trajektorie dążą do tego zbioru, co oznacza, że prędkość pojazdu będzie dążyć do wartości zadanej $v_{d}$.
+    Portret fazowy z zaznaczonymi zbiorem inwariantnym pokazano na rysunku (\ref{fig:acc_pf}).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\linewidth]{fig/03_lapunow/acc_pp.eps}
+        \caption{Portret fazowy układu z przykładu 10 z zaznaczonym zbiorem inwariantnym (czerwona linia).}
+        \label{fig:acc_pf}
+    \end{figure}    
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \section{Jak wykorzystać to do projektowania sterowania?}
     %=======================================================
