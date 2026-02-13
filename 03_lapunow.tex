@@ -1723,8 +1723,91 @@ Portret fazowy tego układu pokazano na rysunku.
         \includegraphics[width=0.7\linewidth]{fig/03_lapunow/acc_pp.eps}
         \caption{Portret fazowy układu z przykładu 10 z zaznaczonym zbiorem inwariantnym (czerwona linia).}
         \label{fig:acc_pf}
-    \end{figure}    
+    \end{figure}
+    
+    %-------------------------------------------------------
+    \subsubsection{Przykład 11 (Model SI rozprzestrzeniania się epidemii)}
+    Model SI (Susceptible-Infected) jest jednym z najprostszych modeli
+    epidemiologicznych, który opisuje rozprzestrzenianie się choroby zakaźnej
+    (nie śmiertelnej, zatem populacja jest stała) w~populacji. W~modelu tym populacja jest podzielona na dwie grupy:
+    osoby podatne ($S$) i osoby zakażone ($I$). Model ten zakłada, że osoby zakażone
+    mogą zarażać osoby podatne, oraz pewne szane ozdrowienia (ale nie nabierania
+    odporności).
+    Równania różniczkowe opisujące model SI są następujące:
+    \begin{equation}
+        \label{eq:si_model}
+        \left\{
+        \begin{array}{l}
+             \dot{S} = -\beta \frac{SI}{N} + \gamma I\\
+             \dot{I} = \beta \frac{SI}{N} - \gamma I
+        \end{array}
+        \right\},
+    \end{equation}
+    gdzie:
+    \begin{itemize}
+        \item $S$ - liczba osób podatnych,
+        \item $I$ - liczba osób zakażonych,
+        \item $\beta$ - współczynnik zarażania, który określa, jak szybko choroba rozprzestrzenia się w populacji,
+        \item $\gamma$ - współczynnik ozdrowień, który określa, jak szybko osoby zakażone zdrowieją.
+    \end{itemize}
+    Model ten ma nieskończenie wele punktów równowagi, położonych na dwóch
+    prostych:
+    \begin{itemize}
+        \item $I=0$ i $S \in \mathbb{R}$ - oznacza to, że nie ma zakażonych
+        więch choroba nie może się rozprzestrzeniać,
+        \item $S = \frac{\gamma}{\beta}N$ i $I \in \mathbb{R}$ - oznacza to, że
+        liczba osób podatnych jest równa stosunkowi współczynnika ozdrowień do
+        współczynnika zarażania, co oznacza, że choroba jest w stanie utrzymać
+        się w~populacji na stałym poziomie.
+    \end{itemize}
+    Ponieważ choroba nie jest śmiertelna, to populacja jest stała $S+I=N$,
+    zatem można zadanie uprościć do zagadnienia jednowymiarowego,
+    rozważając tylko jedną z tych zmiennych, np. $I$:
+    \begin{equation}
+    \label{eq:si_model_reduced}
+        \dot{I} = \beta I(N - I) - \gamma I = I(\beta (N - I) - \gamma),
+    \end{equation}
+    wówczas mamy dwa punkty równowagi: $I_{e,1} = 0$ oraz $I_{e,2} =
+    \frac{\beta-\gamma}{\beta}N$.
+    
+    Stabilność każdego z tych punktów równowagi można określić na podstawie 
+    pośredniej metody Lapunowa. Dokonując takiej analizy stwierdzamy, że
+    punkt równowagi $I_{e,1} = 0$ jest niestabilny, a~punkt równowagi
+    $I_{e,2} = \frac{\beta-\gamma}{\beta}N$ jest stabilny.
 
+    A proponując funkcję Lapunowa w postaci:
+    \begin{equation}
+    \label{eq:si_v}
+    V(I) = \frac{1}{2}(I - I_{e,2}^{2},
+    \end{equation}
+    jej pochodna systemowa ma postać:
+    \begin{equation}
+        \label{eq:si_vp}
+        \dot{V}(I) = -\frac{(I(\gamma - \beta + I*\beta)^2)}{\beta}
+    \end{equation}
+    i zeruje się jedynie w punktach równowagi, zatem na podstawie twierdzenia
+    LaSalle'a wszystkie trajektorie (poza punktem równowagi $I_{e,1} = 0$) dążą do stabilnego punktu równowagi
+    $I_{e,2} = \frac{\beta-\gamma}{\beta}N$.
+    Funkcję Lapunowa i jej pochodną systemową pokazano na rysunku (\ref{fig:si_v_vp}).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\linewidth]{fig/03_lapunow/si_v_vp.eps}
+        \caption{Funkcja Lapunowa (\ref{eq:si_v}) i jej pochodna systemowa (\ref{eq:si_vp}) dla modelu SI.}
+        \label{fig:si_v_vp}
+    \end{figure}
+
+    Portret fazowy układu oryginalnego z zaznaczonymi punktami równowagi
+    pokazano na rysunku (\ref{fig:si_pf}).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\linewidth]{fig/03_lapunow/si_pf.eps}
+        \caption{Portret fazowy modelu SI z zaznaczonymi punktami równowagi.}
+        \label{fig:si_pf}
+    \end{figure}
+    Mozna zauważyć, że w przeciwieństwie do przykładu poprzedniego zaznaczone
+    odcinki nie są zbioram przyciągania/odpychania a zbiorem punktów równowagi -
+    jeśli trajektoria wląduje na zielonym odcinku to nie będzie się po nim
+    poruszać, pozostanie w punkcie, w którym się znalazła.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \section{Jak wykorzystać to do projektowania sterowania?}
     %=======================================================
