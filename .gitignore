@@ -18,3 +18,8 @@
 *.ind
 *.dvi
 *.ps
+
+*.autosave
+*.backup
+*.mat
+*.l

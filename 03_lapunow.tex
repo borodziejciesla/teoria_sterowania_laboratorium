@@ -366,6 +366,16 @@ Mamy zatem 3 przypadki:
 Łatwo jest to zweryfikować bezpośrednią metodą Lapunowa, przyjmując funkcję Lapunowa $V(x) = \frac{1}{2}x^{2}$.
 \end{tcolorbox}
 
+\begin{tcolorbox}[colback=orange!5, colframe=orange!75!black, title=Uwaga]
+    Skoro z twierdzenia Hartmana-Grobmana wynika, że w~otoczeniu punktu
+    równowagi układ nieliniowy jest topologicznie równoważny z~jego
+    przybliżeniem liniowym, to dlaczego by nie znaleźć funkcji, która
+    przekształca go w układ liniowy i~nie zastosować do niego bezpośredniej
+    metody Lapunowa?
+    Metoda ta nazywana jest linearyzującym sprężeniem zwrotnym (ang. feedback
+    linearization).
+\end{tcolorbox}
+
 \textbf{Definicja 14}
 Funkcja $V:D\rightarrow\mathbb{R}$ jest nazywana radialnie nieograniczoną, jeśli $\lVert x \rVert \rightarrow \infty$ implikuje $V(x) \rightarrow \infty$.
 
@@ -1619,6 +1629,185 @@ Portret fazowy tego układu pokazano na rysunku.
         \label{fig:przyklad_9_a_2_b_1}
     \end{figure}
 
+    %-------------------------------------------------------
+    \subsubsection{Przykład 10 (Adaptacyjny tempomat samochodowy)}
+    Adaptacyjny tempomat samochodowy (ACC - Adaptive Cruise Control) jest
+    systemem, który automatycznie dostosowuje prędkość pojazdu do warunków
+    ruchu, utrzymując bezpieczną odległość od pojazdu poprzedzającego.
+    Wykorzystuje on różne czujniki, takie jak radar czy kamera, do
+    monitorowania otoczenia i podejmowania decyzji dotyczących przyspieszania
+    lub hamowania.
+    Schematycznie jest to przedstawione na rysunku (\ref{fig:acc}).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.25\linewidth]{fig/03_lapunow/snipping_ACC_Case.png}
+        \caption{Schemat zachowanai adaptacyjnego tempomatu samochodowego.}
+        \label{fig:acc}
+    \end{figure}
+
+    Można rozważyć prosty model dynamiki pojazdu, który opisuje jego prędkość
+    $v$ i położenie $x$:
+    \begin{equation}
+        \label{eq:acc_model}
+        \begin{bmatrix}
+            \dot{x}\\
+            \dot{v}
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            v\\
+            -\frac{1}{m}F_{r}(v)
+        \end{bmatrix}
+        +
+        \begin{bmatrix}
+            0\\
+            \frac{1}{m}
+        \end{bmatrix}u,
+    \end{equation}
+    gdzie:
+    \begin{itemize}
+        \item $x$ - położenie pojazdu,
+        \item $v$ - prędkość pojazdu,
+        \item $m$ - masa pojazdu,
+        \item $F_{r}(v) = f_{0} + f_{1}v + f_{2}v^{2}$ - siła oporu ruchu, która jest funkcją prędkości,
+        \item $u$ - siła sterująca (np. siła hamowania lub przyspieszania).
+    \end{itemize}
+    Znając dokładnie parametry siły oporu ruchu, można zaprojektować sterowanie,
+    które zapewni stabilność układu
+    $$
+        u = F_{r}(v) - K(v - v_{d}).
+    $$
+    Wówczas układ zamyka się w postaci:
+    \begin{equation}
+    \label{eq:acc_closed_loop}
+        \begin{bmatrix}
+            \dot{x}\\
+            \dot{v}
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            v\\
+            -\frac{K}{m}(v - v_{d})
+        \end{bmatrix}.
+    \end{equation}
+    Wówczas można zaproponować funkcję Lapunowa w postaci:
+    \begin{equation}
+    \label{eq:acc_v}
+    V(x, v) = \frac{1}{2}(v - v_{d})^{2}.
+    \end{equation}
+    Jej pochodna systemowa ma postać:
+    \begin{equation}
+    \label{eq:acc_vp}
+    \dot{V}(x, v) = -\frac{K}{m}(v - v_{d})^{2}.
+    \end{equation}
+    Jest ona ujemna wszędzie poza osią $v = v_{d}$, gdzie jest równa 0.
+    Zatem na podstawie twierdzenia LaSalle'a sprawdzamy czy istnieją 
+    zbiory inwariantne na tej osi:
+    $$
+        \begin{bmatrix}
+            \dot{x}\\
+            \dot{v}
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            v_{d}\\
+            0
+        \end{bmatrix},
+    $$
+    widać zatem, że jeśli prędkość pojazdu osiągnie wartość zadaną, to
+    pozostanie na niej, a~położenie będzie się zmieniać liniowo w~czasie.
+    Zatem jest to zbiór inwariantny (zbiór $E$) i na podstawie twierdzenia LaSalle'a wszystkie trajektorie dążą do tego zbioru, co oznacza, że prędkość pojazdu będzie dążyć do wartości zadanej $v_{d}$.
+    Portret fazowy z zaznaczonymi zbiorem inwariantnym pokazano na rysunku (\ref{fig:acc_pf}).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\linewidth]{fig/03_lapunow/acc_pp.eps}
+        \caption{Portret fazowy układu z przykładu 10 z zaznaczonym zbiorem inwariantnym (czerwona linia).}
+        \label{fig:acc_pf}
+    \end{figure}
+    
+    %-------------------------------------------------------
+    \subsubsection{Przykład 11 (Model SI rozprzestrzeniania się epidemii)}
+    Model SI (Susceptible-Infected) jest jednym z najprostszych modeli
+    epidemiologicznych, który opisuje rozprzestrzenianie się choroby zakaźnej
+    (nie śmiertelnej, zatem populacja jest stała) w~populacji. W~modelu tym populacja jest podzielona na dwie grupy:
+    osoby podatne ($S$) i osoby zakażone ($I$). Model ten zakłada, że osoby zakażone
+    mogą zarażać osoby podatne, oraz pewne szane ozdrowienia (ale nie nabierania
+    odporności).
+    Równania różniczkowe opisujące model SI są następujące:
+    \begin{equation}
+        \label{eq:si_model}
+        \left\{
+        \begin{array}{l}
+             \dot{S} = -\beta \frac{SI}{N} + \gamma I\\
+             \dot{I} = \beta \frac{SI}{N} - \gamma I
+        \end{array}
+        \right\},
+    \end{equation}
+    gdzie:
+    \begin{itemize}
+        \item $S$ - liczba osób podatnych,
+        \item $I$ - liczba osób zakażonych,
+        \item $\beta$ - współczynnik zarażania, który określa, jak szybko choroba rozprzestrzenia się w populacji,
+        \item $\gamma$ - współczynnik ozdrowień, który określa, jak szybko osoby zakażone zdrowieją.
+    \end{itemize}
+    Model ten ma nieskończenie wele punktów równowagi, położonych na dwóch
+    prostych:
+    \begin{itemize}
+        \item $I=0$ i $S \in \mathbb{R}$ - oznacza to, że nie ma zakażonych
+        więch choroba nie może się rozprzestrzeniać,
+        \item $S = \frac{\gamma}{\beta}N$ i $I \in \mathbb{R}$ - oznacza to, że
+        liczba osób podatnych jest równa stosunkowi współczynnika ozdrowień do
+        współczynnika zarażania, co oznacza, że choroba jest w stanie utrzymać
+        się w~populacji na stałym poziomie.
+    \end{itemize}
+    Ponieważ choroba nie jest śmiertelna, to populacja jest stała $S+I=N$,
+    zatem można zadanie uprościć do zagadnienia jednowymiarowego,
+    rozważając tylko jedną z tych zmiennych, np. $I$:
+    \begin{equation}
+    \label{eq:si_model_reduced}
+        \dot{I} = \beta I(N - I) - \gamma I = I(\beta (N - I) - \gamma),
+    \end{equation}
+    wówczas mamy dwa punkty równowagi: $I_{e,1} = 0$ oraz $I_{e,2} =
+    \frac{\beta-\gamma}{\beta}N$.
+    
+    Stabilność każdego z tych punktów równowagi można określić na podstawie 
+    pośredniej metody Lapunowa. Dokonując takiej analizy stwierdzamy, że
+    punkt równowagi $I_{e,1} = 0$ jest niestabilny, a~punkt równowagi
+    $I_{e,2} = \frac{\beta-\gamma}{\beta}N$ jest stabilny.
+
+    A proponując funkcję Lapunowa w postaci:
+    \begin{equation}
+    \label{eq:si_v}
+    V(I) = \frac{1}{2}(I - I_{e,2}^{2},
+    \end{equation}
+    jej pochodna systemowa ma postać:
+    \begin{equation}
+        \label{eq:si_vp}
+        \dot{V}(I) = -\frac{(I(\gamma - \beta + I*\beta)^2)}{\beta}
+    \end{equation}
+    i zeruje się jedynie w punktach równowagi, zatem na podstawie twierdzenia
+    LaSalle'a wszystkie trajektorie (poza punktem równowagi $I_{e,1} = 0$) dążą do stabilnego punktu równowagi
+    $I_{e,2} = \frac{\beta-\gamma}{\beta}N$.
+    Funkcję Lapunowa i jej pochodną systemową pokazano na rysunku (\ref{fig:si_v_vp}).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\linewidth]{fig/03_lapunow/si_v_vp.eps}
+        \caption{Funkcja Lapunowa (\ref{eq:si_v}) i jej pochodna systemowa (\ref{eq:si_vp}) dla modelu SI.}
+        \label{fig:si_v_vp}
+    \end{figure}
+
+    Portret fazowy układu oryginalnego z zaznaczonymi punktami równowagi
+    pokazano na rysunku (\ref{fig:si_pf}).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\linewidth]{fig/03_lapunow/si_pf.eps}
+        \caption{Portret fazowy modelu SI z zaznaczonymi punktami równowagi.}
+        \label{fig:si_pf}
+    \end{figure}
+    Mozna zauważyć, że w przeciwieństwie do przykładu poprzedniego zaznaczone
+    odcinki nie są zbioram przyciągania/odpychania a zbiorem punktów równowagi -
+    jeśli trajektoria wląduje na zielonym odcinku to nie będzie się po nim
+    poruszać, pozostanie w punkcie, w którym się znalazła.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \section{Jak wykorzystać to do projektowania sterowania?}
     %=======================================================

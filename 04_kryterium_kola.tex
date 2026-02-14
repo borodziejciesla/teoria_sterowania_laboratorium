@@ -5,12 +5,13 @@
 
 \usepackage[margin=0.75in]{geometry}
 
-\usepackage{graphicx} % Required for inserting images
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{float}
 \usepackage[shortlabels]{enumitem}
+\usepackage{float}
+\usepackage{graphicx} % Required for inserting images
 \usepackage{matlab-prettifier}
+\usepackage{tcolorbox}
 
 \newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
 
@@ -417,6 +418,12 @@ Jednak pozwalają na rozpatrywanie znacznie szerszej klasy sterowań/części ni
         V(x) = x^{T}Px + \alpha\int_{0}^{c^{T}x}{\varphi(\gamma)d\gamma}
     $$
 
+    \begin{tcolorbox}[colback=orange!5, colframe=orange!75!black, title=Uwaga]
+        Nierówność Popova, podobnie jak kryterium Lapunowa, jest warunkiem
+        wystarczającym, ale nie jest warunkiem koniecznym stabilności układu Lurie.
+        Oznacza to, że istnieją układy Lurie, które są stabilne, ale nie spełniają nierówności Popova.
+    \end{tcolorbox}
+
     %======================================================
     \subsection{Kryterium Koła}
     \textbf{Twierdzenie (Kryterium Koła)}: jeżeli układ Lurie opisywany równaniem (\ref{eq:uklad_lurie}), gdzie:
@@ -484,6 +491,39 @@ Jednak pozwalają na rozpatrywanie znacznie szerszej klasy sterowań/części ni
         \item dla $m<0$ i $M>0$ leży wewnątrz wskazanego koła.
     \end{itemize}
 
+    \begin{tcolorbox}[colback=pink!5, colframe=pink!75!black, title=Intuicja]
+        W klasycznym kryterium Nyquista dla układów liniowych z regulatorem
+        proporcjonalnym $K$, kluczowym punktem na płaszczyźnie zespolonej jest
+        $(-\frac{1}{K},j0)$. To wokół niego badamy liczbę okrążeń charakterystyki
+        częstotliwościowej $G(j\omega)$, aby określić stabilność układu
+        zamkniętego.
+        Wyobraźmy sobie teraz eweolcję tego kryterium, gdy wprowadzamy
+        niepewność warości regulatora, czyli gdy $K$ może przyjmować wartości
+        w~pewnym zakresie $[K_1, K_2]$. Wówczas:
+        \begin{itemize}
+            \item niepewność powoduje "wędrowanie" punktu $(-\frac{1}{K},j0)$
+            na prostej pomiędzy $(-\frac{1}{K_1},j0)$ a $(-\frac{1}{K_2},j0)$,
+            \item dodatkowo ponieważ $K$ może zmieniać wartość w dowolnej
+            chwili, nie możemy pozwolić, odcinek ten "puchnie" do koła,
+            aby uwzględnić wszystkie możliwe kombinacje i zapewnić stabilność.
+        \end{itemize}
+
+        W rezultacie, kryterium koła jest naturalnym rozszerzeniem kryterium
+        Nyquista, które uwzględnia niepewność w regulatorze i~zapewnia
+        stabilność
+        układu zamkniętego dla wszystkich wartości regulatora w określonym
+        zakresie.
+    \end{tcolorbox}
+
+    \begin{tcolorbox}[colback=orange!5, colframe=orange!75!black, title=Uwaga]
+        Kryterium koła jest bardziej ogólne niż kryterium Popova, ponieważ pozwala na niestacjonarność funkcji nieliniowej $\varphi(y,t)$ oraz rozszerza zakres funkcji nieliniowych do sektora $[k_{1}, k_{2}]$.
+         Jednakże, kryterium koła jest również bardziej restrykcyjne w porównaniu do kryterium Popova, ponieważ wymaga spełnienia dodatkowych warunków dotyczących macierzy stanu $A$ oraz istnienia $k_{0}$, dla którego $Re\left\{ \lambda(A-bk_{0}c^{T}) \right\} < 0$.
+    \end{tcolorbox}
+
+    \begin{tcolorbox}[colback=orange!5, colframe=orange!75!black, title=Uwaga]
+        Również kryterium koła, podobnie jak kryterium Popova, jest warunkiem wystarczającym, ale nie jest warunkiem koniecznym stabilności układu Lurie.
+        Oznacza to, że istnieją układy Lurie, które są stabilne, ale nie spełniają nierówności kryterium koła.
+    \end{tcolorbox}
     
 
     %Warunki: $\tilde{G}(s)$ - SPR, $\tilde{\varphi}(y,t) \in [0, \infty)$

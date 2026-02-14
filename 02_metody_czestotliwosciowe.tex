@@ -5,13 +5,14 @@
 \usepackage{polski}
 \usepackage[utf8]{inputenc}
 
-\usepackage{graphicx} % Required for inserting images
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{courier}
 \usepackage{extpfeil}
 \usepackage{float}
+\usepackage{graphicx} % Required for inserting images
 \usepackage{matlab-prettifier}
-\usepackage{courier}
+\usepackage{tcolorbox}
 
 
 \usepackage[T1]{fontenc}
@@ -89,44 +90,55 @@ to różnica między ilością zer funkcji $F(s)$ - $Z_{f}$ a ilością biegunó
 Aby więc obliczyć $N$ trzeba wyznaczyć, ile razy krzywa $K$ obiega początek układu współrzędnych.
 Dowód można znaleźć np. w \cite{Gorecki1993}.
 
-Pokazane zostanie tutaj kilka przykładów dla zobrazowania zasady argumentu:
-\begin{enumerate}
-    \item $F(s) = s -1$ - jeden pierwiastek w konturze
+\begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
+    $F(s) = s -1$ - jeden pierwiastek w konturze
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\linewidth]{fig/02_metody_czestotliwosciowe/zasada_argumentu_1.png}
+        \includegraphics[width=0.65\linewidth]{fig/02_metody_czestotliwosciowe/zasada_argumentu_1.png}
         \caption{Zasada argumentu dla funkcji $F(s) = s-1$ i konturu zdefiniowanego jako okrąg o promieniu 2 i środkiem w punkcie (0,0).}
         \label{fig:enter-label}
     \end{figure}
-    \item $F(s) = (s-1)(s-1.55)$  - dwa pierwiastki w konturze
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
+    $F(s) = (s-1)(s-1.55)$  - dwa pierwiastki w konturze
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\linewidth]{fig/02_metody_czestotliwosciowe/zasada_argumentu_2.png}
+        \includegraphics[width=0.65\linewidth]{fig/02_metody_czestotliwosciowe/zasada_argumentu_2.png}
         \caption{Zasada argumentu dla funkcji $F(s) = (s-1)(s-1.55)$ i konturu zdefiniowanego jako okrąg o promieniu 2 i środkiem w punkcie (0,0).}
         \label{fig:enter-label}
     \end{figure}
-    \item $F(s) = (s-1)(s-1.55)$  - jeden pierwiastek w konturze
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
+    $F(s) = (s-1)(s-1.55)$  - jeden pierwiastek w konturze
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\linewidth]{fig/02_metody_czestotliwosciowe/zasada_argumentu_3.png}
+        \includegraphics[width=0.65\linewidth]{fig/02_metody_czestotliwosciowe/zasada_argumentu_3.png}
         \caption{Zasada argumentu dla funkcji $F(s) = (s-1)(s-1.55)$ i konturu zdefiniowanego jako okrąg o promieniu 2 i środkiem w punkcie (-0.9,0).}
         \label{fig:enter-label}
     \end{figure}
-    \item $F(s) = (s-1)(s-1.55)$  - brak pierwiastków w konturze
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
+    $F(s) = (s-1)(s-1.55)$  - brak pierwiastków w konturze
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\linewidth]{fig/02_metody_czestotliwosciowe/zasada_argumentu_4.png}
+        \includegraphics[width=0.65\linewidth]{fig/02_metody_czestotliwosciowe/zasada_argumentu_4.png}
         \caption{Zasada argumentu dla funkcji $F(s) = (s-1)(s-1.55)$ i konturu zdefiniowanego jako okrąg o promieniu 2 i środkiem w punkcie (-2.5,0).}
         \label{fig:enter-label}
     \end{figure}
-    \item $F(s) = \frac{(s-1)(s-0.5)}{(s-2)(s+0.5)(s+1)(s+0.75)}$  - dwa pierwiastki i cztery bieguny w konturze
+\end{tcolorbox}
+  
+\begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
+    $F(s) = \frac{(s-1)(s-0.5)}{(s-2)(s+0.5)(s+1)(s+0.75)}$  - dwa pierwiastki i cztery bieguny w konturze
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\linewidth]{fig/02_metody_czestotliwosciowe/zasada_argumentu_transmitancja.png}
+        \includegraphics[width=0.65\linewidth]{fig/02_metody_czestotliwosciowe/zasada_argumentu_transmitancja.png}
         \caption{Zasada argumentu dla funkcji $F(s) = \frac{(s-1)(s-0.5)}{(s-2)(s+0.5)(s+1)(s+0.75)}$ i konturu zdefiniowanego jako okrąg o~promieniu 3 i środkiem w punkcie (0,0).}
         \label{fig:enter-label}
     \end{figure}
-\end{enumerate}
+\end{tcolorbox}
 
     %=======================================================
     \subsection{Kryterium Michajłowa}
