@@ -43,22 +43,13 @@
 \newpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Cel ćwiczenia}
-Celem ćwiczenia jest analiza stabilności systemów liniowych stacjonarnych za pomocą metod częstotliwościowych.
-Będą to dwa kryteria:
-\begin{itemize}
-    \item kryterium Michajłowa - pozwala określić liczbę pierwiastków stabilnych i~niestabilnych równania charakterystycznego układu na podstawie znajomości jego współczynników,
-    \item kryterium Nyquista - pozwala na określenie stabilności układu zamkniętego na podstawie znajomości charakterystyki częstotliwościowej układu otwartego (przy czym warto dodać, że kryterium to działa dla układów o~parametrach skupionych, jak i rozłożonych \cite{Gorecki1993} oraz dla układów z opóźnieniem) - dodatkowo kryterium Nyquista pozwala na określenie liczby pierwiastków w prawej półpłaszczyźnie układu zamkniętego.
-\end{itemize}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Wprowadzenie}
 Zanim podane zostaną kryteria badania stabilności układów dynamicznych, przedstawione zostaną pewne pojęcia wprowadzające.
 
 \textbf{Przyrost argumentu}: niech zmienna zespolona $s$ opisuje krzywą $C$ od punktu $s_{1}$ do $s_{2}$ na płaszczyźnie zespolonej.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{fig/02_metody_czestotliwosciowe/zasada_argumentu_kontur.PNG}
+    \includegraphics[width=0.5\linewidth]{fig/zasada_argumentu_kontur.PNG}
     \caption{Krzywa $C$ z zasady argumentu.}
     \label{fig:enter-label}
 \end{figure}
@@ -71,7 +62,7 @@ Niech $$F(s) = P(s) + iQ(s)$$ wtedy:
 \end{equation}
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\linewidth]{fig/02_metody_czestotliwosciowe/zasada_argumentu_kontur_C_K.PNG}
+    \includegraphics[width=0.9\linewidth]{fig/zasada_argumentu_kontur_C_K.PNG}
     \caption{Odwzorowanie krzywej $C$ w krzywą $K$.}
     \label{fig:krzywe_odwzorowanie}
 \end{figure}
@@ -94,7 +85,7 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
     $F(s) = s -1$ - jeden pierwiastek w konturze
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.65\linewidth]{fig/02_metody_czestotliwosciowe/zasada_argumentu_1.png}
+        \includegraphics[width=0.65\linewidth]{fig/zasada_argumentu_1.png}
         \caption{Zasada argumentu dla funkcji $F(s) = s-1$ i konturu zdefiniowanego jako okrąg o promieniu 2 i środkiem w punkcie (0,0).}
         \label{fig:enter-label}
     \end{figure}
@@ -104,7 +95,7 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
     $F(s) = (s-1)(s-1.55)$  - dwa pierwiastki w konturze
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.65\linewidth]{fig/02_metody_czestotliwosciowe/zasada_argumentu_2.png}
+        \includegraphics[width=0.65\linewidth]{fig/zasada_argumentu_2.png}
         \caption{Zasada argumentu dla funkcji $F(s) = (s-1)(s-1.55)$ i konturu zdefiniowanego jako okrąg o promieniu 2 i środkiem w punkcie (0,0).}
         \label{fig:enter-label}
     \end{figure}
@@ -114,7 +105,7 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
     $F(s) = (s-1)(s-1.55)$  - jeden pierwiastek w konturze
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.65\linewidth]{fig/02_metody_czestotliwosciowe/zasada_argumentu_3.png}
+        \includegraphics[width=0.65\linewidth]{fig/zasada_argumentu_3.png}
         \caption{Zasada argumentu dla funkcji $F(s) = (s-1)(s-1.55)$ i konturu zdefiniowanego jako okrąg o promieniu 2 i środkiem w punkcie (-0.9,0).}
         \label{fig:enter-label}
     \end{figure}
@@ -124,7 +115,7 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
     $F(s) = (s-1)(s-1.55)$  - brak pierwiastków w konturze
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.65\linewidth]{fig/02_metody_czestotliwosciowe/zasada_argumentu_4.png}
+        \includegraphics[width=0.65\linewidth]{fig/zasada_argumentu_4.png}
         \caption{Zasada argumentu dla funkcji $F(s) = (s-1)(s-1.55)$ i konturu zdefiniowanego jako okrąg o promieniu 2 i środkiem w punkcie (-2.5,0).}
         \label{fig:enter-label}
     \end{figure}
@@ -134,7 +125,7 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
     $F(s) = \frac{(s-1)(s-0.5)}{(s-2)(s+0.5)(s+1)(s+0.75)}$  - dwa pierwiastki i cztery bieguny w konturze
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.65\linewidth]{fig/02_metody_czestotliwosciowe/zasada_argumentu_transmitancja.png}
+        \includegraphics[width=0.65\linewidth]{fig/zasada_argumentu_transmitancja.png}
         \caption{Zasada argumentu dla funkcji $F(s) = \frac{(s-1)(s-0.5)}{(s-2)(s+0.5)(s+1)(s+0.75)}$ i konturu zdefiniowanego jako okrąg o~promieniu 3 i środkiem w punkcie (0,0).}
         \label{fig:enter-label}
     \end{figure}
@@ -224,7 +215,7 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
         Zatem zmiana argumentu wynosi $2\pi = \frac{1}{2}n\pi$, czyli pierwiastki leżą tylko w lewej półpłaszczyźnie, a więc obiekt stabilny.
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.75\linewidth]{fig/02_metody_czestotliwosciowe/michajlow_przyklad_1.PNG}
+            \includegraphics[width=0.75\linewidth]{fig/michajlow_przyklad_1.PNG}
             \caption{Szkic plotu Michajłowa dla wielomianu $H(s) = 0.0024s^{4} + 0.05s^{3} + 8.03s^{2} + 94s + 223$.}
             \label{fig:enter-label}
         \end{figure}
@@ -258,7 +249,7 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
         Wyrysowujemy plot Michajłowa:
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.5\linewidth]{fig/02_metody_czestotliwosciowe/michajlow_przyklad_2.PNG}
+            \includegraphics[width=0.5\linewidth]{fig/michajlow_przyklad_2.PNG}
             \caption{Szkic plotu Michajłowa dla wielomianu $H(s) = 0.6s^{5} + 8s^{4} + 21.8s^{3} + 18.4s^{2} + 4s + 9$.}
             \label{fig:enter-label}
         \end{figure}
@@ -273,7 +264,7 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
     Kryterium Nyquista dotyczy badania stabilności układu zamkniętego na podstawie znajomości transmitancji $G_{0}(s)$ / charakterystyki częstotliwościowej układu otwartego.
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.75\linewidth]{fig/02_metody_czestotliwosciowe/nyquist_otwarty_zamkniety.PNG}
+        \includegraphics[width=0.75\linewidth]{fig/nyquist_otwarty_zamkniety.PNG}
         \caption{Układ otwarty i zamknięty dla kryterium Nyquista.}
         \label{fig:enter-label}
     \end{figure}
@@ -323,13 +314,13 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
 
         \begin{figure}[H]
             \centering
-            \includegraphics[width=1.0\linewidth]{fig/02_metody_czestotliwosciowe/nyquist_stabilny_przeciecia.PNG}
+            \includegraphics[width=1.0\linewidth]{fig/nyquist_stabilny_przeciecia.PNG}
             \caption{Ilustracja kryterium Nyquista dla stabilnego $G_{0}(s)$.}
             \label{fig:enter-label}
         \end{figure}
         \begin{figure}[H]
             \centering
-            \includegraphics[width=1.0\linewidth]{fig/02_metody_czestotliwosciowe/nyquist_niestabilny_przeciecia.PNG}
+            \includegraphics[width=1.0\linewidth]{fig/nyquist_niestabilny_przeciecia.PNG}
             \caption{Ilustracja kryterium Nyquista dla niestabilnego $G_{0}(s)$ - jeden pierwiastek niestabilny.}
             \label{fig:enter-label}
         \end{figure}
@@ -340,7 +331,7 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
         Robi się to dodając półokrąg o promieniu $r \rightarrow 0$, jak na rysunku (\ref{fig:nyquist_astatycznyl}).
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.35\linewidth]{fig/02_metody_czestotliwosciowe/nyquist_astatyzm_kontur.png}
+            \includegraphics[width=0.35\linewidth]{fig/nyquist_astatyzm_kontur.png}
             \caption{Kontur wykorzystywany do dowodu kryterium Nyquista z astatyzmem.}
             \label{fig:nyquist_astatycznyl}
         \end{figure}
@@ -390,7 +381,7 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
 
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.75\linewidth]{fig/02_metody_czestotliwosciowe/nyquist_astatyczny.png}
+            \includegraphics[width=0.75\linewidth]{fig/nyquist_astatyczny.png}
             \caption{Ilustracja kryterium Nyquista dla obiektów z astatyzmem.}
             \label{fig:enter-label}
         \end{figure}
@@ -413,7 +404,7 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
         Łatwo zauważyć, iż ani razu nie okrąża ona punktu krytycznego, zatem po zamknięciu pętli sprzężenia zwrotnego układ regulacji automatycznej będzie stabilny.
         \begin{figure}[H]
             \centering
-            \includegraphics[width=1.0\linewidth]{fig/02_metody_czestotliwosciowe/nyquist_stabilny.png}
+            \includegraphics[width=1.0\linewidth]{fig/nyquist_stabilny.png}
             \caption{Charakterystyka Nyquista dla układu z przykładu 3.}
             \label{fig:nyquist_przyklad_stabilny}
         \end{figure}
@@ -422,7 +413,7 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
         
         \begin{figure}[H]
             \centering
-            \includegraphics[width=1.0\linewidth]{fig/02_metody_czestotliwosciowe/bode_stabilny.png}
+            \includegraphics[width=1.0\linewidth]{fig/bode_stabilny.png}
             \caption{Charakterystyka Bodego dla układu z przykładu 3.}
             \label{fig:enter-label}
         \end{figure}
@@ -431,7 +422,7 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
         Aby system był stabilny po zamknięciu pętli sprzężenia zwrotnego, plot ten musi okrążać punkt $(-180, 0)$ z prawej strony.
         \begin{figure}[H]
             \centering
-            \includegraphics[width=1.0\linewidth]{fig/02_metody_czestotliwosciowe/nichols_stabilny.png}
+            \includegraphics[width=1.0\linewidth]{fig/nichols_stabilny.png}
             \caption{Charakterystyka Nicholsa dla układu z przykładu 3.}
             \label{fig:enter-label}
         \end{figure}
@@ -444,21 +435,21 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
         Na rysunku \ref{fig:przyklad4_bode} widać, że plot Nyquista okrąża punkt krytyczny 1 raz, zatem układ po zamknięciu pętli sprzężenia zwrotnego jest stabilny.
         \begin{figure}[H]
             \centering
-            \includegraphics[width=1.0\linewidth]{fig/02_metody_czestotliwosciowe/nyquist_1.png}
+            \includegraphics[width=1.0\linewidth]{fig/nyquist_1.png}
             \caption{Charakterystyka Nyquista dla układu z przykładu 3.}
             \label{fig:przyklad4_bode}
         \end{figure}
         W tym przypadku, gdy plot Nyquista przecina oś rzeczywistych kilkukrotnie, to użycie wykresów Bodego nie jest tak oczywiste jak w poprzednim przypadku.
         \begin{figure}[H]
             \centering
-            \includegraphics[width=1.0\linewidth]{fig/02_metody_czestotliwosciowe/bode_1.png}
+            \includegraphics[width=1.0\linewidth]{fig/bode_1.png}
             \caption{Charakterystyka Bodego dla układu z przykładu 3.}
             \label{fig:enter-label}
         \end{figure}
         Natomiast na podstawie plotu Nicholsa możemy również stwierdzić stabilność układu zamkniętego, ponieważ okrąża punkt krytyczny z prawej strony.
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.75\linewidth]{fig/02_metody_czestotliwosciowe/nichols_1.png}
+            \includegraphics[width=0.75\linewidth]{fig/nichols_1.png}
             \caption{Charakterystyka Nicholsa dla układu z przykładu 3.}
             \label{fig:enter-label}
         \end{figure}
@@ -471,21 +462,21 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
         Zatem punkt $(-1, i0)$ musi być okrążony 4-krotnie przez ploty Nyquista.
         \begin{figure}[H]
             \centering
-            \includegraphics[width=1.0\linewidth]{fig/02_metody_czestotliwosciowe/nyquist_2.png}
+            \includegraphics[width=1.0\linewidth]{fig/nyquist_2.png}
             \caption{Charakterystyka Nyquista dla układu z przykładu 4.}
             \label{fig:enter-label}
         \end{figure}
         Na podstawie plotu Nyquista łatwo zauważyć, że punkt krytyczny nie jest okrążany przez charakterystykę $G_{0}(i\omega)$ ani razu, zatem układ po zamknięciu pętli sprzężenia zwrotnego będzie niestabilny.
         \begin{figure}[H]
             \centering
-            \includegraphics[width=1.0\linewidth]{fig/02_metody_czestotliwosciowe/bode_2.png}
+            \includegraphics[width=1.0\linewidth]{fig/bode_2.png}
             \caption{Charakterystyka Bodego dla układu z przykładu 4.}
             \label{fig:enter-label}
         \end{figure}
         Z plotu Nicholsa widać, iż charakterystyka obiega punkt krytyczny od lewej strony, zatem układ będzie niestabilny.
         \begin{figure}[H]
             \centering
-            \includegraphics[width=1.0\linewidth]{fig/02_metody_czestotliwosciowe/nichols_2.png}
+            \includegraphics[width=1.0\linewidth]{fig/nichols_2.png}
             \caption{Charakterystyka Nicholsa dla układu z przykładu 4.}
             \label{fig:enter-label}
         \end{figure}
@@ -493,7 +484,7 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
         Jak można ustabilizować układ zamknięty? Czy można zapewnić stabilizację regulatorem proporcjonalnym?
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.75\linewidth]{fig/02_metody_czestotliwosciowe/zadanie_1.png}
+            \includegraphics[width=0.75\linewidth]{fig/zadanie_1.png}
             \caption{Zamknięty układ regulacji.}
             \label{fig:zadanie_}
         \end{figure}
@@ -518,14 +509,14 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
         Zatem układ jest niestabilny po zamknięciu sprzężenia zwrotnego.
         \begin{figure}[H]
             \centering
-            \includegraphics[width=1.0\linewidth]{fig/02_metody_czestotliwosciowe/nyquist_6.png}
+            \includegraphics[width=1.0\linewidth]{fig/nyquist_6.png}
             \caption{Charakterystyka Nyquista dla układu z przykładu 6.}
             \label{fig:enter-label}
         \end{figure}
         Identyczne wnioski łatwo wyciągnąć z plotu Nicholsa, gdyż charakterystyka obiega punkt krytyczny z lewej strony.
         \begin{figure}[H]
             \centering
-            \includegraphics[width=1.0\linewidth]{fig/02_metody_czestotliwosciowe/nichols_6.png}
+            \includegraphics[width=1.0\linewidth]{fig/nichols_6.png}
             \caption{Charakterystyka Nicholsa dla układu z przykładu 6.}
             \label{fig:enter-label}
         \end{figure}
@@ -540,14 +531,14 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
         W rozważanym przypadku (rysunek \ref{fig:nyquist_delay}), nie posiadającym niestabilnych pierwiastków, łatwo zauważyć, że plot nie okrąża go ani razu, zatem układ z zamkniętą pętlą sprzężenia zwrotnego będzie stabilny.
         \begin{figure}[H]
             \centering
-            \includegraphics[width=1.0\linewidth]{fig/02_metody_czestotliwosciowe/nyquist_7.png}
+            \includegraphics[width=1.0\linewidth]{fig/nyquist_7.png}
             \caption{Charakterystyka Nyquista dla układu z przykładu 7.}
             \label{fig:nyquist_delay}
         \end{figure}
         Równie łatwo można dojść do tego samego wniosku analizując plot Nicholsa.
         \begin{figure}[H]
             \centering
-            \includegraphics[width=1.0\linewidth]{fig/02_metody_czestotliwosciowe/nichols_7.png}
+            \includegraphics[width=1.0\linewidth]{fig/nichols_7.png}
             \caption{Charakterystyka Nicholsa dla układu z przykładu 7.}
             \label{fig:enter-label}
         \end{figure}
@@ -611,40 +602,6 @@ Jeśli interesuje nas konkretny zakres częstotliwości przedstawianych na plota
     nyquist(s, omega);
     nichols(s, omega);
 \end{lstlisting}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Przebieg ćwiczenia}\
-\begin{enumerate}
-    \item Rozważamy układ zamknięty z regulatorem proporcjonalnym $G_{R}(s) = K$, przedstawiony na rysunku (\ref{fig:zadanie_1}),
-    gdzie transmitancja obiektu sterowanego wynosi:
-    $$
-        G_{0}(s) = \frac{s+1}{0.01s^{4} + 0.5s^{3} + 3s^{2} - 10s + 10}
-    $$
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.75\linewidth]{fig/02_metody_czestotliwosciowe/zadanie_1.png}
-        \caption{Zamknięty układ regulacji.}
-        \label{fig:zadanie_1}
-    \end{figure}
-    W czasie laboratorium:
-    \begin{itemize}
-        \item stosując kryterium Michajłowa wyznaczyć ilość niestabilnych biegunów transmitancji $G_{O}(s)$,
-        \item stosując kryterium Nyquista określić wartości współczynnika $K \in \mathbb{R}_{+}$, dla których układ zamknięty będzie stabilny,
-        \item wyrysować charakterystykę Bodego i Nicholsa, zaznaczyć zapas fazy i wzmocnienia.
-    \end{itemize}
-    
-    \item Dany jest układ otwarty o transmitancji:
-    $$
-        G(s) = \frac{4}{s+1}e^{-0.5s}
-    $$
-    W czasie laboratorium:
-    \begin{itemize}
-        \item zbadać stabilność układu zamkniętego za pomocą kryterium Nyquista,
-        \item sprawdzić, dla jakich wartości $K \in \mathbb{R}_{+}$ regulatora proporcjonalnego układ będzie stabilny,
-        \item sprawdzić, dla jakiego opóźnienia układ przestanie być stabilny po zamknięciu pętli sprzężenia zwrotnego.
-    \end{itemize}
-\end{enumerate}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
