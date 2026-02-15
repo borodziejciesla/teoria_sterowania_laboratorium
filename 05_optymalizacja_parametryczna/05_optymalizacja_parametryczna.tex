@@ -54,7 +54,7 @@ Często wymagania te są sprzeczne i poszukiwać trzeba pomiędzy nimi kompromis
     Schemat takiego URA pokazano na rysunku (\ref{fig:uklad_regulacji}).
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.75\linewidth]{fig/05_optymalizacja_parametryczna/uklad_regulacji.png}
+        \includegraphics[width=0.75\linewidth]{fig/uklad_regulacji.png}
         \caption{Schemat układu regulacji z zaznaczonymi sygnałami: $R(s)$ - wartość zadana, $E(s)$ - uchyb regulacji, $U(s)$ - sterowanie, $D(s)$ - zakłócenie obciążeniowe (obciążenie), $V(s)$ - wejście obiektu, $O(s)$ - wyjście obiektu, $Y(s)$ - wyjście układu regulacji.}
         \label{fig:uklad_regulacji}
     \end{figure}
@@ -165,7 +165,7 @@ Często wymagania te są sprzeczne i poszukiwać trzeba pomiędzy nimi kompromis
             z użyciem regulatora proporcjonalnego.
             \begin{figure}[H]
             \centering
-            \includegraphics[width=1.0\linewidth]{fig/05_optymalizacja_parametryczna/przyklad_calkowe.eps}
+            \includegraphics[width=1.0\linewidth]{fig/przyklad_calkowe.eps}
             \caption{Przebiegi dla optymalizacji względem różnych wskaźników jakości.}
             \label{fig:przyklad_calkowe}
         \end{figure}
@@ -180,7 +180,7 @@ Często wymagania te są sprzeczne i poszukiwać trzeba pomiędzy nimi kompromis
             $$
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.4\linewidth]{fig/05_optymalizacja_parametryczna/czas_regulacji.png}
+                \includegraphics[width=0.4\linewidth]{fig/czas_regulacji.png}
                 \caption{Czas regulacji.}
                 \label{fig:czas_regulaacji}
             \end{figure}
@@ -190,7 +190,7 @@ Często wymagania te są sprzeczne i poszukiwać trzeba pomiędzy nimi kompromis
             $$
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.4\linewidth]{fig/05_optymalizacja_parametryczna/czas_narastania.png}
+                \includegraphics[width=0.4\linewidth]{fig/czas_narastania.png}
                 \caption{Czas narastania.}
                 \label{fig:czas_narastania}
             \end{figure}
@@ -200,7 +200,7 @@ Często wymagania te są sprzeczne i poszukiwać trzeba pomiędzy nimi kompromis
             $$
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.4\linewidth]{fig/05_optymalizacja_parametryczna/przeregulowanie.png}
+                \includegraphics[width=0.4\linewidth]{fig/przeregulowanie.png}
                 \caption{Przeregulowanie.}
                 \label{fig:przeregulowanie}
             \end{figure}
@@ -212,7 +212,7 @@ Często wymagania te są sprzeczne i poszukiwać trzeba pomiędzy nimi kompromis
             \item zapas fazy $\Delta_{\varphi}$ - jest różnicą między argumentem $\varphi(\omega_{2})$ transmitancji widmowej $G_{otwarty}(i\omega)$, dla której moduł $|G_{otwarty}(i\omega)|$ wynosi $1$, a wartością $-\pi$.
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.4\linewidth]{fig/05_optymalizacja_parametryczna/Screenshot from 2024-04-28 21-09-41.png}
+                \includegraphics[width=0.4\linewidth]{fig/Screenshot from 2024-04-28 21-09-41.png}
                 \caption{Zapas fazy i modułu.}
                 \label{fig:zapas}
             \end{figure}
@@ -239,9 +239,8 @@ Często wymagania te są sprzeczne i poszukiwać trzeba pomiędzy nimi kompromis
             B(s)B(-s) = A(-s)C(s) + A(s)C(-s).
         $$
         Na podstawie tej równości dostajemy zestaw równań na wartości współczynników $c_i$, wynikających z równości odpowiednich współczynników wielomianów z lewej i prawej strony znaku równości.
-        A ostateczną formułą na wskaźnik jakości $J_{1}$ jest (\ref{eq:j2}):
+        A ostateczną formułą na wskaźnik jakości $J_{1}$ jest (\ref{eq:j1}):
         \begin{equation}
-        \label{eq:j2}
             J_{1} = \frac{c_{n-1}}{a_{n}}.
         \end{equation}
 
@@ -357,7 +356,7 @@ Często wymagania te są sprzeczne i poszukiwać trzeba pomiędzy nimi kompromis
     osiąga lepszy wynik niż dla innych punktów - rysunek (\ref{fig:enter-label}).
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.35\linewidth]{fig/05_optymalizacja_parametryczna/Screenshot from 2024-04-28 00-49-05.png}
+        \includegraphics[width=0.35\linewidth]{fig/Screenshot from 2024-04-28 00-49-05.png}
         \caption{Zbiór (front) Pareto.}
         \label{fig:enter-label}
     \end{figure}
@@ -600,13 +599,13 @@ Często wymagania te są sprzeczne i poszukiwać trzeba pomiędzy nimi kompromis
         Przebiegi czasowe uzyskanych uchybów regulacji i sterowania pokazano na rysunkach (\ref{fig:przyklad_1_uchyb}) i (\ref{fig:model_symulacja}):
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.5\linewidth]{fig/05_optymalizacja_parametryczna/przyklad_1_uchyb.png}
+            \includegraphics[width=0.5\linewidth]{fig/przyklad_1_uchyb.png}
             \caption{Przebiegi czasowe uchybu sterowania dla optymalnych nastaw regulatora względem wskaźnika jakości $J_{2}$ i $J_{7}$.}
             \label{fig:przyklad_1_uchyb}
         \end{figure}
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.5\linewidth]{fig/05_optymalizacja_parametryczna/przyklad_1_sterowanie.png}
+            \includegraphics[width=0.5\linewidth]{fig/przyklad_1_sterowanie.png}
             \caption{Przebiegi czasowe  sterowania dla optymalnych nastaw regulatora względem wskaźnika jakości $J_{2}$ i $J_{7}$.}
             \label{fig:eprzyklad_1_sterowanie}
         \end{figure}
@@ -614,14 +613,14 @@ Często wymagania te są sprzeczne i poszukiwać trzeba pomiędzy nimi kompromis
         Obydwa przypadki, dla wskaźnika $J_{2}$, jak i $J_{7}$ można również rozwiązać numerycznie, korzystając z modelu Simulinka, jak na rysunku (\ref{fig:model_symulacja}):
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.5\linewidth]{fig/05_optymalizacja_parametryczna/Screenshot from 2024-04-27 18-23-11.png}
+            \includegraphics[width=0.5\linewidth]{fig/Screenshot from 2024-04-27 18-23-11.png}
             \caption{Model symulacyjny  używany do optymalizacji współczynników regulatora.}
             \label{fig:model_symulacja}
         \end{figure}
         Na jego podstawie uzyskano praktycznie identyczne wyniki jak w rozwiązaniu analitycznym:
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.5\linewidth]{fig/05_optymalizacja_parametryczna/przyklad_1_j7.png}
+            \includegraphics[width=0.5\linewidth]{fig/przyklad_1_j7.png}
             \caption{Wzrost wskaźnika jakości w czasie symulacji.}
             \label{fig:j7_symulacja}
         \end{figure}
@@ -1043,7 +1042,7 @@ Dla każdego z podanych systemów w trakcie analizy należy dla układów 1 i 2:
     \subsection{Układ 2}
     Dla obiektu opisywanego transmitancją:
     \begin{equation}
-        \label{eq:system_1}
+        \label{eq:system_2}
         G_{1}(s) = \frac{1}{s^2+0.5s+1},
     \end{equation}
     w układzie regulacji automatycznej z rysunku (\ref{fig:uklad_regulacji}), rozważyć do optymalizacji parametrycznej regulatory:

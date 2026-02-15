@@ -51,7 +51,7 @@ Najczęściej dyskretne równania układu regulacji uzyskiwane są w rezultacie 
 Schemat takiego układu sterowania przedstawiony jest na rysunku (\ref{fig:schemat_regulacji_cyfrowej}).
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{fig/06_uklady_dyskretne/dyskretny_schemat.png}
+    \includegraphics[width=0.75\linewidth]{fig/dyskretny_schemat.png}
     \caption{Schemat układu regulacji cyfrowej - algorytm regulacji realizowany na komputerze.}
     \label{fig:schemat_regulacji_cyfrowej}
 \end{figure}
@@ -89,9 +89,9 @@ $$
             \end{itemize}
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.5\linewidth]{fig/06_uklady_dyskretne/backward_int.png}
+                \includegraphics[width=0.5\linewidth]{fig/backward_int.png}
                 \caption{Aproksymacja lewostronna (\textit{backward}).}
-                \label{fig:enter-label}
+                \label{fig:backward_int}
             \end{figure}
 
             \item aproksymacja prawostronna (\textit{forward}):
@@ -102,9 +102,9 @@ $$
             \end{itemize}
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.5\linewidth]{fig/06_uklady_dyskretne/forward_int.png}
+                \includegraphics[width=0.5\linewidth]{fig/forward_int.png}
                 \caption{Aproksymacja prawostronna (\textit{forward}).}
-                \label{fig:enter-label}
+                \label{fig:enter-label_right}
             \end{figure}
 
             \item aproksymacja symetryczna:
@@ -115,9 +115,9 @@ $$
             \end{itemize}
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.5\linewidth]{fig/06_uklady_dyskretne/tustin_int.png}
+                \includegraphics[width=0.5\linewidth]{fig/tustin_int.png}
                 \caption{Aproksymacja symetryczna.}
-                \label{fig:enter-label}
+                \label{fig:enter-label_symmetric}
             \end{figure}
         \end{enumerate}
 
@@ -415,9 +415,9 @@ $$
             $$
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.5\linewidth]{fig/06_uklady_dyskretne/forward_transform.png}
+                \includegraphics[width=0.5\linewidth]{fig/forward_transform.png}
                 \caption{Przekształcenie lewej półpłaszczyzny dla aproksymacji \textit{forward}.}
-                \label{fig:enter-label}
+                \label{fig:forward_transform}
             \end{figure}
             
             \item metoda całkowania "do tyłu" (\textit{backward}):
@@ -426,9 +426,9 @@ $$
             $$
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.5\linewidth]{fig/06_uklady_dyskretne/backward_transform.png}
+                \includegraphics[width=0.5\linewidth]{fig/backward_transform.png}
                 \caption{Przekształcenie lewej półpłaszczyzny dla aproksymacji \textit{backward}.}
-                \label{fig:enter-label}
+                \label{fig:backward_transform}
             \end{figure}
             
             \item całkowania metodą trapezów (metoda \textit{Tustina}):
@@ -437,9 +437,9 @@ $$
             $$
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.5\linewidth]{fig/06_uklady_dyskretne/tustin_transform.png}
+                \includegraphics[width=0.5\linewidth]{fig/tustin_transform.png}
                 \caption{Przekształcenie lewej półpłaszczyzny dla aproksymacji Tustina.}
-                \label{fig:enter-label}
+                \label{fig:tustin_transform}
             \end{figure}
         \end{enumerate}
 
@@ -472,7 +472,7 @@ $$
         Co pokazano na rysunku (\ref{fig:implse_to_zoh}).
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.5\linewidth]{fig/06_uklady_dyskretne/implse_to_zoh.png}
+            \includegraphics[width=0.5\linewidth]{fig/implse_to_zoh.png}
             \caption{Ekstrapolacja zerowego rzędu.}
             \label{fig:implse_to_zoh}
         \end{figure}
@@ -485,7 +485,7 @@ $$
         Zatem w schemacie blokowym można dodać dodatkowy blok \textbf{ZOH}, który realizuje transmitancję $H(s)$:
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.5\linewidth]{fig/06_uklady_dyskretne/zoh.png}
+            \includegraphics[width=0.5\linewidth]{fig/zoh.png}
             \caption{Ekstrapolacja zerowego rzędu - schemat blokowy.}
             \label{fig:implse_to_zoh}
         \end{figure}
@@ -846,7 +846,7 @@ $$
     Wyniki przedstawiono na rysunku (\ref{fig:przyklad_1}).
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.75\linewidth]{fig/06_uklady_dyskretne/przyklad_1.png}
+        \includegraphics[width=0.75\linewidth]{fig/przyklad_1.png}
         \caption{Realizacja różnych metod dyskretyzacji.}
         \label{fig:przyklad_1}
     \end{figure}
@@ -922,15 +922,15 @@ $$
     Budujemy model symulacyjny, w którym jednocześnie wykonamy symulację układu ciągłego i dyskretnego:
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.5\linewidth]{fig/06_uklady_dyskretne/Screenshot from 2024-05-12 15-53-29.png}
+        \includegraphics[width=0.5\linewidth]{fig/Screenshot from 2024-05-12 15-53-29.png}
         \caption{Model symulacyjny dla przykładu 2.}
-        \label{fig:enter-label}
+        \label{fig:sim_example_2l}
     \end{figure}
 
     Wyniki symulacji przedstawiono na rysunku(\ref{fig:wyjscie_przyklad_2}).
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.5\linewidth]{fig/06_uklady_dyskretne/przyklad_2_dyskretne.png}
+        \includegraphics[width=0.5\linewidth]{fig/przyklad_2_dyskretne.png}
         \caption{Wyjście układu sterowania z czasem ciągłym i dyskretnym dla przykładu 2.}
         \label{fig:wyjscie_przyklad_2}
     \end{figure}
@@ -940,7 +940,7 @@ $$
     A przy odpowiednio dużym okresie dyskretyzacji może powodować destabilizację układu starowania, co pokazano na rysunku (\ref{fig:wyjscie_przyklad_2_2}).
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.5\linewidth]{fig/06_uklady_dyskretne/przyklad_2_dyskretne_2.png}
+        \includegraphics[width=0.5\linewidth]{fig/przyklad_2_dyskretne_2.png}
         \caption{Wyjście układu sterowania z czasem ciągłym i dyskretnym, z różnymi okresami dyskretyzacji, dla przykładu 2.}
         \label{fig:wyjscie_przyklad_2_2}
     \end{figure}
@@ -1034,9 +1034,9 @@ $$
     Na tej podstawie otrzymujemy warunek $K<3.3093$, a przykładowe przebiegi pokazano na rysunku.
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.5\linewidth]{fig/06_uklady_dyskretne/przyklad_3_dyskretne.png}
+        \includegraphics[width=0.5\linewidth]{fig/przyklad_3_dyskretne.png}
         \caption{Przykładowe przebiegi dla układu z przykładu 3.}
-        \label{fig:enter-label}
+        \label{fig:przyklad_3_dyskretne}
     \end{figure}
 
     %======================================================
@@ -1209,7 +1209,7 @@ $$
     Przykład użycia tych bloków pokazano na rysunku (\ref{fig:zoh_rt}).
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.75\linewidth]{fig/06_uklady_dyskretne/simulink_model.png}
+        \includegraphics[width=0.75\linewidth]{fig/simulink_model.png}
         \caption{Zastosowanie bloków ZOH i Rate-Transition w modelu Simulinka}
         \label{fig:zoh_rt}
     \end{figure}

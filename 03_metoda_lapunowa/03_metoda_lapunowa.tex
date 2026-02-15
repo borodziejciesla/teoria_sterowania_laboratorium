@@ -84,7 +84,7 @@ Przykładem cyklu granicznego jest tak zwany oscylator Van der Pola:
 Na rysunku (\ref{fig:van_der_pol}) przedstawiono portret tego układu, gdzie wyraźnie widoczny jest występujący tam cykl graniczny.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{fig/03_lapunow/van_der_pol.png}
+    \includegraphics[width=0.5\linewidth]{fig/van_der_pol.png}
     \caption{Portret fazowy dla oscylatora Van der Pola (równanie \ref{eq:van_der_pol}).}
     \label{fig:van_der_pol}
 \end{figure}
@@ -114,7 +114,7 @@ $$
 Portret fazowy tego układu pokazany jest na rysunku (\ref{fig:cykle_graniczne}).
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{fig/03_lapunow/cykle_graniczne.png}
+    \includegraphics[width=0.5\linewidth]{fig/cykle_graniczne.png}
     \caption{Portret fazowy dla układu opisanego układem równań \ref{eq:cykle_graniczne}.}
     \label{fig:cykle_graniczne}
 \end{figure}
@@ -142,14 +142,14 @@ Punkt równowagi $x_{e}$  układu (\ref{eq:sys}) nazywamy stabilnym asymptotyczn
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{fig/03_lapunow/stabilnosc_zbiory.PNG}
+    \includegraphics[width=0.5\linewidth]{fig/stabilnosc_zbiory.PNG}
     \caption{Interpretacja geometryczna definicji stabilności.}
-    \label{fig:enter-label}
+    \label{fig:lapunowa_interpretacja}
 \end{figure}
 
 \textbf{Definicja 8}
 Punkt równowagi $x_{e}$  układu (\ref{eq:sys}) nazywamy stabilnym wykładniczo, jeśli istnieje $\alpha > 0$ taka, że dla dowolnego $\epsilon > 0$ istnieje $\delta > 0$ takie, że dla dowolnego $t\geq t_{0}$:
-\begin{equation}\label{eq:as}
+\begin{equation}\label{eq:asw}
     \lVert x_{e} - x_{0} \rVert < \delta_{\epsilon}(t_{0}) \implies \lVert x_{e} - x(t;t_{0},x_{0}) \rVert \leq \epsilon e^{-\alpha(t-t_{0})}.
 \end{equation}s
 
@@ -179,12 +179,12 @@ Rozważmy układ opisany układem równań (\ref{eq:przyklad_zbiezny_niestabilny
     \right\}.
 \end{equation}
 Układ ten ma jeden punkt równowagi w początku układu współrzędnych, a jego obszarem atrakcji jest cała płaszczyzna $\mathbb{R}^{2}$, lecz nie jest on stabilny. Ponieważ nie można dobrać takiego $\delta$, aby implikacja (\ref{eq:lyap_def}) była spełniona.
-Kilka jego przykładowych trajektorii okazano na rysunku (\ref{fig:enter-label}).
+Kilka jego przykładowych trajektorii okazano na rysunku (\ref{fig:example_unstable}).
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{fig/03_lapunow/przyklad_atr_stab.PNG}
+    \includegraphics[width=0.5\linewidth]{fig/przyklad_atr_stab.PNG}
     \caption{Przykładowe trajektorie dla układu (\ref{eq:przyklad_zbiezny_niestabilny}).}
-    \label{fig:enter-label}
+    \label{fig:example_unstable}
 \end{figure}
 \end{tcolorbox}
 
@@ -269,7 +269,7 @@ $$
 i udowadnia asymptotyczną stabilność.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{fig/03_lapunow/lap_dowod_zbiory.PNG}
+    \includegraphics[width=0.5\linewidth]{fig/lap_dowod_zbiory.PNG}
     \caption{Zbiory definiowane w dowodzie twierdzenia Lapunowa o stabilności.}
     \label{fig:enter-label}
 \end{figure}
@@ -279,9 +279,9 @@ Funkcja $V:D\rightarrow\mathbb{R}$ spełniająca założenia twierdzenia Lapunow
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{fig/03_lapunow/funkcja_lapunowa.PNG}
+    \includegraphics[width=0.5\linewidth]{fig/funkcja_lapunowa.PNG}
     \caption{Graficzna interpretacja funkcji Lapunowa dla $n=2$.}
-    \label{fig:enter-label}
+    \label{fig:lapunowa_interpretacja2}
 \end{figure}
 
 \textbf{Twierdzenie 2 (Lapunowa o niestabilności)}
@@ -421,7 +421,7 @@ jeśli istnieje radialnie nieograniczona, ciągle różniczkowalna, dodatnio okr
     $1$ od góry).
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.5\linewidth]{fig/03_lapunow/radialna_nieograniczonosc.eps}
+        \includegraphics[width=0.5\linewidth]{fig/radialna_nieograniczonosc.eps}
         \caption{Funkcja Lapunowa $V(x)$ jest radialnie ograniczona -
         zbiór poziomicowy dla $V(x) = 1$ jest nieodomknięty.}
     \end{figure}
@@ -533,7 +533,7 @@ Ponieważ warunek $\dot{V}(x) = <\nabla V(x), f(x)> < 0$ oznacza, że kąt pomi�
 Jak pokazano na rysunku \ref{fig:invariant_set}.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{fig/03_lapunow/invariant_set.png}
+    \includegraphics[width=0.75\linewidth]{fig/invariant_set.png}
     \caption{Geometryczna interpretacja warunku na inwariantność zbioru poziomicowego.}
     \label{fig:invariant_set}
 \end{figure}
@@ -547,7 +547,7 @@ $$
 Graficznie przedstawiono to na rysunku (\ref{fig:la_calle_przyklad}):
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.25\linewidth]{fig/03_lapunow/la_salle_przyklad.PNG}
+    \includegraphics[width=0.25\linewidth]{fig/la_salle_przyklad.PNG}
     \caption{Ilustracja do twierdzenia o obszarze przyciągania.}
     \label{fig:la_calle_przyklad}
 \end{figure}
@@ -597,7 +597,7 @@ Jeśli trajektorie nieliniowego, stacjonarnego układu drugiego rzędu (\ref{eq:
 \end{enumerate}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.35\linewidth]{fig/03_lapunow/poincare_bendixon.PNG}
+    \includegraphics[width=0.35\linewidth]{fig/poincare_bendixon.PNG}
     \caption{Ilustracja do twierdzenia Poincare-Bendixona.}
     \label{fig:poincare_bendixon}
 \end{figure}
@@ -625,7 +625,7 @@ Zatem można szukać cyklu granicznego wokół punktu $(0,0)$.
 Portret fazowy tego układu pokazano na rysunku.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{fig/03_lapunow/bendixon.png}
+    \includegraphics[width=0.5\linewidth]{fig/bendixon.png}
     \caption{Portret fazowy układu (\ref{eq:bendixon}).}
     \label{fig:bendixon}
 \end{figure}
@@ -640,7 +640,7 @@ Portret fazowy tego układu pokazano na rysunku.
         W celu zobrazowania metody energetycznej funkcji Lapunowa wykorzystany zostanie przykład układu masa-sprężyna, jak na rysunku (\ref{fig:masa-sprezyna}).
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.25\linewidth]{fig/03_lapunow/energia_lapunow.PNG}
+            \includegraphics[width=0.25\linewidth]{fig/energia_lapunow.PNG}
             \caption{Układ masa-sprężyna.}
             \label{fig:masa-sprezyna}
         \end{figure}
@@ -855,7 +855,7 @@ Portret fazowy tego układu pokazano na rysunku.
         Powyższe wnioski zobrazowane są na rysunku (\ref{fig:przyklad_1}), przedstawiającym portret trajektorii badanego układu.
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_2.png}
+            \includegraphics[width=0.7\linewidth]{fig/przyklad_2.png}
             \caption{Portret trajektorii stanu układu (\ref{eq:example_11_sys_transformed}).}
             \label{fig:przyklad_1}
         \end{figure}
@@ -968,7 +968,7 @@ Portret fazowy tego układu pokazano na rysunku.
         Portret fazowy przedstawiony na rysunku (\ref{fig:przyklad_2}) potwierdza powyższe wnioski.
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_1.png}
+            \includegraphics[width=0.7\linewidth]{fig/przyklad_1.png}
             \caption{Portret fazowy układu (\ref{eq:przyklad_2}).}
             \label{fig:przyklad_2}
         \end{figure}
@@ -1012,7 +1012,7 @@ Portret fazowy tego układu pokazano na rysunku.
             $$
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_3_v.png}
+                \includegraphics[width=0.7\linewidth]{fig/przyklad_3_v.png}
                 \caption{Poziomice funkcji Lapunowa nałożone na portret fazowy układu z przykładu 3.}
                 \label{fig:przyklad_3_v}
             \end{figure}
@@ -1022,9 +1022,9 @@ Portret fazowy tego układu pokazano na rysunku.
             $$
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_3_vp.png}
+                \includegraphics[width=0.7\linewidth]{fig/przyklad_3_vp.png}
                 \caption{Poziomice pochodnej systemowej funkcji Lapunowa nałożone na portret fazowy układu z przykładu 3.}
-                \label{fig:przyklad_3_v}
+                \label{fig:przyklad_3_vp}
             \end{figure}
             Jest ona ujemna wszędzie poza osią $OX$, a jedynymi zbiorami inwariantnymi na niej są punkty równowagi.
             Zatem poziomica ograniczająca obszar atrakcji "ociera się" o niestabilny punkt równowagi.
@@ -1058,7 +1058,7 @@ Portret fazowy tego układu pokazano na rysunku.
         \end{enumerate}
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_3_obszar.png}
+            \includegraphics[width=0.7\linewidth]{fig/przyklad_3_obszar.png}
             \caption{Granice estymowanego obszaru atrakcji dla stabilnych punktów równowagi z przykładu 3.}
             \label{fig:przyklad_3_obszar}
         \end{figure}
@@ -1118,9 +1118,9 @@ Portret fazowy tego układu pokazano na rysunku.
             $$
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_4_v_1.png}
+                \includegraphics[width=0.7\linewidth]{fig/przyklad_4_v_1.png}
                 \caption{Poziomice funkcji Lapunowa na tle portretu fazowago z przykładu 4.}
-                \label{fig:przyklad_3_obszar}
+                \label{fig:przyklad_4_obszar}
             \end{figure}
             Jej pochodna systemowa ma postać:
             $$
@@ -1137,9 +1137,9 @@ Portret fazowy tego układu pokazano na rysunku.
             Można zauważyć, że jej znak nie zależy od wartości parametru $q$ oraz dla $x_{1} \in (12.36; 0.66)$.
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_4_vp_1.png}
+                \includegraphics[width=0.7\linewidth]{fig/przyklad_4_vp_1.png}
                 \caption{Poziomice pochodnej systemowej funkcji Lapunowa na tle portretu fazowago z przykładu 4.}
-                \label{fig:przyklad_3_obszar}
+                \label{fig:przyklad_4_vp}
             \end{figure}
             Na tej podstawie wybieramy największy zbiór poziomicowy $V(x)$ spełniający te warunki.
             $$
@@ -1148,9 +1148,9 @@ Portret fazowy tego układu pokazano na rysunku.
             Zbiór ten przedstawiono na rysunku (\ref{fig:przyklad_4_obszar}).
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_4_obszar_1.png}
+                \includegraphics[width=0.7\linewidth]{fig/przyklad_4_obszar_1.png}
                 \caption{Estymata obszaru atrakcji na tle portretu fazowago z przykładu 4.}
-                \label{fig:przyklad_4_obszar}
+                \label{fig:przyklad_4_obsza_obszar}
             \end{figure}
             
             \item Funkcję Lapunowa w postaci:
@@ -1161,9 +1161,9 @@ Portret fazowy tego układu pokazano na rysunku.
             Jest ona dodatnia na pewnym otczeniu stabilnego punktu równowagi.
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_4_v_2.png}
+                \includegraphics[width=0.7\linewidth]{fig/przyklad_4_v_2.png}
                 \caption{Poziomice funkcji Lapunowa (\ref{eq:przyklad_4_2}) na tle portretu fazowago z przykładu 4.}
-                \label{fig:przyklad_4_obszar}
+                \label{fig:przyklad_4_obszar_2}
             \end{figure}
             Jej pochodna systemowa wynosi:
             $$
@@ -1171,16 +1171,16 @@ Portret fazowy tego układu pokazano na rysunku.
             $$
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_4_vp_2.png}
+                \includegraphics[width=0.7\linewidth]{fig/przyklad_4_vp_2.png}
                 \caption{Poziomice pochodnej systemowej funkcji Lapunowa (\ref{eq:przyklad_4_2}) na tle portretu fazowego z przykładu 4.}
-                \label{fig:przyklad_4_obszar}
+                \label{fig:przyklad_4_obszar_3}
             \end{figure}
             Jest ona ujemnie określona wszędzie poza prostymi $x=0$ i $x=1$. Badając te dwie proste można łatwo zauważyć, że tylko znajdujące się na nich punkty równowagi są zbiorami inwariantnymi.
             Zatem dobierając zbiór poziomicowy w ten sposób, by "zahaczał" tylko o niestabilny punkt równowagi, uzyskujemy estymatę obszaru asymptotycznego przyciągania stabilnego punktu równowagi.
-            Zbiór ten został przedstawiony na rysunku (\ref{fig:przyklad_4_obszar_2}).
+            Zbiór ten został przedstawiony na rysunku (\ref{fig:przyklad_4_obszar_3}).
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_4_obszar_2.png}
+                \includegraphics[width=0.7\linewidth]{fig/przyklad_4_obszar_2.png}
                 \caption{Estymata obszaru atrakcji na podstawie funkcji Lapunowa (\ref{eq:przyklad_4_2}) na tle portretu fazowego z przykładu 4.}
                 \label{fig:przyklad_4_obszar_2}
             \end{figure}
@@ -1190,7 +1190,7 @@ Portret fazowy tego układu pokazano na rysunku.
         %-------------------------------------------------------
         \subsubsection{Przykład 5}
         Znaleźć obszar stabilności asymptotycznej wokół punktu równowagi $x_{1}=x_{2}=0$ dla układu równań:
-        \begin{equation}\label{eq:example_2_sys}
+        \begin{equation}\label{eq:example_5_sys}
             \left\{
             \begin{array}{l}
                  \dot{x}_{1} = -x_{1} + 2x_{1}^{3}x_{2}\\
@@ -1206,7 +1206,7 @@ Portret fazowy tego układu pokazano na rysunku.
             V(x) = x^{T}Px.
         $$
 
-        Przed rozpoczęciem poszukiwania funkcji Lapunowa wyznaczymy przybliżenie liniowe systemu (\ref{eq:example_2_sys}):
+        Przed rozpoczęciem poszukiwania funkcji Lapunowa wyznaczymy przybliżenie liniowe systemu (\ref{eq:example_5_sys}):
         $$
             \begin{bmatrix} \dot{x}_{1} \\ \dot{x}_{2} \end{bmatrix}
             =
@@ -1227,12 +1227,12 @@ Portret fazowy tego układu pokazano na rysunku.
 
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_5_v_1.png}
-                \caption{Portret fazowy układu (\ref{eq:example_2_sys}) z naniesionymi poziomicami funkcji Lapunowa.}
+                \includegraphics[width=0.7\linewidth]{fig/przyklad_5_v_1.png}
+                \caption{Portret fazowy układu (\ref{eq:example_5_sys}) z naniesionymi poziomicami funkcji Lapunowa.}
                 \label{fig:przyklad_5_v_1}
             \end{figure}
 
-            Dla uproszczenia zapisu można układ (\ref{eq:example_2_sys})  w postaci pseudoliniowej (\ref{eq:przyklad_5_form_pseudo}):
+            Dla uproszczenia zapisu można układ (\ref{eq:example_5_sys})  w postaci pseudoliniowej (\ref{eq:przyklad_5_form_pseudo}):
             \begin{equation}\label{eq:przyklad_5_form_pseudo}
                 \begin{bmatrix} \dot{x}_{1} \\ \dot{x}_{2} \end{bmatrix}
                 =
@@ -1266,8 +1266,8 @@ Portret fazowy tego układu pokazano na rysunku.
 
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_5_vp_1.png}
-                \caption{Portret fazowy okładu (\ref{eq:example_2_sys}) z naniesionymi poziomicami pochodnej systemowej funkcji Lapunowa.}
+                \includegraphics[width=0.7\linewidth]{fig/przyklad_5_vp_1.png}
+                \caption{Portret fazowy okładu (\ref{eq:example_5_sys}) z naniesionymi poziomicami pochodnej systemowej funkcji Lapunowa.}
                 \label{fig:przyklad_5_vp_1}
             \end{figure}
 
@@ -1283,8 +1283,8 @@ Portret fazowy tego układu pokazano na rysunku.
 
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_5_obszar_1.png}
-                \caption{Portret fazowy układu (\ref{eq:example_2_sys}) z obszarem atrakcji, wynikającym z funkcji Lapunowa.}
+                \includegraphics[width=0.7\linewidth]{fig/przyklad_5_obszar_1.png}
+                \caption{Portret fazowy układu (\ref{eq:example_5_sys}) z obszarem atrakcji, wynikającym z funkcji Lapunowa.}
                 \label{fig:Przyklad_5_obszar_1}
             \end{figure}
 
@@ -1320,8 +1320,8 @@ Portret fazowy tego układu pokazano na rysunku.
             Obszar ten zaznaczono na rysunku (\ref{fig:przyklad_5_obszar_2}).
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_5_obszar_2.png}
-                \caption{Portret fazowy układu (\ref{eq:example_2_sys}) z obszarem atrakcji wynikającym z funkcji Lapunowa}
+                \includegraphics[width=0.7\linewidth]{fig/przyklad_5_obszar_2.png}
+                \caption{Portret fazowy układu (\ref{eq:example_5_sys}) z obszarem atrakcji wynikającym z funkcji Lapunowa}
                 \label{fig:przyklad_5_obszar_2}
             \end{figure}
             Poza obszarem atrakcji ograniczonym przez czerwone linie na rysunku (\ref{fig:przyklad_5_obszar_2}) pozostaje do rozważenia obszary:
@@ -1340,7 +1340,7 @@ Portret fazowy tego układu pokazano na rysunku.
         $$
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.75\linewidth]{fig/03_lapunow/example_system.PNG}
+            \includegraphics[width=0.75\linewidth]{fig/example_system.PNG}
             \caption{Schemat układu regulacji z przykładu 6.}
             \label{fig:example_4_system_schem}
         \end{figure}
@@ -1362,7 +1362,7 @@ Portret fazowy tego układu pokazano na rysunku.
         Portret fazowy rozważanego układu pokazany jest na rysunku (\ref{fig:przyklad_6_pf}).
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_6.png}
+            \includegraphics[width=0.7\linewidth]{fig/przyklad_6.png}
             \caption{Portret fazowy układu z przykładu 6.}
             \label{fig:przyklad_6_pf}
         \end{figure}
@@ -1378,7 +1378,7 @@ Portret fazowy tego układu pokazano na rysunku.
             Poziomice tej funkcji nałożone na portret fazowy przedstawiono na rysunku:
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_6_v_1.png}
+                \includegraphics[width=0.7\linewidth]{fig/przyklad_6_v_1.png}
                 \caption{Portret fazowy układu (\ref{eq:przyklad_6_rownanie}) z naniesionymi poziomicami funkcji Lapunowa (\ref{eq:przyklad_6_rownanie}).}
                 \label{fig:przyklad_6_v_1}
             \end{figure}
@@ -1391,9 +1391,9 @@ Portret fazowy tego układu pokazano na rysunku.
             Dlatego konieczne jest sprawdzenie istnienia zbiorów inwariantnych na niej - łatwo zauważyć, że jest to tylko punkt równowagi układu.
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_6_vp_1.png}
+                \includegraphics[width=0.7\linewidth]{fig/przyklad_6_vp_1.png}
                 \caption{Portret fazowy układu (\ref{eq:przyklad_6_rownanie}) z naniesionymi poziomicami pochodnej systemowej funkcji Lapunowa (\ref{eq:przyklad_6_rownanie}).}
-                \label{fig:przyklad_6_v_1}
+                \label{fig:przyklad_6_v_2}
             \end{figure}
             Dla wszystkich punktów równowagi wartości $V(x)$ są dodatnie, a $\dot{V}(x)$ równe 0. Dlatego ograniczamy zakres poszukiwań obszaru atrakcji do tych poziomic funkcji Lapunowa, które sięgają niestabilnych punktów równowagi, zatem:
             $$
@@ -1401,7 +1401,7 @@ Portret fazowy tego układu pokazano na rysunku.
             $$
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_6_obszar_1.png}
+                \includegraphics[width=0.7\linewidth]{fig/przyklad_6_obszar_1.png}
                 \caption{Portret fazowy układu (\ref{eq:przyklad_6_rownanie}) z naniesionym obszarem atrakcji stabilnego punktu równowagi (obszar zaznaczony czerwoną przerywaną linią).}
                 \label{fig:przyklad_6_v_1}
             \end{figure}
@@ -1433,7 +1433,7 @@ Portret fazowy tego układu pokazano na rysunku.
         Portret fazowy układu przedstawiono na rysunku (\ref{fig:przyklad_7_pf}).
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_7.png}
+            \includegraphics[width=0.7\linewidth]{fig/przyklad_7.png}
             \caption{Portret fazowy układu (\ref{eq:przyklad_7_rownanie}).}
             \label{fig:przyklad_7_pf}
         \end{figure}
@@ -1445,7 +1445,7 @@ Portret fazowy tego układu pokazano na rysunku.
         Jej wykres poziomicowy naniesiony na portret fazowy pokazano na rysunku (\ref{fig:przyklad_7_v_1}).
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_7_v_1.png}
+            \includegraphics[width=0.7\linewidth]{fig/przyklad_7_v_1.png}
             \caption{Portret fazowy układu (\ref{eq:przyklad_7_rownanie}) z naniesionymi poziomicami funkcji Lapunowa (\ref{eq:przyklad_7_v}).}
             \label{fig:przyklad_7_v_1}
         \end{figure}
@@ -1454,12 +1454,12 @@ Portret fazowy tego układu pokazano na rysunku.
             \label{eq:przyklad_7_vp}
             \dot{V}(x) = -x_{2}^{2}.
         \end{equation}
-        Jej wykres naniesiony na portret fazowy został przedstawiony na rysunku (\ref{fig:przyklad_7_v_1}).
+        Jej wykres naniesiony na portret fazowy został przedstawiony na rysunku (\ref{fig:przyklad_7_v_2}).
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_7_vp_1.png}
+            \includegraphics[width=0.7\linewidth]{fig/przyklad_7_vp_1.png}
             \caption{Portret fazowy układu (\ref{eq:przyklad_7_rownanie}) z naniesionymi poziomicami pochodnej systemowej funkcji Lapunowa (\ref{eq:przyklad_7_v}).}
-            \label{fig:przyklad_7_v_1}
+            \label{fig:przyklad_7_v_2}
         \end{figure}
         Pochodna systemowa (\ref{eq:przyklad_7_vp}) zeruje się na osi $OX$, dlatego sprawdzamy, jak na niej zachowują się trajektorie systemu. Z tej analizy wynika, że zbiór inwariantny zawiera tylko punkty równowagi.
         
@@ -1467,12 +1467,12 @@ Portret fazowy tego układu pokazano na rysunku.
         $$
             D = \left\{ x \in \mathbb{R}^{2}: V(x) < \frac{1}{12} \right\}.
         $$
-        Obszar ten został przedstawiony na rysunku (\ref{fig:przyklad_7_v_1}).
+        Obszar ten został przedstawiony na rysunku (\ref{fig:przyklad_7_v_2}).
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_7_obszar_1.png}
+            \includegraphics[width=0.7\linewidth]{fig/przyklad_7_obszar_1.png}
             \caption{Portret fazowy układu (\ref{eq:przyklad_7_rownanie}) z naniesionym obszarem atrakcji stabilnego punktu równowagi (obszar zaznaczony czerwoną przerywaną linią).}
-            \label{fig:przyklad_7_v_1}
+            \label{fig:przyklad_7_v_3}
         \end{figure}
 
         %-------------------------------------------------------
@@ -1491,7 +1491,7 @@ Portret fazowy tego układu pokazano na rysunku.
         
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_8_pf.png}
+            \includegraphics[width=0.7\linewidth]{fig/przyklad_8_pf.png}
             \caption{Portret fazowy układu z przykładu 8.}
             \label{fig:przyklad_8}
         \end{figure}
@@ -1509,7 +1509,7 @@ Portret fazowy tego układu pokazano na rysunku.
 
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_8_v.png}
+            \includegraphics[width=0.7\linewidth]{fig/przyklad_8_v.png}
             \caption{Funkcja Lapunowa (\ref{eq:przyklad_8_v}) na tle portretu fazowego układu z przykładu 8.}
             \label{fig:przyklad_8_v}
         \end{figure}
@@ -1526,7 +1526,7 @@ Portret fazowy tego układu pokazano na rysunku.
 
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_8_vp.png}
+            \includegraphics[width=0.7\linewidth]{fig/przyklad_8_vp.png}
             \caption{Poziomice pochodnej funkcji Lapunowa (\ref{eq:przyklad_8_v}) na tle portretu fazowego układu z przykładu 8.}
             \label{fig:przyklad_8_vp}
         \end{figure}
@@ -1612,19 +1612,19 @@ Portret fazowy tego układu pokazano na rysunku.
     Rysunki (\ref{fig:przyklad_9_a_1_b_1}), (\ref{fig:przyklad_9_a_1_b_2}), (\ref{fig:przyklad_9_a_2_b_1}) pokazują dobór estymaty obszaru przyciągania dla kilku doborów parametrów.
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_9_obszara_1_b_1.png}
+        \includegraphics[width=0.7\linewidth]{fig/przyklad_9_obszara_1_b_1.png}
         \caption{Oszacowanie obszaru przyciągania punktu równowagi układu z przykładu 9 dla funkcji Lapunowa w postaci (\ref{eq:przyklad_9_v}). Dla parametrów $a = 1$ i $b = 1$.}
         \label{fig:przyklad_9_a_1_b_1}
     \end{figure}
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_9_obszara_1_b_2.png}
+        \includegraphics[width=0.7\linewidth]{fig/przyklad_9_obszara_1_b_2.png}
         \caption{Oszacowanie obszaru przyciągania punktu równowagi układu z przykładu 9 dla funkcji Lapunowa w postaci (\ref{eq:przyklad_9_v}). Dla parametrów $a = 1$ i $b = 2$.}
         \label{fig:przyklad_9_a_1_b_2}
     \end{figure}
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\linewidth]{fig/03_lapunow/przyklad_9_obszara_2_b_1.png}
+        \includegraphics[width=0.7\linewidth]{fig/przyklad_9_obszara_2_b_1.png}
         \caption{Oszacowanie obszaru przyciągania punktu równowagi układu z przykładu 9 dla funkcji Lapunowa w postaci (\ref{eq:przyklad_9_v}). Dla parametrów $a = 2$ i $b = 1$.}
         \label{fig:przyklad_9_a_2_b_1}
     \end{figure}
@@ -1640,7 +1640,7 @@ Portret fazowy tego układu pokazano na rysunku.
     Schematycznie jest to przedstawione na rysunku (\ref{fig:acc}).
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.25\linewidth]{fig/03_lapunow/snipping_ACC_Case.png}
+        \includegraphics[width=0.25\linewidth]{fig/snipping_ACC_Case.png}
         \caption{Schemat zachowanai adaptacyjnego tempomatu samochodowego.}
         \label{fig:acc}
     \end{figure}
@@ -1720,7 +1720,7 @@ Portret fazowy tego układu pokazano na rysunku.
     Portret fazowy z zaznaczonymi zbiorem inwariantnym pokazano na rysunku (\ref{fig:acc_pf}).
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\linewidth]{fig/03_lapunow/acc_pp.eps}
+        \includegraphics[width=0.7\linewidth]{fig/acc_pp.eps}
         \caption{Portret fazowy układu z przykładu 10 z zaznaczonym zbiorem inwariantnym (czerwona linia).}
         \label{fig:acc_pf}
     \end{figure}
@@ -1791,7 +1791,7 @@ Portret fazowy tego układu pokazano na rysunku.
     Funkcję Lapunowa i jej pochodną systemową pokazano na rysunku (\ref{fig:si_v_vp}).
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\linewidth]{fig/03_lapunow/si_v_vp.eps}
+        \includegraphics[width=0.7\linewidth]{fig/si_v_vp.eps}
         \caption{Funkcja Lapunowa (\ref{eq:si_v}) i jej pochodna systemowa (\ref{eq:si_vp}) dla modelu SI.}
         \label{fig:si_v_vp}
     \end{figure}
@@ -1800,7 +1800,7 @@ Portret fazowy tego układu pokazano na rysunku.
     pokazano na rysunku (\ref{fig:si_pf}).
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\linewidth]{fig/03_lapunow/si_pf.eps}
+        \includegraphics[width=0.7\linewidth]{fig/si_pf.eps}
         \caption{Portret fazowy modelu SI z zaznaczonymi punktami równowagi.}
         \label{fig:si_pf}
     \end{figure}
