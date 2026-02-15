@@ -38,14 +38,6 @@
 \begin{document}
 \maketitle
 \newpage
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Cel ćwiczenia}
-Celem ćwiczenia jest zapoznanie się z dwoma kryteriami badania stabilności: kryterium Popova i kryterium koła.
-Obydwa służą do badania globalnej asymptotycznej stabilności tzw. układu Lurie (\ref{eq:uklad_lurie}).
-Obydwa kryteria są oparte na badaniu charakterystyki częstotliwościowej części liniowej układu, podobnie do kryterium Nyquista.
-Jednak pozwalają na rozpatrywanie znacznie szerszej klasy sterowań/części nieliniowych, które mogą być nie tylko nieliniowe i~niestacjonarne, ale nawet niejednoznaczne.
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Wprowadzenie}
     %======================================================
@@ -1309,96 +1301,6 @@ Jednak pozwalają na rozpatrywanie znacznie szerszej klasy sterowań/części ni
         
         [A, b, c, d] = tf2ss(licznik, mianownik);
     \end{lstlisting}
-
-
-    
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Przebieg ćwiczenia}
-Dla każdego z podanych systemów w trakcie analizy należy:
-\begin{itemize}
-    \item wyznaczyć transmitancję widmową - charakterystykę Nyquista,
-    \item charakterystykę Popova (jeśli można stosować kryterium Popova),
-    \item nierówność Popova (jeśli można stosować kryterium Popova),
-    \item wyrysować charakterystykę Popova i odpowiednią prostą Popova (jeśli można stosować kryterium Popova),
-    \item wyrysować charakterystykę Nyquista i odpowiednie "koło",
-    \item wyznaczyć sektor Popova, sektor dopuszczalny z kryterium koła,
-    \item porównać wyniki z obydwu kryteriów,
-    \item zamodelować układ w Simulinku i zweryfikować symulacyjnie uzyskane wyniki. 
-\end{itemize}
-
-    %======================================================
-    \subsection{System 1}
-    Wyznaczyć największy sektor dopuszczalny w kryterium Popova i kryterium koła dla układu opisanego transmitancją (\ref{eq:system_1}) oraz nieliniowym elementem $\varphi(\cdot)$.% przedstawionych na rysunku (\ref{fig:zad_1}).
-    \begin{equation}
-        \label{eq:system_1}
-        G_{1}(s) = \frac{4(1-5s)}{(1+3s)(1+2s)}
-    \end{equation}
-
-    %\begin{figure}[H]
-    %    \centering
-    %    \includegraphics[width=0.25\linewidth]{fig/trojpolozeniowy.PNG}
-    %    \caption{Enter Caption}
-    %    \label{fig:zad_1}
-    %\end{figure}
-
-    %======================================================
-    \subsection{System 2}
-    Dany jest system dynamiczny:
-    \begin{equation}
-        \begin{array}{l}
-            \dot{x} = Ax + bu\\
-            y = c^{T}x 
-        \end{array}
-    \end{equation}
-    gdzie:
-    \begin{equation}
-        A
-        =
-        \left[
-        \begin{array}{rrr}
-            -2 & 1 & 0\\
-            -1 & 0 & 1\\
-            -1 & 0 & 0
-        \end{array}
-        \right],\,
-        b
-        =
-        \left[
-        \begin{array}{r}
-            -1\\
-            0\\
-            0
-        \end{array}
-        \right],\,
-        c^{T}
-        =
-        \left[
-        \begin{array}{ccc}
-            1 & 0 & 0
-        \end{array}
-        \right].
-    \end{equation}
-    System ten objęto ujemnym sprzężeniem zwrotnym za pomocą nieliniowego, statycznego, stacjonarnego elementu o charakterystyce:
-    \begin{equation}
-        u = M \arctan{y},\,M>0.
-    \end{equation}
-    Określić możliwie największą wartość parametru $M$, przy której charakterystyka elementu nieliniowego mieści się jeszcze w sektorze Popova oraz sektorze dopuszczalnym dla kryterium koła.
-
-    %======================================================
-    \subsection{System 3}
-    Zbadać asymptotyczną stabilność globalną układu regulacji przedstawionego na rysunku (\ref{fig:zad3}).
-    Zakładamy, że w układzie może występować dozwolony element nieliniowy o charakterystyce $u = \varphi(y)$ spełniającej warunek $0 \leq y\varphi(y) \leq Ly^2$, dla $L = \frac{1}{2}$ i $L = 2$.
-    \begin{figure}
-        \centering
-        \includegraphics[width=0.5\linewidth]{fig/zad3.PNG}
-        \caption{Układ dla zadania 3.}
-        \label{fig:zad3}
-    \end{figure}
-    Gdzie transmitancja wynosi:
-    $$
-        G(s) = \frac{s^2+s+1}{s^4 + 2s^3 + s^2 + s + 1}
-    $$
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage

@@ -35,12 +35,6 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\section{Cel ćwiczenia}
-Celem ćwiczenia jest zapoznanie się z metodą analizy układów dynamicznych wykorzystującą jej tzw. portret fazowy.
-W czasie ćwiczeń analizowane będą układy liniowe drugiego rzędu.
-
-W czasie ćwiczenia należy zwrócić uwagę na wpływ pierwiastków wielomianu charakterystycznego i jego współczynników na kształt powstających portretów fazowych.
-
 \section{Portrety fazowe - wprowadzenie}
 Metoda portretów fazowych (płaszczyzny fazowej) polega na badaniu trajektorii autonomicznego układu dynamicznego
 \begin{equation} \label{eq:system_nonlin}
@@ -483,30 +477,6 @@ gdzie:
             \caption{Diagram Poincarégo portretów fazowych.}
             \label{fig:enter-label}
         \end{figure}
-    
-\section{Przebieg ćwiczenia}
-\begin{enumerate}
-    \item Przygotować 9 macierzy stanu - po jednej na każdy typ portretu fazowego. Dla każdej z macierzy podać ich wartości własne, postać Jordana, postać Frobeniusa.
-    \item Skonstruować model Simulinka wykorzystujący blok \textit{State-Space}, do symulowania odpowiedzi układu.
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.5\linewidth]{fig/model_sinulink.PNG}
-        \caption{Model symulacyjny.}
-        \label{fig:enter-label}
-    \end{figure}
-    \item Wybrać zestaw warunków początkowych, i wyrysować odpowiedzi układu na płaszczyźnie fazowej dla każdego z nich - czyli portret fazowy. Wykonać to dla każdej z 9 macierzy przygotowanych w punkcie 1.
-    W sprawozdaniu powinny się znaleźć:
-    \begin{itemize}
-        \item portrety fazowe dla macierzy, jej postaci Jordana i Frobeniusa - zaznaczyć wektory własne macierzy $A$ i skomentować ich znaczenie,
-        \item zaznaczone zbiory punktów równowagi,
-        \item przykłady przebiegów czasowych dla wybranych warunków początkowych,
-        \item oszacowanie metodą aproksymacji łamaną czas stabilizacji - porównać czas z przebiegami czasowymi uzyskanymi symulacyjnie.
-    \end{itemize}
-
-    W sprawozdaniu zaznaczyć jak zmiana układu współrzędnych zmienia portret fazowy, jakie znaczenie mają wektory własne?
-    
-\end{enumerate}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage

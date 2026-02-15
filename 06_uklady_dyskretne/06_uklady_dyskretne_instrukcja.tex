@@ -37,6 +37,102 @@
 \maketitle
 \newpage
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Cel ćwiczenia}
+Celem ćwiczenia jest zapoznanie się z własnościami systemów dynamicznych dyskretnych w czasie.
+Systemy takie opisuje się zwykle za pomocą równań rekurencyjnych zamiast równań różniczkowych, oraz transmitancji opartej na transformacie $\mathcal{Z}$ zamiast transformacie Laplace'a.
+Z modelami takimi można spotkać się w praktyce bardzo często, praktycznie zawsze przy sterowaniu komputerowym i numerycznym rozwiązywaniu równań różniczkowych.
 
+Istnieją również przypadki, gdzie opis taki wynika wprost z jego natury.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Przebieg ćwiczenia}
+W trakcie realizacji ćwiczeń należy dla każdego z przykładów:
+\begin{itemize}
+    \item wyznaczyć regulator proporcjonalny stabilizujący układ po zamknięciu pętli sprzężenia zwrotnego,
+    \item wyznaczyć maksymalny okres dyskretyzacji wynikający z charakterystyki częstotliwościowej,
+    \item zamodelować układ w Simulinku - użyć modelu ciągłego i "obudować" go blokami ZOH,
+    \item wyznaczyć odpowiedź na wymuszenie skokowe układu ciągłego i dyskretnego - wyznaczyć analitycznie lub symulacyjnie maksymalny okres próbkowania, dla którego regulator wyznaczony dla układu ciągłego zapewni stabilność przy sterowaniu dyskretnym,
+    \item dokonać dyskretyzacji układu ciągłego - metodą z punktu 2.1.2 dla układu danego w postaci równań stanu, metodą Tustina dla układów danych w postaci transmitancji,
+    \item wyznaczyć dyskretny regulator proporcjonalny stabilizujący układ sterowania,
+    \item wyznaczyć odpowiedź na wymuszenie skokowe układu ciągłego i dyskretnego,
+    \item wyznaczyć model dyskretne dla różnych metod dyskretyzacji dostępnych w metodzie \texttt{c2d}, porównać odpowiedzi na skok jednostkowy układu ciągłego i układów dyskretnych, porównać zakres $K$ stabilizujących dla różnych metod dyskretyzacji.
+\end{itemize}
+    %======================================================
+    \subsection{System 1}
+    $$
+        \dot{x}
+        =
+        \begin{bmatrix}
+        \begin{array}{rr}
+            -1 & 1\\
+            0 & -1
+        \end{array}                
+        \end{bmatrix}
+        x
+        +
+        \begin{bmatrix}
+        \begin{array}{c}
+            0\\
+            1
+        \end{array}                
+        \end{bmatrix}
+        u
+    $$
+    $$
+        y
+        =
+        \begin{bmatrix}
+        \begin{array}{cc}
+            1 & 0
+        \end{array}                
+        \end{bmatrix}
+        x
+    $$
+
+    %======================================================
+    \subsection{System 2}
+    $$
+        \dot{x}
+        =
+        \begin{bmatrix}
+        \begin{array}{rr}
+            -1 & 1\\
+            0 & 1
+        \end{array}                
+        \end{bmatrix}
+        x
+        +
+        \begin{bmatrix}
+        \begin{array}{c}
+            0\\
+            1
+        \end{array}                
+        \end{bmatrix}
+        u
+    $$
+    $$
+        y
+        =
+        \begin{bmatrix}
+        \begin{array}{cc}
+            1 & 0
+        \end{array}                
+        \end{bmatrix}
+        x
+    $$
+
+    %======================================================
+    \subsection{System 3}
+    $$
+        G(s) = \frac{1}{s+1}
+    $$
+
+    %======================================================
+    \subsection{System 3}
+    $$
+        G(s) = \frac{1}{s(s^2+s+1)}
+    $$
+   
 
 \end{document}
