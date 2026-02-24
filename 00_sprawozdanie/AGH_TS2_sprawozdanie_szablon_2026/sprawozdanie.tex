@@ -1,0 +1,164 @@
+\documentclass{sprawozdanie-agh}
+
+\usepackage[utf8]{inputenc}
+\usepackage{matlab-prettifier}
+\usepackage{siunitx}
+\usepackage{svg}
+\svgsetup{inkscapelatex=false}
+
+\makeatletter
+
+% ========= Początek Dokumentu ========= 
+
+\begin{document}
+
+
+% ========= Strona tytułowa ========= 
+\przedmiot{Teoria Sterowania II: Ćwiczenia Laboratoryjne}
+\tytul{Sprawozdanie: Ćwiczenie 0. }
+\podtytul{Temat Demo}
+\kierunek{Automatyke i Robotyka}
+\autor{Twoje Imię i Nazwisko}
+\data{Kraków, 3 marca 2026}
+
+\stronatytulowa{}
+
+% ========= Treść Właściwa =========
+
+\section{Cel ćwiczenia}
+Krótki wstęp do tematu ćwiczeń.
+\section{Przebieg ćwiczenia}
+Zwięzły opis wykonanej pracy i rezultatów.
+Konieczne minimum znajdziesz w opisie wytycznych do sprawozdania.
+\section{Opis wniosków i obserwacji}
+Kilka zdań podsumowania i opis kwestii, które przykuły Twoją uwagę
+
+\newpage
+
+\section{Przykładowa sekcja}
+W tej sekcji kilka przykładów jak wstawiać obiekty.
+\subsection{Podsekcja z tabelką}
+
+    W tej podsekcji pokażę tabelkę.
+    
+    Przykładowa tabelka z odnośnikiem Tabela \ref{eq:rowstanu}
+    
+    \begin{table}[h!]
+        \centering
+        \caption{Przykład tabeli.}\label{tab1}
+        \begin{tabular}{|c|c|}
+            \hline
+            Pora Roku &  Pierwszy dzień\\
+            \hline
+            Wiosna &  21 marca \\
+            lato &  22 czerwca\\
+            jesień & 23 września \\
+            zima & 22 grudnia\\
+            \hline
+        \end{tabular}
+    \end{table}
+
+    
+
+    \begin{table}[h!]
+    \begin{center}
+    \begin{tabular}{ c | c | c }
+		 Element & Wartość & Jednostka \\ 
+		 \hline\hline
+		 $k_1$ & 6 & $\frac{\qty[per-mode = symbol]{}{\newton }}{\qty[per-mode = symbol]{}{\meter }}$ \\ 
+		 \hline
+		 $k_2$ & 2 & $\frac{\qty[per-mode = symbol]{}{\newton }}{\qty[per-mode = symbol]{}{\meter }}$ \\ 
+		 \hline
+		 $M$ & $1$ & $\qty[per-mode = symbol]{}{\kilogram}$ \\
+		 \hline
+		 $C$ & $6$ & $\frac{\qty[per-mode = symbol]{}{\newton }\qty[per-mode = symbol]{}{\second }}{\qty[per-mode = symbol]{}{\meter }}$ \\
+    \end{tabular}
+    \caption{Drugi przykład tabelki.}\label{tab2}
+    \end{center}
+    \end{table}
+    
+    
+
+\subsection{Podsekcja z równaniem i rysunkiem}
+    Przykładowe równanie z odnośnikiem Równanie \ref{eq:rowstanu}
+    
+    \begin{equation}
+    x + y = z
+    \label{eq:rowstanu}
+    \end{equation}
+
+    \begin{equation} 
+    \label{eqn_state2}
+        \begin{bmatrix} 
+            \dot{x}_1 \\  \dot{x}_2 
+        \end{bmatrix} = 
+        \begin{bmatrix} 0 && 1 \\ 
+                        -8 && -6
+        \end{bmatrix}
+        \begin{bmatrix} 
+            {x}_1 \\  {x}_2 
+        \end{bmatrix} +
+        \begin{bmatrix} 
+            0 \\  1 
+        \end{bmatrix} u
+    \end{equation}
+
+Przykład transmitacji $G(s)$.
+        \begin{equation} 
+            G(s) = \frac{1}{s^2+4s+3}
+	\end{equation}
+
+ Przykład warunków początkowych:
+    \begin{equation} 
+        \begin{bmatrix} 
+            {x}_1 \\ {x}_2 
+        \end{bmatrix} = 
+        \begin{bmatrix} 0 \\ 
+                        0 
+        \end{bmatrix}
+    \end{equation}
+
+Przykładowy rysunek (kiepski) z odnośnikiem Rys \ref{fig:przyklad}.
+
+    \begin{figure}[h]
+    \centering
+        \includegraphics[width=0.5\textwidth]{fig1.eps}
+        \caption{Rysunek o dwóch liniach. Na czerwono linia z danymi A, przerywaną czarną linią zilustrowano dane B.} \label{fig:przyklad}
+    \end{figure}
+    
+Przykładowy rysunek z grafiką wektorową i odnośnikiem Rys \ref{fig:wektorowa}.
+    \begin{figure}[h!]
+        \centering
+        \includesvg[width=12cm]{images/PortretFazowyA1.svg}
+        \caption{Portret fazowy. Grafika wektorowa.}
+        \label{fig:wektorowa}
+    \end{figure}
+    
+Przykładowy rysunek z grafiką rastrową i odnośnikiem Rys \ref{fig:rastrowa}.
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=12cm]{images/ClosedLoop.png}
+        \caption{Schemat układu zamkniętego. Bitmapa.}
+        \label{fig:rastrowa}
+    \end{figure}
+
+I jeszcze przykładowy listing kodu z MATLABa:
+    \begin{lstlisting}
+        C:\Program Files\MiKTeX 2.9\tex\latex\AGH
+    \end{lstlisting}
+
+\section{Sekcja z odnośnikami}
+
+Przykład przypisu \cite{ref_article1}
+
+
+% ========= Przypisy =========
+
+\begin{thebibliography}{8}
+\bibitem{ref_article1}
+Author, F.: Article title. Journal \textbf{2}(5), 99--110 (2016)
+\end{thebibliography}
+
+% ========= Koniec Dokumentu =========
+
+\end{document}
