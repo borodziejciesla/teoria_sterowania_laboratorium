@@ -2,10 +2,10 @@
 
 \let\lll\undefined
 
-\usepackage{amssymb}
 \usepackage[utf8]{inputenc}
 \usepackage{matlab-prettifier}
 \usepackage{siunitx}
+\usepackage{booktabs,caption,ragged2e}
 
 \makeatletter
 
@@ -17,78 +17,103 @@
 % ========= Strona tytułowa ========= 
 \przedmiot{Teoria Sterowania II: Ćwiczenia Laboratoryjne}
 \tytul{Wytyczne dla Ćwiczenia 1 }
-\podtytul{Portrety Fazowe Systemów~Liniowych}
-\kierunek{Automatyke i~Robotyka}
-\autor{Dariusz Cieślar}
-\data{Kraków, \today}
+\podtytul{Portrety Fazowe Systemów Liniowych}
+\kierunek{Automatyke i Robotyka}
+\autor{Dariusz Cieślar, Maciej Różewicz}
+\data{Kraków, 3 marca 2026}
 
 \stronatytulowa{}
 
 % ========= Treść Właściwa =========
 
 \section{Przebieg ćwiczenia}
+\subsection{Zadanie}
 
+\par
+W świecie STATESPACE grasuje dziewięcioro przestępców. Ich działania nie pozostają bez śladu. Spędziliśmy cały zeszły semestr, żeby zebrać na nich dowody. Niestety w archiwum mamy niezły bałagan: wszystko się pomieszało i teraz musimy to uporządkować.
+\vspace{0.5cm}
+\par
+Podzielimy się na ekipy. Każda z ekip otrzyma inny zestaw czterech dowodów. 
+\vspace{0.5cm}
+\par
+Zadaniem każdej z ekip jest odnalezienie wszystkich dowodów (wśród   dostępnych w całej grupie) dotyczących macierzy, dla których ekipa ta otrzymała przynajmniej jeden dowód.
+\vspace{0.5cm}
+\par
+\textbf{Na przykład:}
+Ekipa 3 otrzymała dowody 9, 10, 11 i 12. W trakcie zajęć ekipa znalazła, że dowód 9 opisuje tą samą macierz co dowód 19 i 22. Dowód 10 opisuje tą samą macierz co już posiadany dowód 12, ale u innych grup znaleziono też pasujące dowody 4 i 27. Wreszcie dowód 11 opisuje tą samą macierz co odnalezione u innych ekip w grupie dowody 3, 5 i 18.
+\vspace{0.5cm}
+\par
+Zatem poprawne rozwiązanie ćwiczenia dla ekipy 3 to:
+\begin{table}[h]
+\caption{Rozwiązanie zadania}
+\centering
+\begin{tabular}{| m{2cm} | m{3cm}| m{3cm} | m{3cm} |}
+\hline
+Zestaw & Otrzymany Dowód & Pasujące Dowody & Postać Macierzy  \\
+\hline
+A      & 9               & 19, 22          & {[}1 0; 2 -1{]}  \\
+\hline
+B      & 10, 12          & 4, 27           & {[}2 0; 0 -2{]}  \\
+\hline
+C      & 11              & 3, 5, 18        & {[}0 1; -3 -8{]} \\
+\hline
+\end{tabular}
+\label{tab:przyklad}
+\end{table}
+
+\subsection{Przykłady i umiejętności do zdobycia}
+W folderze \textit{przykłady/01_portrety_fazowe} znajdziesz skrypty .mlx, które możesz uruchomić w MATLABie. Zapoznaj się z ich zawartością - będą one pomocne w wykonaniu ćwiczenia. 
+
+Zwróć uwagę jak przebiegi czasowe dla wybranych warunków początkowych mają się do trajektorii fazowej dla tych warunków początkowych.
+
+
+W szczególności upewnij się, że potrafisz:
 \begin{description}
-
-\item[Krok 1] Przygotuj 9 macierzy $A$ (rozmiar 2x2) spełniające wszystkie przypadki~określone w~tabeli w~skrypcie. Jeśli~istnieje możliwość wyboru wartości własnych dodatnich lub ujemnych, proszę wybrać ujemne.
-
-\item[Krok 2] Zaimplementuj funkcję w~MATLABie pozwalającą na symulację i~rejestrację przebiegów~czasowych dla obu zmiennych stanu. Funkcja ta powinna umożliwiać zmianę macierzy $A$ oraz warunków~początkowych, najlepiej w~postaci~argumentów. 
-
-\item[Krok 3] Przeprowadź symulację dla wybranego przypadku (wybranej macierzy $A$ oraz wybranego warunku początkowego), zweryfikuj poprawność symulacji i~przygotuj skrypt lub funkcję pozwalającą na:
+\item[1] Przeprowadzić symulacje odpowiedzi swobodnej dla układów LTI opisanych macierzami stanu 2x2.
+\item[2] Wykreślić uzyskane w rezultacie symulacji trajektorie fazowe na płaszczyźnie stanu.
+\item[3] Wykreślić na płaszczyźnie zespolonej pozycje wartości własnych .
+\item[4] Wykreślić potret fazowy dla zadanej macierzy o rozmiarze 2x2.
+\item[5] Uzupełnić portet fazowy o:
 \begin{itemize}
-    \item wyrysowanie trajektorii~stanu na płaszczyźnie stanów,
-    \item wyrysowanie podprzestrzeni~niezmienniczych na płaszczyźnie stanów,
-    \item wyrysowanie wektorów~własnych/głównych,
-    \item oznaczenie punktów~równowagi,
-    \item opcjonalnie: zaznacz pochodne stanu dla siatki~punktów~w~przestrzeni~stanów~(np. za pomocą funkcji~\textit{quiver}),
-    \item wyrysowanie przebiegów~czasowych zmiennych stanu na osobym wykresie.
+\item wykreślenie podprzestrzeni niezmienniczych,
+\item wykreślenie rzeczywistych wektorów własnych (o ile istnieją),
+\item zaznaczenie punktów równowagi.
 \end{itemize}
 
-\item[Krok 4] Przeprowadź symulacje dla szeregu warunków~początkowych (np. rozłożonych równomiernie po obwodzie koła). Wykorzystaj funkcje wykreślania wyników~z kroku 3, by wykreślić portety fazowe, tzn. wykreślic zbiorczy wykres trajektorii stanów~dla wszystkich badanych warunków~początkowych na płaszczyźnie stanów. Do zbioru warunków początkowych dodaj punkty leżące w~podprzestrzeniach niezmienniczych.
+\item[6] Zmodyfikować daną macierz stanu przez przekształcenie po postaci Jordana oraz przekształcenie przez podobieństwo, np. do postaci Frobeniusa. Zweryfikować jak te przekształcenia wpływają na postać portretu.
 
-\item[Krok 5] Wykonaj przekształcenie macierzy $A$ z kroku 3 do postaci~kanonicznej i~powtórz krok 4. Jeżeli~macierz $A$ była już w~postaci~kanonicznej - przekształć ją do innej postaci~i~powtórz krok 4.
+\item[7] Wykreślić przebiegi czasowe zmiennych stanu na wykresie 2D i 3D
 
-\item[Krok 6] Dla macierzy wykorzystywanej w~kroku 3, zamień znaki~wartości~własnych (ujemne na dodatnie) i~powtórzy krok 4.
-
-\item[Krok 7] Przeprowadż symulacje opisane w~kroku 4 dla wszystkich 9 macierzy przygotowanych w~kroku 1. Zweryfikuj, że uzyskane portrety fazowe wyczerpują przypadki opisane w~skrypcie. Jeśli zaobserwujesz odstępstwa, ponownie przyjrzyj się swojemu wyborowi przykładów~macierzy $A$ i~skoryguj błędy.
+\item[8] Sprawdzić jak zamiana znaku wartości własnych (np. ujemne na dodatnie) wpływa na portret fazowy i przebiegi czasowe w odpowiedzi swobodnej.
 
 \end{description}
 
-\textbf{Zadanie dodatkowe}
-Zaproponuj fizyczną realizację układu drugiego rzędu tak, aby modyfikowanie wartości elementów~tego układu pozwoliło na uzyskanie co najmniej 5 typów portretów fazowych.
-Wykreśl schemat oraz sformułuj model fizyczny tego układu. Wyznacz przykładowe wartości parametrów tego modelu dla każdego z~typów~portretów fazowych.
+\vspace{0.5cm}
+\par
+%\textbf{Zadanie dodatkowe}
 
-\section{Opracowanie wyników}
+%Zaproponuj fizyczną realizację układu drugiego rzędu tak, aby modyfikując wartości elemetów tego układu, można było uzyskać co najmniej 5 typów portretów fazowych.
 
-Przygotuj sprawozdanie z~ćwiczenia opisujące cel, przebieg i~obserwacje. W~części opisującej przebieg ćwiczenia proszę przedstawić w~sumie jedenaście przypadków:
+%Wykreśl schemat oraz sformułuj model fizyczny tego układu. Wyznacz przykładowe wartości parametrów tego modelu dla każdego z 5 typów portetów fazowych.
+
+\section{Wytyczne do sprawozdania}
+
+Przygotuj sprawozdanie z ćwiczenia opisujące cel, przebieg i obserwacje.
+
+W części opisującej przebieg ćwiczenia proszę koniecznie zawrzeć:    
 \begin{enumerate}
-    \item macierz z~pierwotnego przykładu (kroki 2, 3 i~4),
-    \item przekształcenie macierzy z pierwotnego przykładu do postaci kanonicznej,
-    \item zmiana znaków wartości~własnych z~ujemnych na dodatnie dla pierwotnego przykładu,
-    \item osiem macierzy odmiennych od pierwotnego przykładu w~celu wyczerpania wszystkich dziewięciu typów~portretów~opisanych w~skrypcie.
+        \item Tabelę z dopasowaniem do dowodów otrzymanych przez Twoją ekipę wszystkich pasujących dowodów w grupie
+        \item Opis (każdego dopasowania z osobna) dlaczego Twoim zdaniem te znalezione u innych dowody pasują do dowodów otrzymanych przez Twoją ekipę. 
+        \item Dla każdego wiersza w Twojej tabeli: portrety fazowe z naniesionymi trajektoriami pochodzącymi z dowodów w postaci przebiegów czasowych 
 \end{enumerate}
 
-Dla każdego z przypadków~należy przedstawić:
-\begin{itemize}
-    \item macierz stanu, jej wartości~własne i~wektory własne/główne. 
-    \item porter fazowy zawierający:
-    \begin {enumerate}
-        \item trajektorie dla co najmniej 10 warunków~początkowych, w~tym warunków leżących w~podprzestrzeniach niezmienniczych,
-        \item wektory własne/główne,
-        \item punkty równowagi,
-        \item przestrzenie niezmiennicze,
-        \item wyróżniony wykres trajektorii dla jednego z warunków~początkowych,
-    \end {enumerate}
-    \item wykres z~przebiegami czasowymi~zmiennych stany dla warunku początkowego wyróżnionego na portrecie fazowym.
-\end{itemize}
 
-\textbf{Zadanie dodatkowe}
-Proszę przedstawić rozwiązanie zadania dodatkowego w~postaci:
-\begin{itemize}
-    \item schematu proponowanego układu,
-    \item równań różniczkowych opisujących model fizyczny tego układu,
-    \item równania stanu z~postacią macierzy stanu w~formie funkcji~parametrów~układu,
-    \item tabelę pokazującą parametry elementów~układu, postać macierzy $A$, wartości~własne dla tych parametrów~oraz portety fazowe.
-\end{itemize}
+%\textbf{Zadanie dodatkowe}
+%Proszę przedstawić rozwiązanie zadania dodatkowego w postaci:
+%\begin{itemize}
+%    \item Schematu proponowanego układu
+%    \item Równań różniczkowych opisujących model fizyczny tego układu 
+%    \item Tabelę pokazującą parametry elementów układu, postać macierzy stanu, wartości własne dla tych parametrów oraz portety fazowe 
+%\end{itemize}
 
 \end{document}
