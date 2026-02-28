@@ -1,64 +1,47 @@
-\documentclass{article}
+\documentclass{sprawozdanie-agh}
 
-\usepackage{polski}
+\let\lll\undefined
+
 \usepackage[utf8]{inputenc}
-
-\usepackage[margin=0.75in]{geometry}
-
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage[shortlabels]{enumitem}
-\usepackage{float}
-\usepackage{graphicx} % Required for inserting images
 \usepackage{matlab-prettifier}
-\usepackage{multirow}
-\usepackage{tcolorbox}
+\usepackage{siunitx}
+\usepackage{booktabs,caption,ragged2e}
 
-\title{
-    Teoria Sterowania\\
-    \Large Optymalizacja Parametryczna
-}
-\author{Maciej Różewicz}
-\date{2025}
+\makeatletter
 
-\makeatletter         
-\def\@maketitle{
-\raggedright
-\begin{center}
-    \includegraphics[width=0.5\linewidth]{fig/agh_logo.PNG}\\[8ex]
-\end{center}
-\begin{center}
-    {\huge \bfseries \sffamily \@title }\\[4ex] 
-    {\large  \@author}\\[4ex] 
-    \@date\\[8ex]
-\end{center}}
-\makeatother
-
+% ========= Początek Dokumentu ========= 
 \begin{document}
-\maketitle
-\newpage
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ========= Strona tytułowa ========= 
+\przedmiot{Teoria Sterowania II: Ćwiczenia Laboratoryjne}
+\tytul{Wytyczne dla Ćwiczenia 5}
+\podtytul{Optymalizacja Parametryczna}
+\kierunek{Automatyke i~Robotyka}
+\autor{Dariusz Cieślar, Maciej Różewicz}
+\data{Kraków, 3 marca 2026}
+
+\stronatytulowa{}
+% ========= Treść Właściwa =========
 \section{Cel ćwiczenia}
-Celem ćwiczenia jest zapoznanie się z optymalizacją parametryczną układów sterowania.
-Dotyczy ona problemów, gdzie struktura regulatora i model matematyczny obiektu są stałe, a optymalizowane są jedynie wartości niektórych parametrów.
-Optymalność tę można rozumieć na różne sposoby, a dobór odpowiedniej funkcji celu, która jest optymalizowana, jest zagadnieniem zasadniczym.
-Zwykle żąda się, aby układ regulacji możliwie dokładnie i szybko odtwarzał wartość zadaną, z drugiej zaś strony, by był możliwie odporny na sygnały zakłócające.
-Często wymagania te są sprzeczne i poszukiwać trzeba pomiędzy nimi kompromisu.
+Celem ćwiczenia jest zapoznanie się z~optymalizacją parametryczną układów sterowania.
+Dotyczy ona problemów, gdzie struktura regulatora i~model matematyczny obiektu są stałe, a~optymalizowane są jedynie wartości niektórych parametrów.
+Optymalność tę można rozumieć na różne sposoby, a~dobór odpowiedniej funkcji celu, która jest optymalizowana, jest zagadnieniem zasadniczym.
+Zwykle żąda się, aby układ regulacji możliwie dokładnie i~szybko odtwarzał wartość zadaną, z~drugiej zaś strony, by był możliwie odporny na sygnały zakłócające.
+Często wymagania te są sprzeczne i~poszukiwać trzeba pomiędzy nimi kompromisu.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Przebieg ćwiczenia}
-Dla każdego z podanych systemów w trakcie analizy należy dla układów 1 i 2:
+Dla każdego z~podanych systemów w~trakcie analizy należy dla układów 1 i~2:
 \begin{itemize}
-    \item utworzyć model symulacyjny układu sterowania w Simulinku (łącznie z wejściami zakłóceń),
+    \item utworzyć model symulacyjny układu sterowania w~Simulinku (łącznie z~wejściami zakłóceń),
     \item wyznaczyć analitycznie ograniczenia na zakres zmiennych projektowych (w zależności od zadanej struktury regulatora) - zaznaczyć ten obszar na płaszczyźnie,
     \item wykonać numerycznie optymalizacje ze względu na wskaźnik jakości $J_{1}$,
     \item wykonać numerycznie optymalizację ze względu na wskaźnik jakości $J_{7}$,
     \item wykonać numerycznie optymalizację ze względu na odporność na obciążenie,
-    \item wykonać numerycznie optymalizację ze względu na wskaźniki $J_{1}$  i na obciążenie,
+    \item wykonać numerycznie optymalizację ze względu na wskaźniki $J_{1}$  i~na obciążenie,
     \item dla każdego zestawu dobranych nastaw regulatora wykonać symulacyjnie:
         \begin{itemize}
             \item odpowiedź na skok jednostkowy bez zakłóceń (pokazać wartości sterowania),
-            \item odpowiedź na skok jednostkowy z zakłóceniem obciążeniowym (skok jednostkowy, ale w innej chwili niż wartość zadana)(pokazać wartości sterowania).
+            \item odpowiedź na skok jednostkowy z~zakłóceniem obciążeniowym (skok jednostkowy, ale w~innej chwili niż wartość zadana)(pokazać wartości sterowania).
         \end{itemize}
 \end{itemize}
 
@@ -69,7 +52,7 @@ Dla każdego z podanych systemów w trakcie analizy należy dla układów 1 i 2:
         \label{eq:system_1}
         G_{O}(s) = \frac{2s+3}{s^3+2s^2+s},
     \end{equation}
-    w układzie regulacji automatycznej z rysunku (\ref{fig:uklad_regulacji}), rozważyć do optymalizacji parametrycznej regulatory:
+    w~układzie regulacji automatycznej, rozważyć do optymalizacji parametrycznej regulatory:
     \begin{itemize}
         \item P: $G_{R,P}(s) = K_{P}$,
         \item PD: $G_{R,PD}(s) = K_{P}(1 + T_{D}s)$.
@@ -82,7 +65,7 @@ Dla każdego z podanych systemów w trakcie analizy należy dla układów 1 i 2:
         \label{eq:system_2}
         G_{1}(s) = \frac{1}{s^2+0.5s+1},
     \end{equation}
-    w układzie regulacji automatycznej z rysunku (\ref{fig:uklad_regulacji}), rozważyć do optymalizacji parametrycznej regulatory:
+    w~układzie regulacji automatycznej, rozważyć do optymalizacji parametrycznej regulatory:
     \begin{itemize}
         \item P: $G_{R,P}(s) = K_{P}$,
         \item PI: $G_{R,PD}(s) = K_{P}(1 + \frac{1}{T_{D}s})$.
@@ -90,7 +73,7 @@ Dla każdego z podanych systemów w trakcie analizy należy dla układów 1 i 2:
 
     %======================================================
     \subsection{Układ 3}
-    Wyznaczyć optymalny regulator proporcjonalny $G_{R}(s) = K$, dla obiektu (w URA jak z rysunku (\ref{fig:uklad_regulacji})):
+    Wyznaczyć optymalny regulator proporcjonalny $G_{R}(s) = K$, dla obiektu opisywanego transmitancją:
     $$
         G_{O}(s) = \frac{1}{s^2 + s + 1},
     $$
