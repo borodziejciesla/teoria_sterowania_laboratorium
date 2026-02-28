@@ -1,0 +1,117 @@
+\documentclass{sprawozdanie-agh}
+
+\usepackage[utf8]{inputenc}
+\usepackage{matlab-prettifier}
+\usepackage{siunitx}
+\usepackage{booktabs,caption,ragged2e}
+
+\makeatletter
+
+% ========= Początek Dokumentu ========= 
+
+\begin{document}
+
+
+% ========= Strona tytułowa ========= 
+\przedmiot{Teoria Sterowania II: Ćwiczenia Laboratoryjne}
+\tytul{Wytyczne dla Ćwiczenia 1 }
+\podtytul{Portrety Fazowe Systemów Liniowych}
+\kierunek{Automatyke i Robotyka}
+\autor{Dariusz Cieślar, Maciej Różewicz}
+\data{Kraków, 3 marca 2026}
+
+\stronatytulowa{}
+
+% ========= Treść Właściwa =========
+
+\section{Przebieg ćwiczenia}
+\subsection{Zadanie}
+
+\par
+W świecie STATESPACE grasuje dziewięcioro przestępców. Ich działania nie pozostają bez śladu. Spędziliśmy cały zeszły semestr, żeby zebrać na nich dowody. Niestety w archiwum mamy niezły bałagan: wszystko się pomieszało i teraz musimy to uporządkować.
+\vspace{0.5cm}
+\par
+Podzielimy się na ekipy. Każda z ekip otrzyma inny zestaw czterech dowodów. 
+\vspace{0.5cm}
+\par
+Zadaniem każdej z ekip jest odnalezienie wszystkich dowodów (wśród   dostępnych w całej grupie) dotyczących macierzy, dla których ekipa ta otrzymała przynajmniej jeden dowód.
+\vspace{0.5cm}
+\par
+\textbf{Na przykład:}
+Ekipa 3 otrzymała dowody 9, 10, 11 i 12. W trakcie zajęć ekipa znalazła, że dowód 9 opisuje tą samą macierz co dowód 19 i 22. Dowód 10 opisuje tą samą macierz co już posiadany dowód 12, ale u innych grup znaleziono też pasujące dowody 4 i 27. Wreszcie dowód 11 opisuje tą samą macierz co odnalezione u innych ekip w grupie dowody 3, 5 i 18.
+\vspace{0.5cm}
+\par
+Zatem poprawne rozwiązanie ćwiczenia dla ekipy 3 to:
+\begin{table}[h]
+\caption{Rozwiązanie zadania}
+\centering
+\begin{tabular}{| m{2cm} | m{3cm}| m{3cm} | m{3cm} |}
+\hline
+Zestaw & Otrzymany Dowód & Pasujące Dowody & Postać Macierzy  \\
+\hline
+A      & 9               & 19, 22          & {[}1 0; 2 -1{]}  \\
+\hline
+B      & 10, 12          & 4, 27           & {[}2 0; 0 -2{]}  \\
+\hline
+C      & 11              & 3, 5, 18        & {[}0 1; -3 -8{]} \\
+\hline
+\end{tabular}
+\label{tab:przyklad}
+\end{table}
+
+\subsection{Przykłady i umiejętności do zdobycia}
+W folderze \textit{przykłady/01_portrety_fazowe} znajdziesz skrypty .mlx, które możesz uruchomić w MATLABie. Zapoznaj się z ich zawartością - będą one pomocne w wykonaniu ćwiczenia. 
+
+Zwróć uwagę jak przebiegi czasowe dla wybranych warunków początkowych mają się do trajektorii fazowej dla tych warunków początkowych.
+
+
+W szczególności upewnij się, że potrafisz:
+\begin{description}
+\item[1] Przeprowadzić symulacje odpowiedzi swobodnej dla układów LTI opisanych macierzami stanu 2x2.
+\item[2] Wykreślić uzyskane w rezultacie symulacji trajektorie fazowe na płaszczyźnie stanu.
+\item[3] Wykreślić na płaszczyźnie zespolonej pozycje wartości własnych .
+\item[4] Wykreślić potret fazowy dla zadanej macierzy o rozmiarze 2x2.
+\item[5] Uzupełnić portet fazowy o:
+\begin{itemize}
+\item wykreślenie podprzestrzeni niezmienniczych,
+\item wykreślenie rzeczywistych wektorów własnych (o ile istnieją),
+\item zaznaczenie punktów równowagi.
+\end{itemize}
+
+\item[6] Zmodyfikować daną macierz stanu przez przekształcenie po postaci Jordana oraz przekształcenie przez podobieństwo, np. do postaci Frobeniusa. Zweryfikować jak te przekształcenia wpływają na postać portretu.
+
+\item[7] Wykreślić przebiegi czasowe zmiennych stanu na wykresie 2D i 3D
+
+\item[8] Sprawdzić jak zamiana znaku wartości własnych (np. ujemne na dodatnie) wpływa na portret fazowy i przebiegi czasowe w odpowiedzi swobodnej.
+
+\end{description}
+
+\vspace{0.5cm}
+\par
+%\textbf{Zadanie dodatkowe}
+
+%Zaproponuj fizyczną realizację układu drugiego rzędu tak, aby modyfikując wartości elemetów tego układu, można było uzyskać co najmniej 5 typów portretów fazowych.
+
+%Wykreśl schemat oraz sformułuj model fizyczny tego układu. Wyznacz przykładowe wartości parametrów tego modelu dla każdego z 5 typów portetów fazowych.
+
+\section{Wytyczne do sprawozdania}
+
+Przygotuj sprawozdanie z ćwiczenia opisujące cel, przebieg i obserwacje.
+
+W części opisującej przebieg ćwiczenia proszę koniecznie zawrzeć:    
+\begin{enumerate}
+        \item Tabelę z dopasowaniem do dowodów otrzymanych przez Twoją ekipę wszystkich pasujących dowodów w grupie
+        \item Opis (każdego dopasowania z osobna) dlaczego Twoim zdaniem te znalezione u innych dowody pasują do dowodów otrzymanych przez Twoją ekipę. 
+        \item Dla każdego wiersza w Twojej tabeli: portrety fazowe z naniesionymi trajektoriami pochodzącymi z dowodów w postaci przebiegów czasowych 
+\end{enumerate}
+
+
+%\textbf{Zadanie dodatkowe}
+%Proszę przedstawić rozwiązanie zadania dodatkowego w postaci:
+%\begin{itemize}
+%    \item Schematu proponowanego układu
+%    \item Równań różniczkowych opisujących model fizyczny tego układu 
+%    \item Tabelę pokazującą parametry elementów układu, postać macierzy stanu, wartości własne dla tych parametrów oraz portety fazowe 
+%\end{itemize}
+
+\end{document}
