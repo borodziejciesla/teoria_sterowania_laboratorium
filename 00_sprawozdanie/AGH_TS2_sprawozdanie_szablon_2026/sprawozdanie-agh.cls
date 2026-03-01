@@ -14,8 +14,9 @@
 \usepackage{ifthen}
 \usepackage{hyperref}
 \usepackage[utf8]{inputenc}
-\usepackage{amsmath,amsfonts,amssymb}
-\usepackage{breqn}
+% \usepackage{breqn}
+\usepackage{amsmath,amsfonts}
+\usepackage{amssymb}
 \usepackage{longtable}
 \usepackage{booktabs}
 \usepackage{tabularx}
