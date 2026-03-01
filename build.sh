@@ -25,14 +25,14 @@ select_folders() {
   if [[ -n ${1:-} ]]; then
     # Przyjmujemy zarówno '3' jak i '03'
     num=$(printf "%02d" "$1")
-    # dopasuj folder zaczynający się od numeru
-    for d in "${num}_"*; do
+    # dopasuj folder zaczynający się od numeru (ale nie 00)
+    [[ "$num" != "00" ]] && for d in "${num}_"*; do
       [[ -d "$d" ]] && echo "$d"
     done
   else
-    # wszystkie foldery zaczynające się od dwucyfrowego prefiksu
+    # wszystkie foldery zaczynające się od dwucyfrowego prefiksu (pomiń 00_*)
     for d in ??_*; do
-      [[ -d "$d" ]] && echo "$d"
+      [[ -d "$d" && "$d" != "00_"* ]] && echo "$d"
     done
   fi
 }
@@ -42,7 +42,8 @@ build_file() {
   local file="$2"
   echo -e "${GREEN}--- Buduję: $folder / $file ${NC}"
   # uruchamiamy latexmk tak, żeby pdf powstał w tym samym folderze co .tex
-  (cd "$folder" && latexmk -pdf -interaction=nonstopmode "$file") > build.log
+  export TEXINPUTS=".:$(pwd)/00_sprawozdanie/AGH_TS2_sprawozdanie_szablon_2026//:${TEXINPUTS:-}"
+  (cd "$folder" && latexmk -f -pdf -interaction=nonstopmode "$file") > build.log
   local rc=$?
   if [[ $rc -ne 0 ]]; then
     echo -e "${RED}Błąd podczas budowy $folder/$file (kod: $rc)${NC}" >&2
