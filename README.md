@@ -26,7 +26,7 @@ Repozytorium zawiera zestaw folderów o nazwie *0x_zagadnienie*, każdy powiąza
 Kazdy znich zawiera następującą strukturę plików i folderów:
 
 * 📂*przyklady* - folder zawierajacy live scripty MATLABA z przykładami do
-  ćwiczeniam,
+  ćwiczenia,
 * 📂*fig* - grafiki do notatek i instrukcji,
 * *0x_zagadnienie.tex* - plik źródłowy do pliku z wprowadzeniem teoretycznym do
   ćwiczenia,
@@ -43,11 +43,11 @@ Kazdy znich zawiera następującą strukturę plików i folderów:
 
 ## 🛠 Wymagania
 
-Do poprawnego uruchomienia wszystkich przykładów zalecane jest środowisko **MATLAB R2024a** lub nowsze z zainstalowanymi toolboxami:
+Do poprawnego uruchomienia wszystkich przykładów zalecane jest środowisko **MATLAB R2024b** lub nowsze z zainstalowanymi toolboxami:
 
 * Control System Toolbox,
 * Optimization Toolbox,
-* Symbolic Toolbox,
+* Symbolic Math Toolbox,
 * Simulink.
 
 ## 💡 Jak korzystać z materiałów?
@@ -60,9 +60,12 @@ Do poprawnego uruchomienia wszystkich przykładów zalecane jest środowisko **M
    suwaków aby sprawdzić jakie zachodzą zmiany dla różnych parametrów problemu.
 5. Przejdź do PDF-a z instrukcją, aby wykonać zadania laboratoryjne.
 
-## ✍️ Autor
+## ✍️ Autorzy
 
 **Maciej Różewicz** Akademia Górniczo-Hutnicza im. Stanisława Staszica w Krakowie  
+Wydział Elektrotechniki, Automatyki, Informatyki i Inżynierii Biomedycznej
+
+**Dariusz Cieślar** Akademia Górniczo-Hutnicza im. Stanisława Staszica w Krakowie  
 Wydział Elektrotechniki, Automatyki, Informatyki i Inżynierii Biomedycznej
 
 ---
