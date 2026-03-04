@@ -4,6 +4,8 @@
 \usepackage{matlab-prettifier}
 \usepackage{siunitx}
 \usepackage{booktabs,caption,ragged2e}
+\usepackage[shortlabels]{enumitem}
+
 
 \makeatletter
 
@@ -140,10 +142,10 @@ Dodatkowo sprawdzana będzie stabilność nie tylko punktów równowagi, ale i~c
             \right\}.
         \end{equation}
         Dla tego układu rozpatrujemy dwóch kandydatów na funkcję Lapunowa:
-        \begin{itemize}[(a)]
+        \begin{enumerate}[label=(\alph*)]
             \item $V_{1}^{1}(x) = \frac{1}{2}x_{1}^{2} + x_{2}^{2}$,
             \item $V_{1}^{2}(x) = \frac{x_{1}^{2}}{1 - x_{1}x_{2}} + x_{2}^{2}$.
-        \end{itemize}
+        \end{enumerate}
 
         %---------------------------------------------------
         \subsubsection{System 2}
@@ -158,10 +160,10 @@ Dodatkowo sprawdzana będzie stabilność nie tylko punktów równowagi, ale i~c
             \right\}.
         \end{equation}
         Dla tego układu rozpatrujemy dwóch kandydatów na funkcję Lapunowa:
-        \begin{itemize}[(a)]
+        \begin{enumerate}[label=(\alph*)]
             \item $V_{2}^{1}(x) = \frac{1}{2} \left( x_{1}^{2} + x_{2}^{2} \right)$,
             \item $V_{2}^{2}(x) = \frac{1}{2} \left( 2x_{1}^{2} + 2x_{1}x_{2} + 3x_{2}^{2} \right)$.
-        \end{itemize}
+        \end{enumerate}
 
         %---------------------------------------------------
         \subsubsection{System 3}
@@ -176,10 +178,10 @@ Dodatkowo sprawdzana będzie stabilność nie tylko punktów równowagi, ale i~c
             \right\}.
         \end{equation}
         Dla tego układu rozpatrujemy dwóch kandydatów na funkcję Lapunowa:
-        \begin{itemize}[(a)]
+        \begin{enumerate}[label=(\alph*)]
             \item $V_{3}^{1}(x) = \frac{1}{2}x_{2}^{2} + \int_{0}^{x_{1}}{\frac{z}{1+z}dz}$,
             \item $V_{3}^{2}(x) = x_{1}^{2} + x_{1}x_{2} + x_{2}^{2}$.
-        \end{itemize}
+        \end{enumerate}
 
         \subsubsection{System 4}
         Rozważamy układ (szukamy cyklu granicznego):
@@ -193,9 +195,9 @@ Dodatkowo sprawdzana będzie stabilność nie tylko punktów równowagi, ale i~c
             \right\}.
         \end{equation}
         Dla tego układu rozpatrujemy następującego kandydata na funkcję Lapunowa:
-        \begin{itemize}[(a)]
+        \begin{enumerate}[label=(\alph*)]
             \item $V_{4}^{1}(x) = \left( x_{1}^{4} + 2x_{2}^{2} - 10 \right)^{2}$.
-        \end{itemize}
+        \end{enumerate}
 
 
 

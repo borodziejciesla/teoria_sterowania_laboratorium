@@ -51,7 +51,6 @@ Zanim podane zostaną kryteria badania stabilności układów dynamicznych, prze
     \centering
     \includegraphics[width=0.5\linewidth]{fig/zasada_argumentu_kontur.PNG}
     \caption{Krzywa $C$ z zasady argumentu.}
-    \label{fig:enter-label}
 \end{figure}
 Niech będzie dana funkcja zmiennej zespolonej $F(s)$.
 Gdy zmienna $s$ opisuje krzywą $C$ (przy czym kierunek dodatni obiegu po krzywej $C$ przyjmuje się jako przeciwny do ruchu wskazówek zegara), to funkcja $F(s)$ odwzorowuje krzywą $C$ w krzywą $K$.
@@ -87,7 +86,6 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
         \centering
         \includegraphics[width=0.65\linewidth]{fig/zasada_argumentu_1.png}
         \caption{Zasada argumentu dla funkcji $F(s) = s-1$ i konturu zdefiniowanego jako okrąg o promieniu 2 i środkiem w punkcie (0,0).}
-        \label{fig:enter-label}
     \end{figure}
 \end{tcolorbox}
 
@@ -97,7 +95,6 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
         \centering
         \includegraphics[width=0.65\linewidth]{fig/zasada_argumentu_2.png}
         \caption{Zasada argumentu dla funkcji $F(s) = (s-1)(s-1.55)$ i konturu zdefiniowanego jako okrąg o promieniu 2 i środkiem w punkcie (0,0).}
-        \label{fig:enter-label}
     \end{figure}
 \end{tcolorbox}
 
@@ -107,7 +104,6 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
         \centering
         \includegraphics[width=0.65\linewidth]{fig/zasada_argumentu_3.png}
         \caption{Zasada argumentu dla funkcji $F(s) = (s-1)(s-1.55)$ i konturu zdefiniowanego jako okrąg o promieniu 2 i środkiem w punkcie (-0.9,0).}
-        \label{fig:enter-label}
     \end{figure}
 \end{tcolorbox}
 
@@ -117,7 +113,6 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
         \centering
         \includegraphics[width=0.65\linewidth]{fig/zasada_argumentu_4.png}
         \caption{Zasada argumentu dla funkcji $F(s) = (s-1)(s-1.55)$ i konturu zdefiniowanego jako okrąg o promieniu 2 i środkiem w punkcie (-2.5,0).}
-        \label{fig:enter-label}
     \end{figure}
 \end{tcolorbox}
   
@@ -127,7 +122,6 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
         \centering
         \includegraphics[width=0.65\linewidth]{fig/zasada_argumentu_transmitancja.png}
         \caption{Zasada argumentu dla funkcji $F(s) = \frac{(s-1)(s-0.5)}{(s-2)(s+0.5)(s+1)(s+0.75)}$ i konturu zdefiniowanego jako okrąg o~promieniu 3 i środkiem w punkcie (0,0).}
-        \label{fig:enter-label}
     \end{figure}
 \end{tcolorbox}
 
@@ -209,7 +203,7 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
                  \hline
             \end{tabular}
             \caption{Zmiana wartości funkcji $P(\omega)$ i $Q(\omega)$ - przykład 1.}
-            \label{tab:my_label}
+%            \label{tab:my_label}
         \end{table}
         Sprawdzić jeszcze należy, jak wielomiany zachowują się dla $\omega \rightarrow \infty$, w tym przypadku plot dąży do punktu w~nieskończoności o argumencie $2\pi$.
         Zatem zmiana argumentu wynosi $2\pi = \frac{1}{2}n\pi$, czyli pierwiastki leżą tylko w lewej półpłaszczyźnie, a więc obiekt stabilny.
@@ -217,7 +211,6 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
             \centering
             \includegraphics[width=0.75\linewidth]{fig/michajlow_przyklad_1.PNG}
             \caption{Szkic plotu Michajłowa dla wielomianu $H(s) = 0.0024s^{4} + 0.05s^{3} + 8.03s^{2} + 94s + 223$.}
-            \label{fig:enter-label}
         \end{figure}
     
         \textbf{Przykład 2}
@@ -244,14 +237,13 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
                 \hline
             \end{tabular}
             \caption{Zmiana wartości funkcji $P(\omega)$ i $Q(\omega)$ - przykład 2.}
-            \label{tab:my_label}
+%            \label{tab:my_label}
         \end{table}
         Wyrysowujemy plot Michajłowa:
         \begin{figure}[H]
             \centering
             \includegraphics[width=0.5\linewidth]{fig/michajlow_przyklad_2.PNG}
             \caption{Szkic plotu Michajłowa dla wielomianu $H(s) = 0.6s^{5} + 8s^{4} + 21.8s^{3} + 18.4s^{2} + 4s + 9$.}
-            \label{fig:enter-label}
         \end{figure}
         Przyrost argumentu wynosi $\underset{\omega \in (0, \infty)}{\Delta arg}H(j\omega) = \frac{\pi}{2}$, zatem z kryterium Michajłowa otrzymuje się:
         $$
@@ -266,7 +258,6 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
         \centering
         \includegraphics[width=0.75\linewidth]{fig/nyquist_otwarty_zamkniety.PNG}
         \caption{Układ otwarty i zamknięty dla kryterium Nyquista.}
-        \label{fig:enter-label}
     \end{figure}
     Transmitancja układu z zamknięta pętlą sprzężenia zwrotnego ma postać:
     \begin{equation} \label{eq:gz}
@@ -316,13 +307,11 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
             \centering
             \includegraphics[width=1.0\linewidth]{fig/nyquist_stabilny_przeciecia.PNG}
             \caption{Ilustracja kryterium Nyquista dla stabilnego $G_{0}(s)$.}
-            \label{fig:enter-label}
         \end{figure}
         \begin{figure}[H]
             \centering
             \includegraphics[width=1.0\linewidth]{fig/nyquist_niestabilny_przeciecia.PNG}
             \caption{Ilustracja kryterium Nyquista dla niestabilnego $G_{0}(s)$ - jeden pierwiastek niestabilny.}
-            \label{fig:enter-label}
         \end{figure}
         
         \item $G_{0}(s) = \frac{L(s)}{s^{k}M(s)}$ - posiada astatyzm $k$-tego rzędu:
@@ -383,7 +372,6 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
             \centering
             \includegraphics[width=0.75\linewidth]{fig/nyquist_astatyczny.png}
             \caption{Ilustracja kryterium Nyquista dla obiektów z astatyzmem.}
-            \label{fig:enter-label}
         \end{figure}
     \end{enumerate}
 
@@ -415,7 +403,6 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
             \centering
             \includegraphics[width=1.0\linewidth]{fig/bode_stabilny.png}
             \caption{Charakterystyka Bodego dla układu z przykładu 3.}
-            \label{fig:enter-label}
         \end{figure}
 
         Innym użytecznym typem wykresu jest tak zwany plot Nicholsa. Przedstawia on fazę i magnitudę na jednym wykresie.
@@ -424,7 +411,6 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
             \centering
             \includegraphics[width=1.0\linewidth]{fig/nichols_stabilny.png}
             \caption{Charakterystyka Nicholsa dla układu z przykładu 3.}
-            \label{fig:enter-label}
         \end{figure}
         
         \textbf{Przykład 4} Kolejnym przykładem jest transmitancja niestabilna z jednym pierwiastkiem dodatnim.
@@ -444,14 +430,14 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
             \centering
             \includegraphics[width=1.0\linewidth]{fig/bode_1.png}
             \caption{Charakterystyka Bodego dla układu z przykładu 3.}
-            \label{fig:enter-label}
+            
         \end{figure}
         Natomiast na podstawie plotu Nicholsa możemy również stwierdzić stabilność układu zamkniętego, ponieważ okrąża punkt krytyczny z prawej strony.
         \begin{figure}[H]
             \centering
             \includegraphics[width=0.75\linewidth]{fig/nichols_1.png}
             \caption{Charakterystyka Nicholsa dla układu z przykładu 3.}
-            \label{fig:enter-label}
+            
         \end{figure}
     
         \textbf{Przykład 5}
@@ -464,21 +450,21 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
             \centering
             \includegraphics[width=1.0\linewidth]{fig/nyquist_2.png}
             \caption{Charakterystyka Nyquista dla układu z przykładu 4.}
-            \label{fig:enter-label}
+            
         \end{figure}
         Na podstawie plotu Nyquista łatwo zauważyć, że punkt krytyczny nie jest okrążany przez charakterystykę $G_{0}(i\omega)$ ani razu, zatem układ po zamknięciu pętli sprzężenia zwrotnego będzie niestabilny.
         \begin{figure}[H]
             \centering
             \includegraphics[width=1.0\linewidth]{fig/bode_2.png}
             \caption{Charakterystyka Bodego dla układu z przykładu 4.}
-            \label{fig:enter-label}
+            
         \end{figure}
         Z plotu Nicholsa widać, iż charakterystyka obiega punkt krytyczny od lewej strony, zatem układ będzie niestabilny.
         \begin{figure}[H]
             \centering
             \includegraphics[width=1.0\linewidth]{fig/nichols_2.png}
             \caption{Charakterystyka Nicholsa dla układu z przykładu 4.}
-            \label{fig:enter-label}
+            
         \end{figure}
 
         Jak można ustabilizować układ zamknięty? Czy można zapewnić stabilizację regulatorem proporcjonalnym?
@@ -511,14 +497,14 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
             \centering
             \includegraphics[width=1.0\linewidth]{fig/nyquist_6.png}
             \caption{Charakterystyka Nyquista dla układu z przykładu 6.}
-            \label{fig:enter-label}
+            
         \end{figure}
         Identyczne wnioski łatwo wyciągnąć z plotu Nicholsa, gdyż charakterystyka obiega punkt krytyczny z lewej strony.
         \begin{figure}[H]
             \centering
             \includegraphics[width=1.0\linewidth]{fig/nichols_6.png}
             \caption{Charakterystyka Nicholsa dla układu z przykładu 6.}
-            \label{fig:enter-label}
+            
         \end{figure}
 
         \textbf{Przykład 7}
@@ -540,7 +526,7 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
             \centering
             \includegraphics[width=1.0\linewidth]{fig/nichols_7.png}
             \caption{Charakterystyka Nicholsa dla układu z przykładu 7.}
-            \label{fig:enter-label}
+            
         \end{figure}
         
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
