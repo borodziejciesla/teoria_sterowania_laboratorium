@@ -30,36 +30,88 @@ Będą to dwa kryteria:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Przebieg ćwiczenia}
-\begin{enumerate}
-    \item Rozważamy układ zamknięty z~regulatorem proporcjonalnym $G_{R}(s) = K$, przedstawiony na rysunku (\ref{fig:zadanie_1}),
+\subsection{Zadanie 1}
+
+    Rozważamy układ zamknięty z~regulatorem proporcjonalnym $G_{R}(s) = K$, przedstawiony na rysunku (\ref{fig:zadanie_1}),
     gdzie transmitancja obiektu sterowanego wynosi:
     $$
         G_{0}(s) = \frac{s+1}{0.01s^{4} + 0.5s^{3} + 3s^{2} - 10s + 10}
     $$
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.75\linewidth]{fig/zadanie_1.png}
+        \includegraphics[width=0.5\linewidth]{fig/zadanie_1.png}
         \caption{Zamknięty układ regulacji.}
         \label{fig:zadanie_1}
     \end{figure}
-    W czasie laboratorium:
-    \begin{itemize}
-        \item stosując kryterium Michajłowa wyznaczyć ilość niestabilnych biegunów transmitancji $G_{O}(s)$,
-        \item stosując kryterium Nyquista określić wartości współczynnika $K \in \mathbb{R}_{+}$, dla których układ zamknięty będzie stabilny,
-        \item wyrysować charakterystykę Bodego i~Nicholsa, zaznaczyć zapas fazy i~wzmocnienia.
-    \end{itemize}
+    \begin{enumerate}
     
-    \item Dany jest układ otwarty o~transmitancji:
-    $$
-        G(s) = \frac{4}{s+1}e^{-0.5s}
-    $$
-    W czasie laboratorium:
-    \begin{itemize}
-        \item zbadać stabilność układu zamkniętego za pomocą kryterium Nyquista,
-        \item sprawdzić dla jakich wartości $K \in \mathbb{R}_{+}$ regulatora proporcjonalnego układ będzie stabilny,
-        \item sprawdzić dla jakiego opóźnienia układ przestanie być stabilny po zamknięciu pętli sprzężenia zwrotnego.
-    \end{itemize}
-\end{enumerate}
+    \item[Krok 1] Zweryfikuj czy układ $G_0(s)$ jest stabilny. Stosując kryterium Michajłowa wyznaczyć ilość niestabilnych biegunów tej transmitancji i zweryfikuj uzyskany rezultat za pomocą funkcji w MATLABie. Zanotuj ilość biegunów dodatnikch jako wartość $P$.
 
+     \item[Krok 2]Analizując wykres Nyquista (analogicznie do Przykładu 2.2 w podręczniku) wyznacz przedziały współczynnika wzmocnienia $K$ w zależności od tego ilukrotnie uzyskany wykres $G_0(s)$ okrąża punkt $-1/K$. Dla każdego przedziału zapisz wartość $N$ oznaczającą krotność okrążeń zgodną z kierunkiem wskazówek zegara.   
+
+     \item[Krok 3] Wybierz po jednej wartości $K$ dla każdego z przedziałów zidentyfikowanych w Kroku 2. Następnie dla każdej z wybranych wartości $K$:
+    \begin{itemize}
+        \item Wykreśl pierwsze 10 sekund odpowiedzi układu zamkniętego na jedynkę Heaviside'a. (Dla czytelności ogranicz zakreś osi pionowej wykresu do przedziału od -2 do 3).
+        \item Wyznacz analitycznie lub za pomocą MATLABa transmitancję układu zamkniętego. Korzystając z funkcji MATLABa wyznacz liczbę dodatnich biegunów układu zamkniętego.
+        \item Porównaj uzyskaną liczbę biegunów dodatnich układu zamkniętego  do wartości sumy $P$ + $N$ oraz rezultatów odpowiedzi na jedynkę Heaviside'a.
+    \end{itemize}
+
+    \item[Krok 4] 
+        Stwórz jeden zbiorczy rysunek zawierający wykresy Nyquista $KG_0(s)$ dla wszystkich wybranych przez Ciebie wartości $K$ (wektor pulsacji do wykresu przyjmij jako $[0.01:0.01:100]$). Zaznacz na wykresach Nyquista punkty odpowiadające pulsacji 0,5 i 1,5 $rad/s$.
+    
+        Podpowiedź: skorzystaj z funkcji
+        \begin{lstlisting}
+            [re,im,wout] = nyquist(sys,w);
+        \end{lstlisting}
+    
+    \item[Krok 5]
+            Przygotuj wykres Bode'go dla transmitancji $G_0(s)$. Zaznacz na wykresie zapasy fazy i wzmocnienia.
+    \item[Krok 6*]        
+            Przygotuj wykres Nicholsa dla transmitancji $G_0(s)$. Zaznacz na wykresie zapasy fazy i wzmocnienia.
+    
+    \end{enumerate}
+
+\subsection{Zadanie 2}
+    Dany jest układ otwarty o~transmitancji:
+    \begin{equation}
+        G(s) = \frac{4}{s+1}e^{-0.5s}
+    \end{equation}
+    W czasie laboratorium:
+    \begin{enumerate}
+        \item[Krok 7] Przeanalizuj wykres Nyquista dla układu $G(s)$ i zbadać stabilność układu z jednostkowym sprzężeniem zwrotnym ($G_R(s) = 1$) za pomocą kryterium Nyquista. Czy układ zamknięty jest stabilny? Dlaczego wystarczy przeanalizować tylko pierwszy punkt przecięcia wykresu Nyquista z osią rzeczywistą. 
+
+        \item[Krok 8] Stwórz zbiór wartości opóźnienia $\tau$ od 0 (układ bez opóźnienia) do 0.5 sekundy z krokiem co 0.1 sekundy. Stwórz jeden zbiorczy rysunek zawierający wykresy Nyquista  
+            \begin{equation} 
+            G(s) = \frac{4}{s+1}e^{-\tau s}
+            \end{equation}
+        dla wszystkich wartości $\tau$. Wektor pulsacji do wykresu przyjmij jako $[0.01:0.01:100]$). Zaznacz na rysunku punkty odpowiadające pulsacji 1 i 2 $rad/s$ (dla każdej z wartości $\tau$).
+
+        \item[Krok 9]
+            Stwórz jeden rysunek zawierający pierwsze 5 sekund odpowiedzi układu zamkniętego z jednostkowym sprzężeniem zwrotnym na wzbudzenie jedynką Heaviside'a dla każdej z wartości $\tau$. Porównaj zachowanie każdego z układów do jego wykresu Nyquista z Kroku 8.
+            
+        \item[Krok 10]
+            Dla przykładu z zadania drugiego, przygotuj wykres Bode'go dla transmitancji $G(s)$ dla wszystkich wartości $\tau$ z kroku 8. Jak zmienia się wykres amplitudy, a jak wykres fazy?
+    \end{enumerate}
+
+\section{Wytyczne do sprawozdania}
+
+Przygotuj sprawozdanie z ćwiczenia opisujące cel, przebieg i obserwacje.
+
+W części opisującej przebieg ćwiczenia proszę skupić się na czytelnym przedstawieniu danych i wykresów ilustrujących polecenia dla Kroku 3, Kroku 4, Kroku 8 i Kroku 9.
+
+
+W sprawozdaniu muszą znaleźć się:
+\begin{itemize}
+    \item Krzywa Michajłowa z Kroku 1 i wartość P
+    \item Poprawnie zidentyfikowane wartości przedziałów z Kroku 2
+    \item Z Kroku 3 przebiegi czasowe dla każdego z dobranych K 
+    \item Podana suma N + P dla każdego z przedziałów z Kroku 2
+    \item Zbiorczy rysunek z Kroku 4 z zaznaczonymi wartościami dla wskazanych pulsacji 
+    \item Zbiorczy rysunek z Kroku 8 z zaznaczonymi wartościami dla wskazanych pulsacji 
+    \item Zbiorczy rysunek z Kroku 9
+    \item Zbiorczy rysunek z Kroku 10
+    \item Wnioski i obserwacje dotyczące weryfikacji stabilności za pomocą kryterium Nyquista
+    \item Wnioski i obserwacje dotyczące wpływu sprzężenia proporcjonalanego oraz opóźnienia na transmitancję pętli otwartej i związany z nią wykres Nyquista
+\end{itemize}
 
 \end{document}
