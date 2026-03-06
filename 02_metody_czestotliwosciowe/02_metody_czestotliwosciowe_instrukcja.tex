@@ -47,11 +47,11 @@ Będą to dwa kryteria:
     
     \item[Krok 1] Zweryfikuj czy układ $G_0(s)$ jest stabilny. Stosując kryterium Michajłowa wyznaczyć ilość niestabilnych biegunów tej transmitancji i zweryfikuj uzyskany rezultat za pomocą funkcji w MATLABie. Zanotuj ilość biegunów dodatnikch jako wartość $P$.
 
-     \item[Krok 2]Analizując wykres Nyquista (analogicznie do Przykładu 2.2 w podręczniku) wyznacz przedziały współczynnika wzmocnienia $K$ w zależności od tego ilukrotnie uzyskany wykres $G_0(s)$ okrąża punkt $-1/K$. Dla każdego przedziału zapisz wartość $N$ oznaczającą krotność okrążeń zgodną z kierunkiem wskazówek zegara.   
+     \item[Krok 2] Analizując wykres Nyquista (analogicznie do Przykładu 2.2 w podręczniku) wyznacz przedziały współczynnika wzmocnienia $K$. Przedziały powinny odróżniać się tym, ile razy uzyskany wykres $G_0(s)$ okrąża punkt $-1/K$. Dla każdego przedziału zapisz wartość $N$ oznaczającą krotność okrążeń zgodną z kierunkiem wskazówek zegara.   
 
      \item[Krok 3] Wybierz po jednej wartości $K$ dla każdego z przedziałów zidentyfikowanych w Kroku 2. Następnie dla każdej z wybranych wartości $K$:
     \begin{itemize}
-        \item Wykreśl pierwsze 10 sekund odpowiedzi układu zamkniętego na jedynkę Heaviside'a. (Dla czytelności ogranicz zakreś osi pionowej wykresu do przedziału od -2 do 3).
+        \item Wykreśl pierwsze 10 sekund odpowiedzi układu zamkniętego na jedynkę Heaviside'a. Dla lepszej czytelności wykresu ogranicz zakres jego osi pionowej.
         \item Wyznacz analitycznie lub za pomocą MATLABa transmitancję układu zamkniętego. Korzystając z funkcji MATLABa wyznacz liczbę dodatnich biegunów układu zamkniętego.
         \item Porównaj uzyskaną liczbę biegunów dodatnich układu zamkniętego  do wartości sumy $P$ + $N$ oraz rezultatów odpowiedzi na jedynkę Heaviside'a.
     \end{itemize}
@@ -65,7 +65,7 @@ Będą to dwa kryteria:
         \end{lstlisting}
     
     \item[Krok 5]
-            Przygotuj wykres Bode'go dla transmitancji $G_0(s)$. Zaznacz na wykresie zapasy fazy i wzmocnienia.
+            Przygotuj wykres Bodego dla transmitancji $G_0(s)$. Zaznacz na wykresie zapasy fazy i wzmocnienia.
     \item[Krok 6*]        
             Przygotuj wykres Nicholsa dla transmitancji $G_0(s)$. Zaznacz na wykresie zapasy fazy i wzmocnienia.
     
@@ -102,16 +102,17 @@ W części opisującej przebieg ćwiczenia proszę skupić się na czytelnym prz
 
 W sprawozdaniu muszą znaleźć się:
 \begin{itemize}
-    \item Krzywa Michajłowa z Kroku 1 i wartość P
-    \item Poprawnie zidentyfikowane wartości przedziałów z Kroku 2
-    \item Z Kroku 3 przebiegi czasowe dla każdego z dobranych K 
-    \item Podana suma N + P dla każdego z przedziałów z Kroku 2
-    \item Zbiorczy rysunek z Kroku 4 z zaznaczonymi wartościami dla wskazanych pulsacji 
-    \item Zbiorczy rysunek z Kroku 8 z zaznaczonymi wartościami dla wskazanych pulsacji 
-    \item Zbiorczy rysunek z Kroku 9
-    \item Zbiorczy rysunek z Kroku 10
-    \item Wnioski i obserwacje dotyczące weryfikacji stabilności za pomocą kryterium Nyquista
-    \item Wnioski i obserwacje dotyczące wpływu sprzężenia proporcjonalanego oraz opóźnienia na transmitancję pętli otwartej i związany z nią wykres Nyquista
+    \item krzywa Michajłowa z Kroku 1 i wartość $P$,
+    \item poprawnie zidentyfikowane wartości przedziałów z Kroku 2,
+    \item z Kroku 3 przebiegi czasowe dla każdego z dobranych $K$,
+    \item podana suma $N + P$ dla każdego z przedziałów z Kroku 2,
+    \item zbiorczy rysunek z Kroku 4 z zaznaczonymi wartościami dla wskazanych pulsacji, 
+    \item zbiorczy rysunek z Kroku 8 z zaznaczonymi wartościami dla wskazanych pulsacji,
+    \item zbiorczy rysunek z Kroku 9,
+    \item zbiorczy rysunek z Kroku 10,
+    \item wnioski i obserwacje dotyczące weryfikacji stabilności za pomocą kryterium Nyquista,
+    \item wnioski i obserwacje dotyczące wpływu sprzężenia proporcjonalnego oraz opóźnienia na transmitancję pętli otwartej i związany z nią wykres Nyquista,
+    \item opis praktycznych ograniczeń w stosowalności kryterium Nyquista?
 \end{itemize}
 
 \end{document}
