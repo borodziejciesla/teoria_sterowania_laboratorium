@@ -14,11 +14,15 @@ Każdy moduł zawiera teoretyczne wprowadzenie, przykłady obliczeniowe oraz zad
 1. **[01] Portrety Fazowe** – Analiza układów 2. rzędu, typy punktów równowagi, postać Jordana i Frobeniusa.
 2. **[02] Metody Częstotliwościowe** – Kryteria Michajłowa i Nyquista,
    charakterystyki Bodego, Nyquista i Nicholsa, zapasy stabilności.
-3. **[03] Metoda Lapunowa** – Badanie stabilności układów nieliniowych (metoda bezpośrednia i pośrednia), twierdzenie La Salle'a.
-4. **[04] Kryteria Koła i Popova** – Stabilność absolutna układów z nieliniowością w sektorze (układy Lurie).
-5. **[05] Optymalizacja Parametryczna** – Dobór nastaw regulatorów (P, PI, PID) według wskaźników jakości (ISE, IAE, ITAE).
-6. **[06] Układy Dyskretne** – Transformata Z, metody dyskretyzacji (Euler,
-   Tustin) oraz implementacja cyfrowa.
+3. **[03] Pośrednia Metoda Lapunowa** – Badanie stabilności układów nieliniowych
+   poprzez badanie stabilności liniowego przybliżenia.
+4. **[04] Bezpośrednia Metoda Lapunowa** – Badanie stabilności układów
+   nieliniowych bezpośrednią metodą Lapunowa oraz estymacja obszaru przyciągania
+   za pomocą metody LaSalle'a.
+5. **[05] Kryteria Koła i Popova** – Stabilność absolutna układów z nieliniowością w sektorze (układy Lurie).
+6. **[06] Optymalizacja Parametryczna** – Dobór nastaw regulatorów (P, PI, PID) według wskaźników jakości (ISE, IAE, ITAE).
+7. **[06] Układy Dyskretne** – Transformata Z, metody dyskretyzacji (Euler,
+   Tustin), dyskretna wersja metody Lapunowa oraz implementacja cyfrowa.
 
 ### Struktura plików
 
