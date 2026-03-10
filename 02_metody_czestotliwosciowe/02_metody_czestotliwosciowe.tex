@@ -13,6 +13,7 @@
 \usepackage{graphicx} % Required for inserting images
 \usepackage{matlab-prettifier}
 \usepackage{tcolorbox}
+\usepackage{subcaption}
 
 
 \usepackage[T1]{fontenc}
@@ -311,7 +312,8 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
         \begin{figure}[H]
             \centering
             \includegraphics[width=1.0\linewidth]{fig/nyquist_niestabilny_przeciecia.PNG}
-            \caption{Ilustracja kryterium Nyquista dla niestabilnego $G_{0}(s)$ - jeden pierwiastek niestabilny.}
+            \caption{Ilustracja kryterium Nyquista dla niestabilnego $G_{0}(s)$
+            - dwa pierwiastki niestabilne.}
         \end{figure}
         
         \item $G_{0}(s) = \frac{L(s)}{s^{k}M(s)}$ - posiada astatyzm $k$-tego rzędu:
@@ -405,13 +407,50 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
             \caption{Charakterystyka Bodego dla układu z przykładu 3.}
         \end{figure}
 
-        Innym użytecznym typem wykresu jest tak zwany plot Nicholsa. Przedstawia on fazę i magnitudę na jednym wykresie.
+        Innym użytecznym typem wykresu jest tak zwany plot Nicholsa (ten sam
+        Nichols co od metody Zieglera-Nicholsa). Przedstawia on fazę i magnitudę na jednym wykresie.
         Aby system był stabilny po zamknięciu pętli sprzężenia zwrotnego, plot ten musi okrążać punkt $(-180, 0)$ z prawej strony.
         \begin{figure}[H]
             \centering
             \includegraphics[width=1.0\linewidth]{fig/nichols_stabilny.png}
             \caption{Charakterystyka Nicholsa dla układu z przykładu 3.}
         \end{figure}
+
+        \begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
+            Rozpatrzmy transmitancję:
+            $$
+                G(s) = \frac{0.01 * (s^2 + \frac{1}{10}s+4)}{s(9s^5 + \frac{23}{10}s^4 + \frac{101}{10}s^3 + \frac{7}{10}s^2 + 1)}
+            $$
+            Ploty Nyquista oraz Bodego są dla tej transmitancji dość
+            skomplikowane (wiele zapętleń, dopełnienie w nieskończoności,
+            szeroki zakres amplitud nie ułatwia sprawy) i~trudno jest szybko
+            wyznaczyć zapas fazy oraz amplitudy.
+
+            \begin{figure}[H]
+            \begin{subfigure}{0.45\linewidth}
+                \begin{center}
+                \includegraphics[width=1.0\linewidth]{fig/hard_nyquist}
+                \caption{} 
+                \label{fig:bicycle_trajectories}
+                \end{center}
+            \end{subfigure}
+            \begin{subfigure}{0.45\linewidth}
+                \begin{center}
+                \includegraphics[width=1.0\linewidth]{fig/hard_bode}
+                \caption{} 
+                \label{fig:bicycle_distances}
+                \end{center}
+            \end{subfigure}
+            \caption{(a) Plot Nyquista (b) Plot Bodego.}
+            \end{figure}
+            Jeśli natomiast wyrysujemy plot Nicholsa, to wyznaczenie tego zapasu
+            jest niemal natychmiastowe:
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=0.5\linewidth]{fig/hard-nichols}
+                \caption{Plot Nicholsa dla przykładu.}
+            \end{figure}
+        \end{tcolorbox}
         
         \textbf{Przykład 4} Kolejnym przykładem jest transmitancja niestabilna z jednym pierwiastkiem dodatnim.
         $$
