@@ -126,6 +126,29 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
     \end{figure}
 \end{tcolorbox}
 
+\begin{tcolorbox}[colback=pink!5, colframe=pink!75!black, title=Intuicja]
+    Rozważmy funkcję najczęściej wystepującą w teorii sterowania - transmitancję
+    $G(s)$, która jest funkcją wymierną, czyli ilorazem dwóch wielomianów
+    rzeczywistych zmiennej zespolonej $s$:
+    $$
+        G(s) = \frac{L(s)}{M(s)} = \frac{\prod_{i=1}^{m}(s-z_i)}{\prod_{j=1}^{n}(s-b_j)}.
+    $$
+    Podstawmy $s = e^{i\omega}$, gdzie $\omega \in [0,2\pi]$, czyli punkt $s$
+    opisuje okrąg jednostkowy w kierunku dodatnim.
+    \newline
+    Każdy czynnik licznika ma postać $s-z_i$. Gdy $s$ obiega okrąg, wektor
+    $s-z_i$  wykonuje jedno pełne dodatnie obrócenie wokół zera (jeśli $z_i$
+    jest wewnątrz konturu). To daje zmianę argumentu $+2\pi$.
+    \newline
+    Każdy czynnik mianownika ma postać $s-b_j$. Gdy $s$ obiega okrąg, wektor
+    $s-b_j$ wykonuje jedno pełne dodatnie obrócenie wokół bieguna (jeśli
+    $b_j$ jest wewnątrz konturu). To daje zmianę argumentu $-2\pi$ - ponieważ
+    jest w~mianowniku.
+    \newline
+    Dlatego całkowita zmiana argumentu wynosi
+    $2\pi(Z_f - B_f)$, czyli zera dodają obroty, a~bieguny je odejmują.
+\end{tcolorbox}
+
     %=======================================================
     \subsection{Kryterium Michajłowa}
     Jest to kryterium graficzne, pozwalające na zbadanie ilości stabilnych pierwiastków (wraz z krotnościami) wielomianu:
@@ -144,7 +167,7 @@ Dowód można znaleźć np. w \cite{Gorecki1993}.
     Badanie przyrostu argumentu na krzywej zamkniętej można podzielić na badanie go na każdej z części tej krzywej, zatem:
     \begin{equation}\label{eq:michajlow_1}
         2(n-m)\pi = \lim_{r\rightarrow\infty}\Delta_{C}\underset{s\in\partial\Omega}{arg}H(s) = 
-        \lim_{r\rightarrow\infty}[\Delta_{C} \underset{\omega\in (-\infty,\infty)}{arg} H(i\omega) + \Delta_{C}\underset{s\in\partial\Omega}{arg}H(re^{-i\varphi})]
+        \lim_{r\rightarrow\infty}[\Delta_{C} \underset{\omega\in (-\infty,\infty)}{arg} H(i\omega) + \Delta_{C}\underset{s\in\partial\Omega}{arg}H(re^{i\varphi})]
     \end{equation}
     Dodatkowo można zapisać:
     $$
