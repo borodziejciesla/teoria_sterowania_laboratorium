@@ -24,31 +24,31 @@
 
 % ========= Treść Właściwa =========
 \section{Cel ćwiczenia}
-Celem ćwiczenia jest zapoznanie się z~metodami badania stabilności układów nieliniowych.
-W czasie zajęć przedstawione i~przećwiczone zostaną dwie metody badania stabilności:
-\begin{itemize}
-    \item pośrednia metoda Lapunowa - prosta metoda, dająca zadowalające wyniki w~wielu praktycznych przypadkach, jednak mająca pewne ograniczenia,
-    \item bezpośrednia metoda Lapunowa - bardzo uniwersalna metoda, pozwalająca zbadać stabilność szerokiej gamy układów (zarówno stacjonarnych, jak i~niestacjonarnych).
-\end{itemize}
-Ponadto po sprawdzeniu stabilności punktów równowagi układu badany i~estymowany będzie 
-obszar przyciągania asymptotycznego za pomocą twierdzenia La Salle'a.
-Dodatkowo sprawdzana będzie stabilność nie tylko punktów równowagi, ale i~cykli granicznych.
+Celem ćwiczenia jest zapoznanie się z~metodami badania stabilności układów
+nieliniowych.
+W czasie zajęć przedstawiona i~przećwiczona zostanie pośrednia metodą Lapunowa
+badania stabilności punktów równowagi układów nieliniowych.
+
+Jest to stosunkowo prosta w~zastosowaniu metoda, dająca zadowalające wyniki
+w~wielu praktycznych przypadkach, jednak mająca pewne ograniczenia.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \section{Przebieg ćwiczenia}
     %=======================================================
     \subsection{Pośrednia metoda Lapunowa}
-    Dla każdego z~podanych systemów opisanych równaniami (\ref{eq:posrednia_1}), (\ref{eq:posrednia_2}), (\ref{eq:posrednia_3}),  (\ref{eq:posrednia_4}),  (\ref{eq:posrednia_5}):
-    \begin{itemize}
-        \item zamodelować układ równań w~Simulinku (lub użyć skryptu do jego rozwiązania),
-        \item wyznaczyć portrety fazowe,
-        \item znaleźć punkty równowagi,
-        \item sprawdzić, czy można zastosować pośrednią metodę Lapunowa do badania stabilności punktów równowagi,
-        \item zbadać stabilność wszystkich punktów równowagi,
-        \item zbadać doświadczalnie obszar atrakcji asymptotycznie stabilnych punktów równowagi - przedstawić go na tle portretu fazowego.
-    \end{itemize}
+    Dla każdego z~podanych systemów opisanych w podpunktach od \ref{sec:posrednia_1} do \ref{sec:posrednia_5} należy:
+    \begin{enumerate}[label=\textbf{Krok \arabic*}]
+        \item Wyznaczyć punkty równowagi układu.
+        \item Wyznaczyć macierz Jacobiego $A = \frac{\partial f}{\partial x}\bigg|_{x=x_e}$ układu w~każdym z wyznaczonych punktów równowagi.
+        %\item Zamodelować układ równań w~Simulinku (lub użyć skryptu, np. funkcji \textit{ode45}, do jego rozwiązania).
+        \item Wyznaczyć portrety fazowe układu nieliniowego.
+        \item Wyznaczyć portrety fazowe linearyzacji układu w~każdym z~punktów równowagi. 
+        \item Sprawdzić, czy można zastosować pośrednią metodę Lapunowa do badania stabilności punktów równowagi.
+        \item Zbadać stabilność wszystkich punktów równowagi, dla których jest to możliwe.
+    \end{enumerate}
         %---------------------------------------------------
-        \subsubsection{System 1}
+        \subsubsection{System 1} \label{sec:posrednia_1}
         Rozważamy układ mechaniczny masa-sprężyna ze sprężyną o~nieliniowej charakterystyce.
         Układ ten opisany jest równaniem (\ref{eq:posrednia_1}).
         \begin{equation}\label{eq:posrednia_1}
@@ -63,7 +63,7 @@ Dodatkowo sprawdzana będzie stabilność nie tylko punktów równowagi, ale i~c
         Proszę rozważyć przypadek dla $d>0$ i~$d<0$.
 
         %---------------------------------------------------
-        \subsubsection{System 2}
+        \subsubsection{System 2} \label{sec:posrednia_2}
         Rozważamy wahadło z~tłumieniem, opisywane równaniem:
         \begin{equation}\label{eq:posrednia_2}
             \ddot{x} + \frac{c}{lm}\dot{x} + \frac{g}{l}\sin{x} = 0
@@ -77,7 +77,7 @@ Dodatkowo sprawdzana będzie stabilność nie tylko punktów równowagi, ale i~c
         \end{itemize}
 
         %---------------------------------------------------
-        \subsubsection{System 3}
+        \subsubsection{System 3} \label{sec:posrednia_3}
         Rozważamy układ równań Van der Pola:
         \begin{equation}
             \label{eq:posrednia_3}
@@ -91,114 +91,47 @@ Dodatkowo sprawdzana będzie stabilność nie tylko punktów równowagi, ale i~c
         Proszę zbadać zachowanie układu dla różnych wartości $a$.
 
         %---------------------------------------------------
-        \subsubsection{System 4}
-        Rozważamy układ równań:
+        \subsubsection{System 4} \label{sec:posrednia_4}
+        Rozważamy układ równań wahadła bez tłumienia:
         \begin{equation}
             \label{eq:posrednia_4}
             \left\{
             \begin{array}{l}
-                 \dot{x}_{1} = -x_{1} + \sin{x_{2}}\\
-                 \dot{x}_{2} = -x_{2}
+                 \dot{x}_{1} = x_{2}\\
+                 \dot{x}_{2} = -\sin{x_1}
             \end{array}
             \right\}.
         \end{equation}
 
         %---------------------------------------------------
-        \subsubsection{System 5}
-        Rozważamy układ równań:
+        \subsubsection{System 5} \label{sec:posrednia_5}
+        Rozważamy układ równań modelujący konkurencję dwóch gatunków:
         \begin{equation}
             \label{eq:posrednia_5}
             \left\{
             \begin{array}{l}
-                 \dot{x}_{1} = 2x_{1} - x_{2} - x_{1}^{3}\\
-                 \dot{x}_{2} = 4x_{1} - 2x_{2}
+                 \dot{x}_{1} = x_2\\
+                 \dot{x}_{2} = x_1 - x_1^2 - x_2
             \end{array}
             \right\}.
         \end{equation}
 
-    %=======================================================
-    \subsection{Bezpośrednia metoda Lapunowa i~twierdzenie La Salle'a}
-    Dla poniższych układów (\ref{eq:zadania_przyklad_1}), (\ref{eq:zadania_przyklad_2}), (\ref{eq:zadania_przyklad_3}), (\ref{eq:zadania_przyklad_4}):
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section{Przebieg ćwiczenia}
+    Przygotuj sprawozdanie z ćwiczenia opisujące cel, przebieg i obserwacje.
+    
+    W części opisującej przebieg ćwiczenia proszę skupić się na przedstawieniu
+    wyników dla każdego z~badanych układów, wraz z~odpowiednimi portretami
+    fazowymi i~analizą stabilności punktów równowagi.
+
+    W sprawozdaniu muszą znaleźć się:
     \begin{itemize}
-        \item zamodelować układ równań w~Simulinku (lub użyć skryptu do jego rozwiązania),
-        \item wyznaczyć portrety fazowe,
-        \item znaleźć punkty równowagi,
-        \item zbadać stabilność punktów równowagi, stosując podane funkcje Lapunowa,
-        \item dla każdej z~podanych funkcji Lapunowa znaleźć analitycznie estymatę obszaru atrakcji,
-        \item symulacyjnie określić obszar atrakcji,
-        \item porównać obszary odnalezione analitycznie i~symulacyjnie - przedstawić obydwa na tle portretu fazowego,
-        \item porównać estymaty obszaru atrakcji uzyskane z~użyciem różnych funkcji Lapunowa - przedstawić obydwa na jednym wykresie na tle portretu fazowego.
+        \item wyznaczone punkty równowagi,
+        \item wyznaczone macierze Jacobiego,
+        \item portrety fazowe układu nieliniowego,
+        \item portrety fazowe linearyzacji układu,
+        \item analiza możliwości zastosowania pośredniej metody Lapunowa,
+        \item analiza stabilności punktów równowagi.
     \end{itemize}
-        %---------------------------------------------------
-        \subsubsection{System 1}
-        Rozważamy układ:
-        \begin{equation}
-            \label{eq:zadania_przyklad_1}
-            \left\{
-            \begin{array}{l}
-                 \dot{x}_{1} = -x_{1} + 2x_{1}^{2}x_{2}\\
-                 \dot{x}_{2} = -x_{2}
-            \end{array}
-            \right\}.
-        \end{equation}
-        Dla tego układu rozpatrujemy dwóch kandydatów na funkcję Lapunowa:
-        \begin{enumerate}[label=(\alph*)]
-            \item $V_{1}^{1}(x) = \frac{1}{2}x_{1}^{2} + x_{2}^{2}$,
-            \item $V_{1}^{2}(x) = \frac{x_{1}^{2}}{1 - x_{1}x_{2}} + x_{2}^{2}$.
-        \end{enumerate}
-
-        %---------------------------------------------------
-        \subsubsection{System 2}
-        Rozważamy układ:
-        \begin{equation}
-            \label{eq:zadania_przyklad_2}
-            \left\{
-            \begin{array}{l}
-                 \dot{x}_{1} = x_{2} - x_{1} + x_{1}^{3}\\
-                 \dot{x}_{2} = -x_{1}
-            \end{array}
-            \right\}.
-        \end{equation}
-        Dla tego układu rozpatrujemy dwóch kandydatów na funkcję Lapunowa:
-        \begin{enumerate}[label=(\alph*)]
-            \item $V_{2}^{1}(x) = \frac{1}{2} \left( x_{1}^{2} + x_{2}^{2} \right)$,
-            \item $V_{2}^{2}(x) = \frac{1}{2} \left( 2x_{1}^{2} + 2x_{1}x_{2} + 3x_{2}^{2} \right)$.
-        \end{enumerate}
-
-        %---------------------------------------------------
-        \subsubsection{System 3}
-        Rozważamy układ (zauważmy, że nie rozważamy $x\in \mathbb{R}^{2}$, ale $x_{1} > -1$):
-        \begin{equation}
-            \label{eq:zadania_przyklad_3}
-            \left\{
-            \begin{array}{l}
-                 \dot{x}_{1} = x_{2}\\
-                 \dot{x}_{2} = -\frac{x_{2}}{1 + x_{1}} - \frac{x_{1}}{1 + x_{1}}
-            \end{array}
-            \right\}.
-        \end{equation}
-        Dla tego układu rozpatrujemy dwóch kandydatów na funkcję Lapunowa:
-        \begin{enumerate}[label=(\alph*)]
-            \item $V_{3}^{1}(x) = \frac{1}{2}x_{2}^{2} + \int_{0}^{x_{1}}{\frac{z}{1+z}dz}$,
-            \item $V_{3}^{2}(x) = x_{1}^{2} + x_{1}x_{2} + x_{2}^{2}$.
-        \end{enumerate}
-
-        \subsubsection{System 4}
-        Rozważamy układ (szukamy cyklu granicznego):
-        \begin{equation}
-            \label{eq:zadania_przyklad_4}
-            \left\{
-            \begin{array}{l}
-                 \dot{x}_{1} = x_{2} - x_{1}^7 \left( x_{1}^{4} + 2x_{2}^{2} - 10 \right)\\
-                 \dot{x}_{2} = -x_{1}^{3} - 3x_{2}^{5} \left( x_{1}^{4} + 2x_{2}^{2} - 10 \right)
-            \end{array}
-            \right\}.
-        \end{equation}
-        Dla tego układu rozpatrujemy następującego kandydata na funkcję Lapunowa:
-        \begin{enumerate}[label=(\alph*)]
-            \item $V_{4}^{1}(x) = \left( x_{1}^{4} + 2x_{2}^{2} - 10 \right)^{2}$.
-        \end{enumerate}
-
-
-
 \end{document}
