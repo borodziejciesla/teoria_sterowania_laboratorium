@@ -264,7 +264,6 @@ A jeśli pochodna systemowa jest ujemnie określona w $D$, to punkt równowagi $
 
 \begin{tcolorbox}[colback=blue!5, colframe=blue!75!black, title=Ważne]
 Twierdzenie Lapunowa dostarcza warunek konieczny i wystarczający stabilności punktu równowagi, jednak nie dostarcza żadnej informacji o tym, jak odnaleźć funkcję $V(x)$. Odnalezienie tej funkcji jest zasadniczą trudnością w badaniu stabilności.
-W punkcie \ref{sec:dobor_funkcji} podano kilka metod poszukiwania funkcji Lapunowa.
 \end{tcolorbox}
 
 \textbf{\textit{Dowód:}}
@@ -289,14 +288,14 @@ Ponadto z ciągłości funkcji $V(x)$ wynika, że istnieje $\delta > 0$ taka, ż
 $$
     \lVert x \rVert < \delta \implies V(x) < \beta
 $$
-czyli zachodzi $K_{\delta} = \left\{ x \in \mathbb{R}^{n}| \Vert x \rVert < \delta \right\} \subset \Omega_{\beta} \subset K_{\beta}$. Tak więc, z takim wyborem $\delta$ implikacja
+czyli zachodzi $K_{\delta} = \left\{ x \in \mathbb{R}^{n}: \Vert x \rVert < \delta \right\} \subset \Omega_{\beta} \subset K_{\beta}$. Tak więc, z takim wyborem $\delta$ implikacja
 $$
     \lVert x \rVert < \delta \implies \lVert x \rVert < \epsilon
 $$
 jest prawdziwa i zgodnie z \textit{definicją 4} $x_{e} = 0$ jest stabilny w sensie Lapunowa.
 
 \textit{Asymptotyczna stabilność:}
-Jeżeli pochodna systemowa $\dot{V}:D \rightarrow \mathbb{R}$ jest ujemnie określona w $D$, to wzdłuż trajektorii $x(t) = x(t; t_{0}, x_{0})$ układ (\ref{eq:sys_stac}) funkcja $V(x)$ jest ściśle malejąca i ograniczona od dołu przez 0, więc zbiega do nieujemnej granicy $c$:
+Jeżeli pochodna systemowa $\dot{V}:D \rightarrow \mathbb{R}$ jest ujemnie określona w $D$, to wzdłuż trajektorii $x(t) = x(t; t_{0}, x_{0})$ układu (\ref{eq:sys_stac}) funkcja $V(x)$ jest ściśle malejąca i ograniczona od dołu przez 0, więc zbiega do nieujemnej granicy $c$:
 $$
     \lim_{t \rightarrow \infty} V(x(t)) = c \geq 0.
 $$
@@ -363,7 +362,7 @@ zespolonej.
 \end{tcolorbox}
 
 \textbf{Twierdzenie 3 (pośrednia metoda Lapunowa)}
-Jeżeli badany układ \ref{eq:sys_stac} jest tzw. systemem \textit{słabo-nieliniowym}, tzn. można go zapisać w postaci:
+Jeżeli badany układ (\ref{eq:sys_stac}) jest tzw. systemem \textit{słabo-nieliniowym}, tzn. można go zapisać w postaci:
 \begin{equation}\label{eq:sys_slabo_niel}
     \dot{x} = Ax + r(x)
 \end{equation}
