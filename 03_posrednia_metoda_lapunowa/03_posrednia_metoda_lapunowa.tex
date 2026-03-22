@@ -115,11 +115,43 @@ Punkt równowagi $x_{e}$  układu (\ref{eq:sys}) nazywamy stabilnym w sensie Lap
 \end{equation}
 %Układ ten ma jeden punkt równowagi w początku układu współrzędnych, a jego obszarem atrakcji jest cała płaszczyzna $\mathbb{R}^{2}$, lecz nie jest on stabilny. Ponieważ nie można dobrać takiego $\delta$, aby implikacja (\ref{eq:lyap_def}) była spełniona.
 
+\textbf{Stabilność w sensie Lapunowa - krok po kroku}
+\begin{enumerate}
+    \item Punkt równowagi $x_e$ nazywamy \textbf{stabilnym} w sensie Lapunowa, jeżeli dla każdej kuli o wymyślonym przez nas promieniu $\epsilon$
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\linewidth]{fig/StabilnoscLapunowaTS2Krok1.pdf}
+    \end{figure}
+    \item można znaleźć kulę o promieniu $\delta_{\epsilon}$
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\linewidth]{fig/StabilnoscLapunowaTS2Krok2.pdf}
+    \end{figure}
+    \item aby każda trajektoria fazowa układu rozpoczynająca się w jakimkolwiek punkcie $x_0$ leżącym w kuli o promieniu $\delta_{\epsilon}$
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\linewidth]{fig/StabilnoscLapunowaTS2Krok3.pdf}
+    \end{figure} 
+    \item pozostała wewnątrz kuli o promieniu $\epsilon$ dla dowolnej chwili $t_0\geq 0$
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\linewidth]{fig/StabilnoscLapunowaTS2Krok4Stabilny.pdf}
+    \caption{Stabilny punkt równowagi - interpretacja geometryczna.}
+    \label{fig:punkt_stabilny_lapunowa_interpretacja}
+    \end{figure} 
+\end{enumerate}
+
 \textbf{Definicja 5}
 Punkt równowagi $x_{e}$ układu (\ref{eq:sys}) nazywamy niestabilnym, jeśli nie jest stabilny w sensie definicji 4.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.3\linewidth]{fig/StabilnoscLapunowaTS2Krok4Niestabilny.pdf}
+\caption{Niestabilny punkt równowagi - istnieją takie $\epsilon$, że nie da się znaleźć $\delta_{\epsilon}$, dla którego stan pozostanie w kuli o promieniu $\epsilon$.} 
+\label{fig:punkt_niestabilny_lapunowa_interpretacja}
+\end{figure} 
 
 \textbf{Definicja 6}
-Punkt równowagi $x_{e}$ układu (\ref{eq:sys}) nazywamy jednostajnie stabilnym, jeśli $\delta_{e}$ z definicji 4 jest niezależne od czasu początkowego $t_{0}$.
+Punkt równowagi $x_{e}$ układu (\ref{eq:sys}) nazywamy jednostajnie stabilnym, jeśli $\delta_{\epsilon}$ z definicji 4 jest niezależne od czasu początkowego $t_{0}$.
 
 \textbf{Definicja 7}
 Punkt równowagi $x_{e}$  układu (\ref{eq:sys}) nazywamy stabilnym asymptotycznie, jeśli jest stabilny (w sensie definicji 4) oraz istnieje $\delta_{\epsilon} > 0$ takie że:
@@ -129,31 +161,49 @@ Punkt równowagi $x_{e}$  układu (\ref{eq:sys}) nazywamy stabilnym asymptotyczn
 \end{equation}
 
 \begin{figure}[H]
+\centering
+\includegraphics[width=0.3\linewidth]{fig/StabilnoscLapunowaTS2Krok4StabilnyAsymptotycznie.pdf}
+\caption{Punkt stabilny asymptotycznie - nie tylko da się znaleźć $\delta_{\epsilon}$ dla każdego $\epsilon$, ale dodatkowo jeszcze stan $x$ zbiega do punktu $x_e$.}
+\label{fig:punkt_stabilny_asymptotycznie_lapunowa_interpretacja}
+\end{figure} 
+
+\begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład 1]
+Rozważmy oscylator o portrecie fazowym jak na rysunku \ref{fig:example_oscillator}.
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{fig/stabilnosc_zbiory.PNG}
-    \caption{Interpretacja geometryczna definicji stabilności.}
-    \label{fig:lapunowa_interpretacja}
+    \includegraphics[width=0.3\linewidth]{fig/PureImaginaryPhasePlaneStabCircle.pdf}
+    \caption{Portret fazowy rozważanego układu.}
+    \label{fig:example_oscillator}
 \end{figure}
+Dobierzmy sobie przykładowy promień $\epsilon$ .
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\linewidth]{fig/PureImaginaryPhasePlaneStabCircleStep1.pdf}
+    \caption{Przykładowy $\epsilon$.}
+    \label{fig:example_oscillator_epsilon}
+\end{figure}
+Dla tego $\epsilon$, jesteśmy w stanie zidentyfikować promień zielonej kuli $\delta_{\epsilon}$, tak by stan nigdy nie wydostał się poza pomarańczową kulę.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\linewidth]{fig/PureImaginaryPhasePlaneStabCircleAnalysis.pdf}
+    \caption{Znalezienie adekwatnego $\delta{\epsilon}$.}
+    \label{fig:example_oscillator_delta}
+\end{figure}
+Ponieważ (w przypadku tego układu) dla jakiejkolwiek pomarańczowej kuli możemy znaleźć adekwatną zieloną kulę, układ ten jest \textbf{stabilny} w sensie Lapunowa. Nie jest on jednak asymptotycznie stabilny.
+\end{tcolorbox}
+
 
 \textbf{Definicja 8}
-Punkt równowagi $x_{e}$  układu (\ref{eq:sys}) nazywamy stabilnym wykładniczo, jeśli istnieje $\alpha > 0$ taka, że dla dowolnego $\epsilon > 0$ istnieje $\delta > 0$ takie, że dla dowolnego $t\geq t_{0}$:
+Punkt równowagi $x_{e}$  układu (\ref{eq:sys}) nazywamy \textbf{stabilnym wykładniczo}, jeśli istnieje $\alpha > 0$ taka, że dla dowolnego $\epsilon > 0$ istnieje $\delta > 0$ takie, że dla dowolnego $t\geq t_{0}$:
 \begin{equation}\label{eq:asw}
     \lVert x_{e} - x_{0} \rVert < \delta_{\epsilon}(t_{0}) \implies \lVert x_{e} - x(t;t_{0},x_{0}) \rVert \leq \epsilon e^{-\alpha(t-t_{0})}.
-\end{equation}s
+\end{equation}
 
 \textbf{Definicja 9}
-Zbiór wszystkich takich punktów $x_{0}$ w przestrzeni stanów, dla s $\lim_{t\rightarrow\infty}\lVert x_{e} - x(t;t_{0},x_{0}) \rVert = 0$ dla pewnego $t_{0} \geq 0$ nazywamy zbiorem przyciągania (obszarem atrakcji) punktu równowagi $x_{e}$.
+Zbiór wszystkich takich punktów $x_{0}$ w przestrzeni stanów, dla których $\lim_{t\rightarrow\infty}\lVert x_{e} - x(t;t_{0},x_{0}) \rVert = 0$ dla pewnego $t_{0} \geq 0$ nazywamy zbiorem przyciągania (obszarem atrakcji) punktu równowagi $x_{e}$.
 
 \textbf{Definicja 10}
-Jeżeli punkt równowagi $x_{e}$ jest asymptotycznie stabilny, a jego obszar atrakcji rozciąga się na całą przestrzeń stanów, to punkt równowagi nazywamy globalnie asymptotycznie stabilnym.
-
-\textbf{Definicja 11}
-Funkcja $V: D \rightarrow \mathbb{R}$ jest nazywana:
-\begin{itemize}
-    \item dodatnio określoną, jeśli $V(0) = 0$ i $\forall_{x\neq 0}V(x) > 0$,
-    \item dodatnio półokreśloną, jeśli $V(0) = 0$ i $\forall_{x\neq 0}V(x) \geq 0$,
-    \item ujemnie określoną (półokreśloną), jeśli $-V(x)$ jest dodatnio określona (półokreślona).
-\end{itemize}
+Jeżeli punkt równowagi $x_{e}$ jest asymptotycznie stabilny, a jego obszar atrakcji rozciąga się na całą przestrzeń stanów, to punkt równowagi nazywamy \textbf{globalnie asymptotycznie stabilnym}.
 
 \begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
 Rozważmy układ opisany układem równań (\ref{eq:przyklad_zbiezny_niestabilny}).
@@ -175,6 +225,14 @@ Kilka jego przykładowych trajektorii okazano na rysunku (\ref{fig:example_unsta
     \label{fig:example_unstable}
 \end{figure}
 \end{tcolorbox}
+
+\textbf{Definicja 11}
+Funkcja $V: D \rightarrow \mathbb{R}$ jest nazywana:
+\begin{itemize}
+    \item dodatnio określoną, jeśli $V(0) = 0$ i $\forall_{x\neq 0}V(x) > 0$,
+    \item dodatnio półokreśloną, jeśli $V(0) = 0$ i $\forall_{x\neq 0}V(x) \geq 0$,
+    \item ujemnie określoną (półokreśloną), jeśli $-V(x)$ jest dodatnio określona (półokreślona).
+\end{itemize}
 
 Dalsze definicje i twierdzenia odnoszą się do systemów stacjonarnych:
 \begin{equation}\label{eq:sys_stac}
