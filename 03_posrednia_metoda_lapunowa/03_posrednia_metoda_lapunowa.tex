@@ -46,18 +46,22 @@ W ćwiczeniu tym rozważamy nieliniowe układy dynamiczne, które mogą być opi
 \end{equation}
 gdzie: $t\in \mathbb{R}$, $x\in\mathbb{R}^{n}$ i $f: \mathbb{R} \times \mathbb{R}^{n} \rightarrow \mathbb{R}^{n}$.
 
+\subsection{Punkty równowagi i stabilność w sensie Lapunowa}
+
+W tej sekcji znajduje się definicje potrzebnych nam pojęć z zakresu stabilności.
+
 \textbf{Definicja 1}
-Punktem równowagi układu (\ref{eq:sys}) nazywamy każdy stan $x_{e}$, dla którego $f(t, x_{e}) = 0$ dla każdego $t>t_{0}$.
+\textbf{Punktem równowagi} układu (\ref{eq:sys}) nazywamy każdy stan $x_{e}$, dla którego $\dot{x}(t) = f(t, x_{e}) = 0$ dla każdego $t>t_{0}$.
 
 \textbf{Definicja 2}
-Punkt równowagi $x_{e}$ jest nazywany izolowanym punktem równowagi, jeśli istnieje jego otoczenie, niezawierające żadnych innych punktów równowagi.
+Punkt równowagi $x_{e}$ jest nazywany \textbf{izolowanym punktem równowagi}, jeśli istnieje jego otoczenie, niezawierające żadnych innych punktów równowagi.
 
 \textbf{Definicja 3}
 Jeżeli istnieje zmienne w czasie rozwiązanie równania (\ref{eq:sys}) spełniające warunek
 $$
     x(t+T) = x(t)
 $$
-dla pewnego $T>0$ i każdego $t>t_{0}$, to nazywamy je cyklem granicznym. Trajektoria w przestrzeni stanów, odpowiadająca cyklowi granicznemu, ma postać zamkniętej krzywej.
+dla pewnego $T>0$ i każdego $t>t_{0}$, to nazywamy je \textbf{cyklem granicznym}. Trajektoria w przestrzeni stanów, odpowiadająca cyklowi granicznemu, ma postać zamkniętej krzywej.
 
 \begin{tcolorbox}[colback=green!5, colframe=green!75!black, title=Przykład]
 Przykładem cyklu granicznego jest tak zwany oscylator Van der Pola:
@@ -109,40 +113,40 @@ Portret fazowy tego układu pokazany jest na rysunku (\ref{fig:cykle_graniczne})
 \end{tcolorbox}
 
 \textbf{Definicja 4}
-Punkt równowagi $x_{e}$  układu (\ref{eq:sys}) nazywamy stabilnym w sensie Lapunowa, jeśli dla dowolnych $t_{0} > 0$, $\epsilon > 0$ istnieje liczba $\delta_{\epsilon} > 0$ (może zależeć od $t_{0}$ i $\epsilon$) taka, że:
+Punkt równowagi $x_{e}$  układu (\ref{eq:sys}) nazywamy \textbf{stabilnym} w sensie Lapunowa, jeśli dla dowolnych $t_{0} > 0$, $\epsilon > 0$ istnieje liczba $\delta_{\epsilon} > 0$ (może zależeć od $t_{0}$ i $\epsilon$) taka, że:
 \begin{equation}\label{eq:lyap_def}
     \lVert x_{e} - x_{0} \rVert < \delta_{\epsilon}(t_{0}) \implies \lVert x_{e} - x(t;t_{0},x_{0}) \rVert < \epsilon.
 \end{equation}
 %Układ ten ma jeden punkt równowagi w początku układu współrzędnych, a jego obszarem atrakcji jest cała płaszczyzna $\mathbb{R}^{2}$, lecz nie jest on stabilny. Ponieważ nie można dobrać takiego $\delta$, aby implikacja (\ref{eq:lyap_def}) była spełniona.
 
-\textbf{Stabilność w sensie Lapunowa - krok po kroku}
-\begin{enumerate}
-    \item Punkt równowagi $x_e$ nazywamy \textbf{stabilnym} w sensie Lapunowa, jeżeli dla każdej kuli o wymyślonym przez nas promieniu $\epsilon$
+Interpretacja stabilność w sensie Lapunowa "krok po kroku":
+\begin{description}
+    \item[Krok 1] Punkt równowagi $x_e$ nazywamy \textbf{stabilnym} w sensie Lapunowa, jeżeli dla każdej kuli o wymyślonym przez nas promieniu $\epsilon$ ...
     \begin{figure}[H]
     \centering
     \includegraphics[width=0.3\linewidth]{fig/StabilnoscLapunowaTS2Krok1.pdf}
     \end{figure}
-    \item można znaleźć kulę o promieniu $\delta_{\epsilon}$
+    \item[Krok 2] ... można znaleźć kulę o promieniu $\delta_{\epsilon}$, ...
     \begin{figure}[H]
     \centering
     \includegraphics[width=0.3\linewidth]{fig/StabilnoscLapunowaTS2Krok2.pdf}
     \end{figure}
-    \item aby każda trajektoria fazowa układu rozpoczynająca się w jakimkolwiek punkcie $x_0$ leżącym w kuli o promieniu $\delta_{\epsilon}$
+    \item[Krok 3] ... aby każda trajektoria fazowa układu rozpoczynająca się w jakimkolwiek punkcie $x_0$ leżącym w kuli o promieniu $\delta_{\epsilon}$ ...
     \begin{figure}[H]
     \centering
     \includegraphics[width=0.3\linewidth]{fig/StabilnoscLapunowaTS2Krok3.pdf}
     \end{figure} 
-    \item pozostała wewnątrz kuli o promieniu $\epsilon$ dla dowolnej chwili $t_0\geq 0$
+    \item[Krok 4] ... zawsze pozostała wewnątrz kuli o promieniu $\epsilon$.
     \begin{figure}[H]
     \centering
     \includegraphics[width=0.3\linewidth]{fig/StabilnoscLapunowaTS2Krok4Stabilny.pdf}
     \caption{Stabilny punkt równowagi - interpretacja geometryczna.}
     \label{fig:punkt_stabilny_lapunowa_interpretacja}
     \end{figure} 
-\end{enumerate}
+\end{description}
 
 \textbf{Definicja 5}
-Punkt równowagi $x_{e}$ układu (\ref{eq:sys}) nazywamy niestabilnym, jeśli nie jest stabilny w sensie definicji 4.
+Punkt równowagi $x_{e}$ układu (\ref{eq:sys}) nazywamy \textbf{niestabilnym}, jeśli nie jest stabilny w sensie definicji 4.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.3\linewidth]{fig/StabilnoscLapunowaTS2Krok4Niestabilny.pdf}
@@ -151,10 +155,10 @@ Punkt równowagi $x_{e}$ układu (\ref{eq:sys}) nazywamy niestabilnym, jeśli ni
 \end{figure} 
 
 \textbf{Definicja 6}
-Punkt równowagi $x_{e}$ układu (\ref{eq:sys}) nazywamy jednostajnie stabilnym, jeśli $\delta_{\epsilon}$ z definicji 4 jest niezależne od czasu początkowego $t_{0}$.
+Punkt równowagi $x_{e}$ układu (\ref{eq:sys}) nazywamy \textbf{jednostajnie stabilnym}, jeśli $\delta_{\epsilon}$ z definicji 4 jest niezależne od czasu początkowego $t_{0}$.
 
 \textbf{Definicja 7}
-Punkt równowagi $x_{e}$  układu (\ref{eq:sys}) nazywamy stabilnym asymptotycznie, jeśli jest stabilny (w sensie definicji 4) oraz istnieje $\delta_{\epsilon} > 0$ takie że:
+Punkt równowagi $x_{e}$  układu (\ref{eq:sys}) nazywamy \textbf{stabilnym asymptotycznie}, jeśli jest stabilny (w sensie definicji 4) oraz istnieje $\delta_{\epsilon} > 0$ takie że:
 \begin{equation}\label{eq:as}
     \lVert x_{e} - x_{0} \rVert < \delta_{\epsilon}(t_{0}) \implies 
  \lim_{t\rightarrow\infty}\lVert x_{e} - x(t;t_{0},x_{0}) \rVert = 0.
@@ -175,11 +179,11 @@ Rozważmy oscylator o portrecie fazowym jak na rysunku \ref{fig:example_oscillat
     \caption{Portret fazowy rozważanego układu.}
     \label{fig:example_oscillator}
 \end{figure}
-Dobierzmy sobie przykładowy promień $\epsilon$ .
+Dobierzmy sobie przykładowy promień $\epsilon$, który zdefiniuje nam pomarańczową kulę.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.3\linewidth]{fig/PureImaginaryPhasePlaneStabCircleStep1.pdf}
-    \caption{Przykładowy $\epsilon$.}
+    \caption{Promień $\epsilon$ definiuje obszar, w którym chcemy utrzymać stan $x$.}
     \label{fig:example_oscillator_epsilon}
 \end{figure}
 Dla tego $\epsilon$, jesteśmy w stanie zidentyfikować promień zielonej kuli $\delta_{\epsilon}$, tak by stan nigdy nie wydostał się poza pomarańczową kulę.
@@ -200,7 +204,7 @@ Punkt równowagi $x_{e}$  układu (\ref{eq:sys}) nazywamy \textbf{stabilnym wyk�
 \end{equation}
 
 \textbf{Definicja 9}
-Zbiór wszystkich takich punktów $x_{0}$ w przestrzeni stanów, dla których $\lim_{t\rightarrow\infty}\lVert x_{e} - x(t;t_{0},x_{0}) \rVert = 0$ dla pewnego $t_{0} \geq 0$ nazywamy zbiorem przyciągania (obszarem atrakcji) punktu równowagi $x_{e}$.
+Zbiór wszystkich takich punktów $x_{0}$ w przestrzeni stanów, dla których $\lim_{t\rightarrow\infty}\lVert x_{e} - x(t;t_{0},x_{0}) \rVert = 0$ dla pewnego $t_{0} \geq 0$ nazywamy \textbf{zbiorem przyciągania} (\textbf{obszarem atrakcji}) punktu równowagi $x_{e}$.
 
 \textbf{Definicja 10}
 Jeżeli punkt równowagi $x_{e}$ jest asymptotycznie stabilny, a jego obszar atrakcji rozciąga się na całą przestrzeń stanów, to punkt równowagi nazywamy \textbf{globalnie asymptotycznie stabilnym}.
@@ -226,6 +230,8 @@ Kilka jego przykładowych trajektorii okazano na rysunku (\ref{fig:example_unsta
 \end{figure}
 \end{tcolorbox}
 
+\newpage
+\subsection{Twierdzenie Lapunowa}
 \textbf{Definicja 11}
 Funkcja $V: D \rightarrow \mathbb{R}$ jest nazywana:
 \begin{itemize}
