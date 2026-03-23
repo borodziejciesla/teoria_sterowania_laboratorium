@@ -24,10 +24,9 @@
 
 % ========= Treść Właściwa =========
 \section{Cel ćwiczenia}
-Celem ćwiczenia jest zapoznanie się z~metodami badania stabilności układów
-nieliniowych.
-W czasie zajęć przedstawiona i~przećwiczona zostanie pośrednia metodą Lapunowa
-badania stabilności punktów równowagi układów nieliniowych.
+W czasie zajęć przedstawiona i~przećwiczona zostanie pośrednia metoda Lapunowa.
+Zostanie ona wykorzystana do badania stabilności punktów równowagi dla kilku
+interesujących przykładów układów nieliniowych.
 
 Jest to stosunkowo prosta w~zastosowaniu metoda, dająca zadowalające wyniki
 w~wielu praktycznych przypadkach, jednak mająca pewne ograniczenia.
@@ -42,13 +41,17 @@ w~wielu praktycznych przypadkach, jednak mająca pewne ograniczenia.
         \item Wyznaczyć punkty równowagi układu.
         \item Wyznaczyć macierz Jacobiego $A = \frac{\partial f}{\partial x}\bigg|_{x=x_e}$ układu w~każdym z wyznaczonych punktów równowagi.
         %\item Zamodelować układ równań w~Simulinku (lub użyć skryptu, np. funkcji \textit{ode45}, do jego rozwiązania).
-        \item Wyznaczyć portrety fazowe układu nieliniowego.
-        \item Wyznaczyć portrety fazowe linearyzacji układu w~każdym z~punktów równowagi. 
+        \item Wyznaczyć portret fazowy układu nieliniowego.
+        \item Wyznaczyć portrety fazowe linearyzacji układu w~każdym z~punktów równowagi.
+        Czy portrety linearyzacji przypominają portret fazowy układu nieliniowego w~pobliżu poszczególnych punktów równowagi?
         \item Sprawdzić, czy można zastosować pośrednią metodę Lapunowa do badania stabilności punktów równowagi.
         \item Zbadać stabilność wszystkich punktów równowagi, dla których jest to możliwe.
+        \item Na portrecie fazowym układu nieliniowego zaznaczyć obszar
+        przyciągania przynajmniej jednego ze stabilnych punktów równowagi (o~ile
+        takie występują i~żaden konkretny punkt równowagi nie został wskazany przez prowadzącego).
     \end{enumerate}
         %---------------------------------------------------
-        \subsubsection{System 1} \label{sec:posrednia_1}
+        \subsubsection{System 1 (Układ masa-sprężyna)} \label{sec:posrednia_1}
         Rozważamy układ mechaniczny masa-sprężyna ze sprężyną o~nieliniowej charakterystyce.
         Układ ten opisany jest równaniem (\ref{eq:posrednia_1}).
         \begin{equation}\label{eq:posrednia_1}
@@ -62,8 +65,11 @@ w~wielu praktycznych przypadkach, jednak mająca pewne ograniczenia.
         \end{itemize}
         Proszę rozważyć przypadek dla $d>0$ i~$d<0$.
 
+        Wykreśl przebiegi czasowe zmiennych stanu dla kilku warunków
+        początkowych - zilustruj podobieństwa i~różnice między układami liniowymi i~nieliniowymi.
+
         %---------------------------------------------------
-        \subsubsection{System 2} \label{sec:posrednia_2}
+        \subsubsection{System 2 (Wahadło tłumione)} \label{sec:posrednia_2}
         Rozważamy wahadło z~tłumieniem, opisywane równaniem:
         \begin{equation}\label{eq:posrednia_2}
             \ddot{x} + \frac{c}{lm}\dot{x} + \frac{g}{l}\sin{x} = 0
@@ -76,8 +82,17 @@ w~wielu praktycznych przypadkach, jednak mająca pewne ograniczenia.
             \item $l$ - długość wahadła.
         \end{itemize}
 
+        Wyznacz wartości własne występujących dla tego układu macierzy Jacobiego
+        jako funkcje $c$, $l$ oraz $m$. Jakie wartości własne zaobserwujemy
+        w~zależności od wartości $c$, $l$ i $m$?
+
+        Przyjmij wartości parametrów: $c = 2.5$, $m = 5$, $l = 5$ (o~ile inne
+        wartości nie zostały podane przez prowadzącego). Podaj z~jaką prędkością
+        kątową musimy "uruchomić" wahadło, aby wykonało co najmniej dwa pełne
+        obroty, jeśli kąt początkowy jest zadany jako $y(0) = \pi$?
+
         %---------------------------------------------------
-        \subsubsection{System 3} \label{sec:posrednia_3}
+        \subsubsection{System 3 (Oscylator Van der Pola)} \label{sec:posrednia_3}
         Rozważamy układ równań Van der Pola:
         \begin{equation}
             \label{eq:posrednia_3}
@@ -90,8 +105,19 @@ w~wielu praktycznych przypadkach, jednak mająca pewne ograniczenia.
         \end{equation}
         Proszę zbadać zachowanie układu dla różnych wartości $a$.
 
+        Przyjmij $a = −3$. Dobierz dwa warunki początkowe - jeden w~obszarze,
+        gdzie portret fazowy przybliżenia liniowego jest podobny do układu
+        nieliniowego i~drugi w~obszarze, gdzie portrety te się znacząco różnią.
+        Dla każdego z~wybranych warunków początkowych wykreśl pierwsze 10 sekund
+        przebiegu czasowego dla zmiennej stanu $x_1$ dla układu liniowego
+        i~nieliniowego.
+        Dla danego warunku początkowego wykreśl oba przebiegi czasowe ($x_1$
+        dla układu nieliniowego i~jego przybliżenia liniowego) na jednym
+        wykresie
+        i~opisz obserwacje.
+
         %---------------------------------------------------
-        \subsubsection{System 4} \label{sec:posrednia_4}
+        \subsubsection{System 4 (Wahadło bez tłumienia)} \label{sec:posrednia_4}
         Rozważamy układ równań wahadła bez tłumienia:
         \begin{equation}
             \label{eq:posrednia_4}
@@ -104,8 +130,8 @@ w~wielu praktycznych przypadkach, jednak mająca pewne ograniczenia.
         \end{equation}
 
         %---------------------------------------------------
-        \subsubsection{System 5} \label{sec:posrednia_5}
-        Rozważamy układ równań modelujący konkurencję dwóch gatunków:
+        \subsubsection{System 5 (Model konkurencji gatunków)} \label{sec:posrednia_5}
+        Rozważamy układ równań modelujący konkurencję dwóch gatunków o zasoby:
         \begin{equation}
             \label{eq:posrednia_5}
             \left\{
@@ -115,6 +141,13 @@ w~wielu praktycznych przypadkach, jednak mająca pewne ograniczenia.
             \end{array}
             \right\}.
         \end{equation}
+
+        Czy gatunki te mogą współistnieć w~równowadze? Przeprowadź
+        symulację dla scenariusza, gdyby na obszarze występowania tych gatunków
+        (w~równowadze) pojawiła się nagle grupa przedstawicieli gatunku $x_1$
+        stanowiąca 10 występujących tam osobników. W~sprawozdaniu należy
+        umieścić wykres przebiegów czasowych opisujących populacje obu gatunków
+        oraz słowną interpretację wyników.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
