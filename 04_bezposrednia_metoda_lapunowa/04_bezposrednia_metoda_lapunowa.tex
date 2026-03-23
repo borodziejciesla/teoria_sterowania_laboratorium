@@ -89,7 +89,7 @@ W punkcie \ref{sec:dobor_funkcji} podano kilka metod poszukiwania funkcji Lapuno
 
 \textbf{\textit{Dowód:}}
 \textit{Stabilność:}
-Zgodnie z \textit{definicją 4 }weźmy liczbę $\epsilon > 0$.
+Zgodnie z \textbf{\textit{Definicją 4}} weźmy liczbę $\epsilon > 0$.
 Załóżmy, że kula o promieniu $\epsilon$ zawiera się w~zbiorze $D$:
 $$
     K_{\epsilon} = \left\{ x\in \mathbb{R}^{n}: \lVert x \rVert \leq \epsilon \right\} \subset D.
@@ -104,7 +104,7 @@ $$
 $$
 Zachodzi więc $\Omega_{\beta} \subset K_{\epsilon}$.
 Rozważając dowolną trajektorię $x(t) = x(t; t_{0}, x_{0})$ układu (\ref{eq:sys_stac}), taką że $x_{0} \in \Omega_{\beta}$.
-Wzdłuż tej trajektorii mamy $\dot{V}(x) \leq 0$, więc $V(x(t)) \leq V(x_{0}) \leq \beta$, czyli cała trajektoria $x(t)$ pozostanie w zbiorze $\Omega_{\beta} \subset K_{\beta}$ dla dowolnego $t$.
+Wzdłuż tej trajektorii mamy $\dot{V}(x) \leq 0$, więc $V(x(t)) \leq V(x_{0}) \leq \beta$, czyli cała trajektoria $x(t)$ pozostanie w zbiorze $\Omega_{\beta} \subset K_{\epsilon}$ dla dowolnego $t$.
 Ponadto z ciągłości funkcji $V(x)$ wynika, że istnieje $\delta > 0$ taka, że:
 $$
     \lVert x \rVert < \delta \implies V(x) < \beta
