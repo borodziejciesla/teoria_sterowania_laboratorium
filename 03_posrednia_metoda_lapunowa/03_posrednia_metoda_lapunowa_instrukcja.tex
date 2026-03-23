@@ -18,13 +18,13 @@
 \podtytul{Metoda Lapunowa}
 \kierunek{Automatyke i~Robotyka}
 \autor{Dariusz Cieślar, Maciej Różewicz}
-\data{Kraków, 3 marca 2026}
+\data{Kraków, \today}
 
 \stronatytulowa{}
 
 % ========= Treść Właściwa =========
 \section{Cel ćwiczenia}
-W czasie zajęć przedstawiona i~przećwiczona zostanie pośrednia metoda Lapunowa.
+W czasie zajęć przećwiczona zostanie pośrednia metoda Lapunowa.
 Zostanie ona wykorzystana do badania stabilności punktów równowagi dla kilku
 interesujących przykładów układów nieliniowych.
 
@@ -35,15 +35,13 @@ w~wielu praktycznych przypadkach, jednak mająca pewne ograniczenia.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \section{Przebieg ćwiczenia}
     %=======================================================
-    \subsection{Pośrednia metoda Lapunowa}
     Dla każdego z~podanych systemów opisanych w podpunktach od \ref{sec:posrednia_1} do \ref{sec:posrednia_5} należy:
     \begin{enumerate}[label=\textbf{Krok \arabic*}]
         \item Wyznaczyć punkty równowagi układu.
         \item Wyznaczyć macierz Jacobiego $A = \frac{\partial f}{\partial x}\bigg|_{x=x_e}$ układu w~każdym z wyznaczonych punktów równowagi.
         %\item Zamodelować układ równań w~Simulinku (lub użyć skryptu, np. funkcji \textit{ode45}, do jego rozwiązania).
         \item Wyznaczyć portret fazowy układu nieliniowego.
-        \item Wyznaczyć portrety fazowe linearyzacji układu w~każdym z~punktów równowagi.
-        Czy portrety linearyzacji przypominają portret fazowy układu nieliniowego w~pobliżu poszczególnych punktów równowagi?
+        \item Wyznaczyć portrety fazowe linearyzacji układu w~każdym z~punktów równowagi i zweryfikować czy portrety linearyzacji przypominają portret fazowy układu nieliniowego w~pobliżu poszczególnych punktów równowagi?
         \item Sprawdzić, czy można zastosować pośrednią metodę Lapunowa do badania stabilności punktów równowagi.
         \item Zbadać stabilność wszystkich punktów równowagi, dla których jest to możliwe.
         \item Na portrecie fazowym układu nieliniowego zaznaczyć obszar
@@ -51,7 +49,7 @@ w~wielu praktycznych przypadkach, jednak mająca pewne ograniczenia.
         takie występują i~żaden konkretny punkt równowagi nie został wskazany przez prowadzącego).
     \end{enumerate}
         %---------------------------------------------------
-        \subsubsection{System 1 (Układ masa-sprężyna)} \label{sec:posrednia_1}
+        \subsection{System 1 (Układ masa-sprężyna)} \label{sec:posrednia_1}
         Rozważamy układ mechaniczny masa-sprężyna ze sprężyną o~nieliniowej charakterystyce.
         Układ ten opisany jest równaniem (\ref{eq:posrednia_1}).
         \begin{equation}\label{eq:posrednia_1}
@@ -65,11 +63,11 @@ w~wielu praktycznych przypadkach, jednak mająca pewne ograniczenia.
         \end{itemize}
         Proszę rozważyć przypadek dla $d>0$ i~$d<0$.
 
-        Wykreśl przebiegi czasowe zmiennych stanu dla kilku warunków
-        początkowych - zilustruj podobieństwa i~różnice między układami liniowymi i~nieliniowymi.
+        Proszę wykreślić przebiegi czasowe zmiennych stanu dla kilku warunków
+        początkowych w celu zilustrowania podobieństw i~różnic między układami liniowymi i~nieliniowymi.
 
         %---------------------------------------------------
-        \subsubsection{System 2 (Wahadło tłumione)} \label{sec:posrednia_2}
+        \subsection{System 2 (Wahadło tłumione)} \label{sec:posrednia_2}
         Rozważamy wahadło z~tłumieniem, opisywane równaniem:
         \begin{equation}\label{eq:posrednia_2}
             \ddot{x} + \frac{c}{lm}\dot{x} + \frac{g}{l}\sin{x} = 0
@@ -82,17 +80,15 @@ w~wielu praktycznych przypadkach, jednak mająca pewne ograniczenia.
             \item $l$ - długość wahadła.
         \end{itemize}
 
-        Wyznacz wartości własne występujących dla tego układu macierzy Jacobiego
-        jako funkcje $c$, $l$ oraz $m$. Jakie wartości własne zaobserwujemy
-        w~zależności od wartości $c$, $l$ i $m$?
+        Należy wyznaczyć wartości własne macierzy Jacobiego jako funkcje $c$, $l$ oraz $m$ (symbolicznie). 
+        Jakie wartości własne zaobserwujemy w~zależności od wartości $c$, $l$ i $m$?
 
-        Przyjmij wartości parametrów: $c = 2.5$, $m = 5$, $l = 5$ (o~ile inne
-        wartości nie zostały podane przez prowadzącego). Podaj z~jaką prędkością
-        kątową musimy "uruchomić" wahadło, aby wykonało co najmniej dwa pełne
-        obroty, jeśli kąt początkowy jest zadany jako $y(0) = \pi$?
+        Proszę przyjąć wartości parametrów: $c = 2.5$, $m = 5$, $l = 5$ (o~ile inne
+        wartości nie zostały podane przez prowadzącego). Korzystając z portretu fazowego proszę podać z~jaką prędkością
+        kątową musimy uruchomić wahadło, aby wykonało co najmniej dwa pełne obroty. Kąt początkowy należy ustalić z prowadzącym.
 
         %---------------------------------------------------
-        \subsubsection{System 3 (Oscylator Van der Pola)} \label{sec:posrednia_3}
+        \subsection{System 3 (Oscylator Van der Pola)} \label{sec:posrednia_3}
         Rozważamy układ równań Van der Pola:
         \begin{equation}
             \label{eq:posrednia_3}
@@ -105,19 +101,18 @@ w~wielu praktycznych przypadkach, jednak mająca pewne ograniczenia.
         \end{equation}
         Proszę zbadać zachowanie układu dla różnych wartości $a$.
 
-        Przyjmij $a = −3$. Dobierz dwa warunki początkowe - jeden w~obszarze,
+        Następnie proszę przyjąć $a = -3$ oraz dobrać dwa warunki początkowe - jeden w~obszarze,
         gdzie portret fazowy przybliżenia liniowego jest podobny do układu
-        nieliniowego i~drugi w~obszarze, gdzie portrety te się znacząco różnią.
-        Dla każdego z~wybranych warunków początkowych wykreśl pierwsze 10 sekund
+        nieliniowego i~drugi w~obszarze, gdzie portrety te znacząco się różnią.
+        Dla każdego z~wybranych warunków początkowych proszę wykreślić pierwsze 10 sekund
         przebiegu czasowego dla zmiennej stanu $x_1$ dla układu liniowego
         i~nieliniowego.
-        Dla danego warunku początkowego wykreśl oba przebiegi czasowe ($x_1$
+        Dla wybranego warunku początkowego proszę wykreślić oba przebiegi czasowe ($x_1$
         dla układu nieliniowego i~jego przybliżenia liniowego) na jednym
-        wykresie
-        i~opisz obserwacje.
+        wykresie i~opisać obserwacje.
 
         %---------------------------------------------------
-        \subsubsection{System 4 (Wahadło bez tłumienia)} \label{sec:posrednia_4}
+        \subsection{System 4 (Wahadło bez tłumienia)} \label{sec:posrednia_4}
         Rozważamy układ równań wahadła bez tłumienia:
         \begin{equation}
             \label{eq:posrednia_4}
@@ -130,41 +125,50 @@ w~wielu praktycznych przypadkach, jednak mająca pewne ograniczenia.
         \end{equation}
 
         %---------------------------------------------------
-        \subsubsection{System 5 (Model konkurencji gatunków)} \label{sec:posrednia_5}
-        Rozważamy układ równań modelujący konkurencję dwóch gatunków o zasoby:
+        \subsection{System 5 (Model konkurencji gatunków)} \label{sec:posrednia_5}
+        Rozważamy układ równań modelujący populacje dwóch gatunków zwierząt konkurujących o zasoby na danym terenie:
         \begin{equation}
             \label{eq:posrednia_5}
+            %\left\{
+            %\begin{array}{l}
+            %     \dot{x}_{1} = x_2\\
+            %     \dot{x}_{2} = x_1 - x_1^2 - x_2
+            %\end{array}
+            %\right\}.
             \left\{
             \begin{array}{l}
-                 \dot{x}_{1} = x_2\\
-                 \dot{x}_{2} = x_1 - x_1^2 - x_2
+                 \dot{x}_{1} = (120 - 4x_1-2x_2)x_1\\
+                 \dot{x}_{2} = (60 - x_1 - 2x_2)x_2
             \end{array}
             \right\}.
         \end{equation}
 
-        Czy gatunki te mogą współistnieć w~równowadze? Przeprowadź
-        symulację dla scenariusza, gdyby na obszarze występowania tych gatunków
-        (w~równowadze) pojawiła się nagle grupa przedstawicieli gatunku $x_1$
-        stanowiąca 10 występujących tam osobników. W~sprawozdaniu należy
-        umieścić wykres przebiegów czasowych opisujących populacje obu gatunków
-        oraz słowną interpretację wyników.
+        Jak można zinterpretować parametry tego modelu? Czy gatunki te mogą współistnieć w~równowadze? 
+        Proszę przeprowadzić symulację dla scenariusza, w którym na obszarze harmonijnego występowania tych gatunków
+        podwoiła się nagle grupa przedstawicieli gatunku $x_1$. 
 
-
+\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\section{Przebieg ćwiczenia}
+\section{Wytyczne do sprawozdania}
     Przygotuj sprawozdanie z ćwiczenia opisujące cel, przebieg i obserwacje.
     
     W części opisującej przebieg ćwiczenia proszę skupić się na przedstawieniu
-    wyników dla każdego z~badanych układów, wraz z~odpowiednimi portretami
-    fazowymi i~analizą stabilności punktów równowagi.
+    wyników dla każdego z~badanych układów.
 
     W sprawozdaniu muszą znaleźć się:
     \begin{itemize}
         \item wyznaczone punkty równowagi,
         \item wyznaczone macierze Jacobiego,
-        \item portrety fazowe układu nieliniowego,
+        \item portret fazowy układu nieliniowego,
         \item portrety fazowe linearyzacji układu,
         \item analiza możliwości zastosowania pośredniej metody Lapunowa,
-        \item analiza stabilności punktów równowagi.
+        \item analiza stabilności punktów równowagi
+        \item dedykowane wytyczne dla poszczególnych układów:
+        \begin{itemize}
+            \item dla systemu 1: przebiegi czasowe ilustrujące różnice między układem nieliniowym i linearyzacją
+            \item dla systemu 2: wartość prędkości kątowej, z~jaką należy "uruchomić" wahadło, aby wykonało co najmniej dwa pełne obroty dla podanego $x(0)$
+            \item dla systemu 3: dla podanego $a$, wykres $x_1$ dla układu liniowego i nieliniowego
+            \item dla systemu 5: przebieg czasowy i opis liczebności populacji obu gatunków w opisanym scenariuszu     
+        \end{itemize}
     \end{itemize}
 \end{document}
