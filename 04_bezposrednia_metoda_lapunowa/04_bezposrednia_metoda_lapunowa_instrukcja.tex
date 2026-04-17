@@ -40,19 +40,43 @@ Powiązane z bezpośrednią metodą Lapunowa narzędzia pozwalają na:
 \section{Dodatkowe narzędzia}
 W celu wykonania ćwiczenia należy w ramach przygotowania do zajęć:
 \begin{itemize}
-    \item zainstalować i skonfigurować kompilator \textit{mex} dla kodu C w MATLAB
+    \item Zainstalować i skonfigurować kompilator \textit{mex} dla kodu C w MATLAB
     \begin{itemize}
         \item Windows: \href{https://www.mathworks.com/support/requirements/supported-compilers.html}{Wspierane kompilatory MEX}
         \item Linux: \href{https://www.mathworks.com/support/requirements/supported-compilers-linux.html}{Wspierane kompilatory MEX}
         \begin{verbatim} sudo apt install build-essential \end{verbatim}
     \end{itemize}
-    \item \href{https://www.mathworks.com/help/matlab/matlab_external/getting-started.html}{zweryfikować instalację kompilatorów }
+
+    \item \href{https://www.mathworks.com/help/matlab/matlab_external/getting-started.html}{Zweryfikować instalację kompilatorów }
         \begin{verbatim}
             mex -setup
             copyfile(fullfile(matlabroot,'extern','examples','mex','arrayProduct.c'),'.')
             mex arrayProduct.c
             a = arrayProduct(2,[1 2])
         \end{verbatim}
+
+    \item Pobrać archiwum \href{https://upel.agh.edu.pl/mod/resource/view.php?id=432098}{lmi.zip} z platformy UPeL.
+    Zawiera ono trzy dodatkowe archiwa, które należy rozpakować:
+    \begin{itemize}
+        \item \textbf{YALMIP-master.zip} - narzędzie do wygodnego i intuicyjnego formułowania problemów optymalizacji, w tym problemów z~LMIs
+        \item \textbf{sedumi-master.zip} - narzędzie do rozwiązywania problemów optymalizacji, w tym problemów z~LMIs,
+        \item \textbf{sdpt3-master.zip} - narzędzie do rozwiązywania problemów optymalizacji, w tym problemów z~LMIs.
+    \end{itemize}
+    
+    \item Po rozpakowaniu tych archiwów, należy dodać do ścieżki MATLABa katalogi z~tych archiwów, np. za pomocą polecenia:
+    \begin{verbatim}
+        addpath(genpath('YALMIP-master'))
+        addpath(genpath('sedumi-master'))
+        addpath(genpath('sdpt3-master'))
+    \end{verbatim}
+    
+    \item Po dodaniu tych katalogów do ścieżki MATLABa, należy zbudować i zainstalować
+    narzędzia sedumi oraz sdpt3. Należy to zrobić wchodząc z poziomu MATLABa do
+    katalogów sedumi-master oraz sdpt3-master i wykonując odpowiednio skrypty:
+    \begin{verbatim}
+        install_sedumi
+        install_sdpt3
+    \end{verbatim}
 \end{itemize} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
