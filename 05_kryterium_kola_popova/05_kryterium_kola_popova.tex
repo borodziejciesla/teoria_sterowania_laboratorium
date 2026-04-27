@@ -213,7 +213,7 @@
                 = -||x||^{2}_{Q} - 2||x||^{2}_{cc^{T}} \leq 0 
             \end{array}  \footnote{Oznaczenie: $||x||_{A} = x^{T}Ax$}
         $$
-        Jest ona ściśle ujemnie określona, zatem zerowy punkt równowagi $x_{e} = 0$ jest globalnie asymptotyczie stabilny.
+        Jest ona ściśle ujemnie określona, zatem zerowy punkt równowagi $x_{e} = 0$ jest globalnie asymptotycznie stabilny.
 
         %--------------------------------------------------
         \subsubsection{Systemy dysypatywne}
@@ -239,7 +239,7 @@
 
         W przypadku liniowym, gdy układ opisywany jest transmitancją $G(s)$, warunkami jego dysypatywności są:
         \begin{itemize}
-            \item wszystkie pierwiastki $\lambda_{i}$ równania charakterystycznego transmitancji spełniają warunek $Re\left\{\lambda_{i}\right\} \geq 0$,
+            \item wszystkie pierwiastki $\lambda_{i}$ równania charakterystycznego transmitancji spełniają warunek $Re\left\{\lambda_{i}\right\} \leq 0$,
             \item $Re\left\{G(i\omega)\right\} \geq 0$, $\forall \omega \geq 0$.
         \end{itemize}
 
@@ -284,14 +284,14 @@
     \subsection{Kryterium Popova}
     \textbf{Twierdzenie 1 (Popova)}: jeżeli układ Lurie opisywany równaniami (\ref{eq:uklad_lurie}) spełnia warunki:
     \begin{itemize}[(a)]
-        \item macierz $A$ jest hurwitzowska (tzn. widmo macierzy leży w lewej półpłaszczyźnie zespolonej) oraz para $(A, b)$ jest sterowalna,
+        \item macierz $A$ jest hurwitzowska (tzn. wszystkie wartości własne macierzy leżą w lewej półpłaszczyźnie zespolonej) oraz para $(A, b)$ jest sterowalna,
         \item nieliniowa funkcja $\varphi(\cdot)$ należy do sektora $[0, k]$,
         \item istnieje dodatnie $\alpha$ - takie, że dla każdego $\omega \geq 0$ spełniona jest nierówność (\ref{eq:nierownosc_popova}) (nazywana nierównością Popova)
         \begin{equation}
             \label{eq:nierownosc_popova}
             Re\left\{(1 + i\alpha\omega)G(i\omega) \right\} + \frac{1}{k} \geq \epsilon
         \end{equation}
-        dla dowlonie małego $\epsilon > 0$
+        dla dowolnie małego $\epsilon > 0$
     \end{itemize}
     to zerowy punkt równowagi $x_{e} = 0$ jest \textit{globalnie asymptotycznie stabilny}.
 
@@ -302,10 +302,10 @@
         \label{fig:sektor_popova}
     \end{figure}
 
-    Zmodyfikowana charakterystyka częstotliwościowa występująca w \textbf{twierdzeniu 1} $Re \left\{ (1 + i\alpha\omega)G(i\omega) \right\}$, nazywana jest charakterystyką Popova i oznaczana jako $G_{P}(i\omega)$:
+    Zmodyfikowana charakterystyka częstotliwościowa występująca w \textbf{Twierdzeniu 1} $Re \left\{ (1 + i\alpha\omega)G(i\omega) \right\}$, nazywana jest charakterystyką Popova i oznaczana jako $G_{P}(i\omega)$:
     \begin{equation}
         \label{eq:charakterystyka_popova}
-        G_{P}(\omega) = P(\omega) + i\underbrace{\omega Q(\omega)}_{Q_{P}(\omega)} = P_{P}(\omega) + iQ_{P}(\omega)
+        G_{P}(i\omega) = P(\omega) + i\underbrace{\omega Q(\omega)}_{Q_{P}(\omega)} = P_{P}(\omega) + iQ_{P}(\omega)
     \end{equation}
 
     Po wprowadzeniu charakterystyki Popova można równanie (\ref{eq:nierownosc_popova}) zapisać w postaci:
@@ -341,7 +341,7 @@
     \end{itemize}
 
     \textbf{Szkic dowodu} można przedstawić z pomocą schematu z rysunku (\ref{fig:feedback_pasywny}).
-    Gdzie blok $S_{1}$ jest transmitancją części liniowej $G(s)$, natomiast $s_{2}$ odpowiada części nieliniowej $\varphi(\cdot) \in [0,k]$.
+    Gdzie blok $S_{1}$ jest transmitancją części liniowej $G(s)$, natomiast $S_{2}$ odpowiada części nieliniowej $\varphi(\cdot) \in [0,k]$.
     Jeśli obydwa elementy są dysypatywne, to dowód jest zakończony.
     W przeciwnym przypadku można wprowadzić dodatkowe, wzajemnie się redukujące przekształcenia w obydwu elementach układu.
     Przykładowe przekształcenie pokazano na rysunku (\ref{fig:popv_szkic}).
@@ -362,7 +362,7 @@
         $$
         Zatem, aby była ona dysypatywna musi spełniać warunki:
         \begin{itemize}
-            \item pierwiastki równania charakterystycznego $Re\left\{\lambda_{1}\right\} \geq 0$,
+            \item pierwiastki równania charakterystycznego $Re\left\{\lambda_{i}\right\} \leq 0$,
             \item część rzeczywista transmitancji widmowej musi być większa od $0$:
             $$
                 Re\left\{ (1+ i\alpha\omega )G(i\omega) + \frac{1}{k} \right\} \geq 0
@@ -403,9 +403,9 @@
         =
         y_{2}u_{2} - g_{2}(\sigma)
       $$
-      gdzie: $g_{2}(\sigma) = \sigma\varphi(\sigma) + \frac{1}{k}\varphi(\sigma)^{2} > 0$ dla $\varphi(\cdot) \in [o, k]$.
+      gdzie: $g_{2}(\sigma) = \sigma\varphi(\sigma) + \frac{1}{k}\varphi(\sigma)^{2} > 0$ dla $\varphi(\cdot) \in [0, k]$.
     \end{description}
-    Zatem $S_{2}$ jest systemem dysypatywny, układ sterowania jest stabilny, a funkcja Lapunowa, którą można zastosować to:
+    Zatem $S_{2}$ jest systemem dysypatywnym, układ sterowania jest stabilny, a funkcja Lapunowa, którą można zastosować to:
     $$
         V(x) = x^{T}Px + \alpha\int_{0}^{c^{T}x}{\varphi(\gamma)d\gamma}
     $$
@@ -423,7 +423,7 @@
         \item macierz stanu $A$ nie posiada wartości własnych na osi urojonych,
         \item element nieliniowy może być niestacjonarny, tzn. $u = -\varphi(y,t)$,
         \item funkcja $\varphi(y,t)$ należy do sektora $[k_{1}, k_{2}]$,
-        \item istnieje $k_{0} \in [k_{1},k_{2}]$, takie że $Re\left\{ \lambda(A-bk_{0}c^{T}) \right\} < 0$,
+        \item istnieje $k_{0} \in [k_{1},k_{2}]$, takie że $Re\left\{ \lambda_i(A-bk_{0}c^{T}) \right\} < 0$,
         \item spełniona jest nierówność:
         $$
             Re\left\{ [1 + k_{1}G(i\omega)]\overbar{[1 + k_{2}G(i\omega)]} \right\} > 0
@@ -489,15 +489,15 @@
         $(-\frac{1}{K},j0)$. To wokół niego badamy liczbę okrążeń charakterystyki
         częstotliwościowej $G(j\omega)$, aby określić stabilność układu
         zamkniętego.
-        Wyobraźmy sobie teraz eweolcję tego kryterium, gdy wprowadzamy
-        niepewność warości regulatora, czyli gdy $K$ może przyjmować wartości
+        Wyobraźmy sobie teraz ewolucję tego kryterium, gdy wprowadzamy
+        niepewność wartości regulatora, czyli gdy $K$ może przyjmować wartości
         w~pewnym zakresie $[K_1, K_2]$. Wówczas:
         \begin{itemize}
             \item niepewność powoduje "wędrowanie" punktu $(-\frac{1}{K},j0)$
             na prostej pomiędzy $(-\frac{1}{K_1},j0)$ a $(-\frac{1}{K_2},j0)$,
             \item dodatkowo ponieważ $K$ może zmieniać wartość w dowolnej
-            chwili, nie możemy pozwolić, odcinek ten "puchnie" do koła,
-            aby uwzględnić wszystkie możliwe kombinacje i zapewnić stabilność.
+            chwili, odcinek ten "puchnie" do koła,
+            \item aby uwzględnić wszystkie możliwe kombinacje i zapewnić stabilność, musimy badać liczbę okrążeń wokół takiego koła.
         \end{itemize}
 
         W rezultacie, kryterium koła jest naturalnym rozszerzeniem kryterium
@@ -509,7 +509,7 @@
 
     \begin{tcolorbox}[colback=orange!5, colframe=orange!75!black, title=Uwaga]
         Kryterium koła jest bardziej ogólne niż kryterium Popova, ponieważ pozwala na niestacjonarność funkcji nieliniowej $\varphi(y,t)$ oraz rozszerza zakres funkcji nieliniowych do sektora $[k_{1}, k_{2}]$.
-         Jednakże, kryterium koła jest również bardziej restrykcyjne w porównaniu do kryterium Popova, ponieważ wymaga spełnienia dodatkowych warunków dotyczących macierzy stanu $A$ oraz istnienia $k_{0}$, dla którego $Re\left\{ \lambda(A-bk_{0}c^{T}) \right\} < 0$.
+         Jednakże, kryterium koła jest również bardziej restrykcyjne w porównaniu do kryterium Popova, ponieważ wymaga spełnienia dodatkowych warunków dotyczących macierzy stanu $A$ oraz istnienia $k_{0}$, dla którego $Re\left\{ \lambda_i(A-bk_{0}c^{T}) \right\} < 0$.
     \end{tcolorbox}
 
     \begin{tcolorbox}[colback=orange!5, colframe=orange!75!black, title=Uwaga]
