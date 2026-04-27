@@ -209,8 +209,8 @@
                 =\\
                 -x^{T}Qx - 2x^{T}c\varphi(c^{T}x)
                 \leq
-                -x^{T}Qx - 2x^{T}cc^{T}x
-                = -||x||^{2}_{Q} - 2||x||^{2}_{cc^{T}} \leq 0 
+                -x^{T}Qx - 2\gamma(x)x^{T}cc^{T}x
+                = -||x||^{2}_{Q} - 2\gamma(x)||x||^{2}_{cc^{T}} \leq 0 ,\,\text{gdzie: } \gamma(x) > 0.
             \end{array}  \footnote{Oznaczenie: $||x||_{A} = x^{T}Ax$}
         $$
         Jest ona ściśle ujemnie określona, zatem zerowy punkt równowagi $x_{e} = 0$ jest globalnie asymptotyczie stabilny.
@@ -305,7 +305,7 @@
     Zmodyfikowana charakterystyka częstotliwościowa występująca w \textbf{twierdzeniu 1} $Re \left\{ (1 + i\alpha\omega)G(i\omega) \right\}$, nazywana jest charakterystyką Popova i oznaczana jako $G_{P}(i\omega)$:
     \begin{equation}
         \label{eq:charakterystyka_popova}
-        G_{P}(\omega) = P(\omega) + i\underbrace{\omega Q(\omega)}_{Q_{P}(\omega)} = P_{P}(\omega) + iQ_{P}(\omega)
+        G_{P}(i\omega) = P(\omega) + i\underbrace{\omega Q(\omega)}_{Q_{P}(\omega)} = P_{P}(\omega) + iQ_{P}(\omega)
     \end{equation}
 
     Po wprowadzeniu charakterystyki Popova można równanie (\ref{eq:nierownosc_popova}) zapisać w postaci:
