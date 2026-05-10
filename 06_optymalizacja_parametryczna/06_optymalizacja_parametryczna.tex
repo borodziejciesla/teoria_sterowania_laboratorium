@@ -55,6 +55,7 @@
     
     \begin{table}[H]
         \centering
+        \label{tab:uklad_regulacji_transmitancje}
         \begin{tabular}{|c|p{10cm}|}
             \hline
             \textbf{Transmitancja} & \textbf{Opis} \\
@@ -76,7 +77,16 @@
         \label{tab:uklad_regulacji_transmitancje}
     \end{table}
 
-    Aby URA był "całościowo" stabilny, każda z tych transmitancji musi być co najmniej stabilna.
+    Układ regulacji automatycznej jest \textbf{wewnętrznie} stabilny, jeśli:
+    \begin{itemize}
+        \item dla wszystkich warunków początkowych
+        \item wszystkie stany dynamiczne w URA pozostają ograniczone w przypadku wzbudzenia układu ograniczonymi sygnałami gdziekolwiek w pętli sterowania
+    \end{itemize}
+    Jest to silniejsza cecha stabilności niż stabilność \textbf{zewnętrzna}, która dotyczy tylko stabilności transmitancji wypadkowej $G(s)$.
+    Różnica  polega na tym, że w transmitancji wypadkowej może dochodzić do skrócenia niestabilnych biegunów i zer. Na przykład: niestabilny biegun występujący w tranmitancji obiektu skraca sie z niestabilnym zerem zaprojektowanym w regulatorze.
+    Pomimo, że takie zero i biegun skracają się w $G(s)$, to transmitancja zakłóceniowa $Z_{D}(s)$ nadal zawierałaby niestabilne bieguny, co oznacza, że układ regulacji automatycznej nie będzie wewnętrznie stabilny.  
+
+    Aby URA był \textbf{wewnętrznie} stabilny, każda z tych transmitancji z Tabeli \ref{tab:uklad_regulacji_transmitancje} musi być co najmniej stabilna.
 
     Ponadto można zauważyć, że $G(s)$ i $S(s)$ są komplementarne, tzn.:
     $$
@@ -141,6 +151,12 @@
                 \begin{equation}
                     \label{eq:j8}
                     J_{8} = \int_{0}^{\infty}{(\alpha_{1}e(t)^{2} + \alpha_{2}u(t)^{2})dt}, \alpha_{1}, \alpha_{2} \in \mathbb{R}_{+}.
+                \end{equation}
+
+            \item wskaźnik mieszany wykorzystywany w sterowniku LQR:
+                \begin{equation}
+                    \label{eq:j8}
+                    J_{LQR} = \int_{0}^{\infty}{(x^{T}(t)Qx(t) + u^{T}(t)Rx(t))dt}, \qquad Q=Q^{T}>0, \qquad R=R^{T}>0.
                 \end{equation}
         \end{enumerate}
 
