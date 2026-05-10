@@ -156,7 +156,7 @@
             \item wskaźnik mieszany wykorzystywany w sterowniku LQR:
                 \begin{equation}
                     \label{eq:j8}
-                    J_{LQR} = \int_{0}^{\infty}{(x^{T}(t)Qx(t) + u^{T}(t)Rx(t))dt}, \qquad Q=Q^{T}>0, \qquad R=R^{T}>0.
+                    J_{LQR} = \int_{0}^{\infty}{(x^{T}(t)Hx(t) + u^{T}(t)Fu(t))dt}, \qquad H=H^{T}>0, \qquad F=F^{T}>0.
                 \end{equation}
         \end{enumerate}
 
@@ -178,6 +178,21 @@
             \label{fig:przyklad_calkowe}
         \end{figure}
         \end{tcolorbox}
+
+        W powyższych definicjach całkowych wskaźników jakości
+        jako czas górnej granicy całkowania przyjęto nieskończoność,
+        co jest uzasadnione teoretycznie, ponieważ dla stabilnych układów regulacji
+        sygnały $e(t)$, $u(t)$ i $y(t)$ dążą do zera, a~więc całki te są
+        skończone.
+        W~dodatku jest to też dogodne dla obliczeń analitycznych.
+
+        Jednak niejednokrotnie interesujący jest tylko skończony horyzont, 
+        np. z powodu pewnych ograniczeń czasowych w układzie sterowania.
+        Dobór skończonego czasu staje się jednak koniecznością, gdy
+        dokonujemy optymalizacji numerycznej, ponieważ w~praktyce nie jesteśmy
+        w~stanie dokonać całkowania do nieskończoności, a~zamiast tego musimy
+        przyjąć pewien skończony czas, który jest wystarczająco duży, aby uchyb
+        regulacji i~inne sygnały były bliskie zeru.
 
         %--------------------------------------------------
         \subsubsection{Niecałkowe wskaźniki jakości}
@@ -1118,13 +1133,13 @@
     Problem liniowo-kwadratowy jest to problem optymalizacji,
     w~którym celem jest minimalizacja wskaźnika jakości w postaci:
     \[
-        J = \int_{0}^{T}{\left( x(t)^{T}Qx(t) + u(t)^{T}Ru(t) \right)dt} \implies L(x,u) = x(t)^{T}Qx(t) + u(t)^{T}Ru(t),
+        J = \int_{0}^{\infty}{\left( x(t)^{T}Hx(t) + u(t)^{T}Fu(t) \right)dt} \implies L(x,u) = x(t)^{T}Hx(t) + u(t)^{T}Fu(t),
     \]
     przy czym układ jest opisywany liniowym równaniem stanu:
     \[
         \dot{x}(t) = Ax(t) + Bu(t),
     \]
-    gdzie $A$ i $B$ są macierzami systemu, a~$Q$ i~$R$ są
+    gdzie $A$ i $B$ są macierzami systemu, a~$H$ i~$H$ są
     macierzami wag dla stanu i~sterowania odpowiednio.
 
     Natomiast poszukujemy regulatora liniowego, proporcjonalnego do stanu, w~postaci:
@@ -1143,7 +1158,7 @@
     \begin{equation}
         \label{eq:hjb_lq}
         0 = \min_{u} \left\{ 
-            x(t)^{T}Qx(t) + u(t)^{T}Ru(t)
+            x(t)^{T}Hx(t) + u(t)^{T}Fu(t)
             +
             2x(t)^{T}PAx(t) + 2x(t)^{T}PB u(t)
             \right\}.
@@ -1151,27 +1166,52 @@
     A więc rożniczkując prawą stronę względem $u$ i~przyrównując do zera,
     otrzymujemy:
     \[
-        0 = 2Ru + 2PB^{T}x \implies u = -R^{-1}B^{T}Px.
+        0 = 2Fu + 2PB^{T}x \implies u = -F^{-1}B^{T}Px.
     \]
     Zatem otrzymujemy zależność na macierz $K$ regulatora:
     \begin{equation}
         \label{eq:K_lq}
-        K = R^{-1}B^{T}P,
+        K = F^{-1}B^{T}P,
     \end{equation}
     w wyrażeniu tym pozostaje nam jeszcze do wyznaczenia macierz $P$.
     Można ją odnaleźć podstawiając wyrażenie na $u$ do równania
     (\ref{eq:hjb_lq}), co daje:
     \[
-        0 = x(t)^{T}Qx(t) + x(t)^{T}P\left( A - BR^{-1}B^{T}P \right)x(t),
+        0 = x(t)^{T}Hx(t) + x(t)^{T}P\left( A - BF^{-1}B^{T}P \right)x(t),
     \]
     a~zatem macierz $P$ jest rozwiązaniem równania algebraicznego Riccatiego:
     \begin{equation}
         \label{eq:riccati}
-        PA + A^{T}P - PBR^{-1}B^{T}P + Q = 0.
+        PA + A^{T}P - PBF^{-1}B^{T}P + H = 0.
     \end{equation}
     Równanie to jest nieliniowe, ale można je rozwiązać numerycznie,
     np. za pomocą funkcji \texttt{care} w~MATLABie, która rozwiązuje
     równanie algebraiczne Riccatiego dla problemu liniowo-kwadratowego.
+
+    %======================================================
+    \subsection{Zastosowanie regulatora liniowo-kwadratowego}
+    Regulator liniowo-kwadratowy jest szeroko stosowany w~praktyce.
+    Jest on szczególnie użyteczny w~sytuacjach, gdy chcemy zminimalizować
+    zarówno odchylenie stanu od wartości zadanej, jak i~wielkość
+    sterowania, co jest często pożądane w~praktyce, aby uniknąć nadmiernego
+    zużycia energii lub nadmiernego obciążenia elementów wykonawczych.
+    
+    Problematycznym zagadnieniem jest jednak dobór odpowiednich wag
+    w~macierzach $H$ i~$F$, które określają, jak bardzo karane są odchylenia
+    stanu i~wielkość sterowania.
+    Nie ma jasnego przełożenia tych wag na konkretne cechy odpowiedzi układu,
+    takie jak przeregulowanie, czas narastania, występowanie oscylacji, itp.
+    Dlatego dobór tych wag jest często procesem iteracyjnym, który wymaga
+    eksperymentowania i~dostosowywania ich wartości w~celu osiągnięcia pożądanej
+    charakterystyki odpowiedzi układu.
+    
+    \begin{tcolorbox}[colback=orange!5, colframe=orange!75!black, title=Uwaga]
+        Pamiętać należy, że istotny jest stosunek $F$ i $H$, a~nie tylko ich
+        konkretne wartości.
+        Jeśli przemnożymy dla przykładu $F$ i $H$ przez tę samą stałą,
+        to otrzymamy ten sam regulator, ponieważ $K$ jest zależne od
+        stosunku tych macierzy, a~nie od ich konkretnych wartości.
+    \end{tcolorbox} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
