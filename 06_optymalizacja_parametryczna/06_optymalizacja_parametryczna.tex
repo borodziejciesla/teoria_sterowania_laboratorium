@@ -18,7 +18,7 @@
     Teoria Sterowania\\
     \Large Optymalizacja Parametryczna
 }
-\author{Maciej Różewicz}
+\author{Maciej Różewicz, Dariusz Cieślar}
 \date{2025}
 
 \makeatletter         
@@ -1015,6 +1015,163 @@
             j = output.je.Data(end) + output.ju.Data(end);
         end
     \end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Regulator liniowo-kwadratowy}
+    %======================================================
+    \subsection{Reguła optymalności Bellmana}
+    Reguła optymalności Bellmana jest to zasada, która mówi,
+    że optymalna sterowanie w~danym momencie czasu
+    zależy tylko od aktualnego stanu systemu, a~nie od historii
+    jego wcześniejszych stanów.
+    Oznacza to, że jeśli znamy sterowanie optymalne dla
+    każdego możliwego stanu systemu, to możemy zbudować optymalną
+    strategię działania dla całego procesu decyzyjnego, wybierając
+    optymalne sterowanie dla aktualnego stanu systemu w~każdym
+    momencie czasu.
+    Inaczej można sformułować tę regułę, mówiąc, że jeśli pewna 
+    trajektoria jest optymalna dla pewnego stanu początkowego i~czasu 
+    początkowego $t_0$ oraz końcowego $t_f$, to~wszystkie podtrajektorie
+    tej trajektorie odpowiadające przedziałowi czasu $[t_1, t_f]$
+    dla $t_0 < t_1 < t_f$ są również optymalne dla stanu początkowego
+    w~czasie $t_1$ i~końcowego w~czasie $t_f$.
+    Reguła optymalności Bellmana jest podstawą dla wielu algorytmów
+    optymalizacji, takich jak dynamiczne programowanie, które są
+    szeroko stosowane w~teorii sterowania i~optymalizacji.
+
+    W przypadku poszukiwania optymalnej sterowania dla systemu dynamicznego:
+    \[
+        \dot{x}(t) = f(x(t), u(t)),
+    \]
+    z funkcjonałem jakości:
+    \[
+        J(x,u) = \int_{t_0}^{t_f}{L(x(t), u(t))dt},
+    \]
+    reguła optymalności Bellmana może być wykorzystana do wyznaczenia
+    funkcji wartości
+    \[
+        V(x,t) = \min_{u} J(x,u),
+    \]
+    która określa wartość optymalnej strategii dla każdego możliwego
+    stanu systemu.
+
+    Co można zapisać w~postaci:
+    \[
+        V(x,t) = \min_{u}\left\{
+            L(x(t), u(t))\Delta t  + V(x+\dot{x}\Delta t,t+\Delta t) \right\},
+    \]
+    przy $\Delta t \to 0$.
+
+    Jeśli teraz policzymy pochodną funkcji wartości względem czasu,
+    to otrzymamy równanie:
+    \[
+        -\frac{\partial V}{\partial t} = \min_{u} \left\{ 
+            \underbrace{L(x(t), u(t))}_{\text{aktualny przyrost kosztu}}
+            +
+            \underbrace{\frac{\partial V}{\partial x} f(x(t), u(t))}_{\text{przyrost kosztu w przyszłości wynikający z aktualnej akcji}} \right\}
+    \]
+    Zatem sterowanie $u^{*}$ minimalizujące prawą stronę równania
+    zapewnia najmniejszy możliwy przyrost funkcji wartości - czyli zerowy dla
+    ciągu optymalnych sterowań w~całej przyszłości, a~zatem
+    jest optymalnym sterowaniem:
+    \begin{equation}
+
+        \label{eq:hjb}
+        0 = \min_{u} \left\{ 
+            L(x(t), u(t))
+            +
+            \frac{\partial V}{\partial x} f(x(t), u(t))
+            \right\},
+    \end{equation}
+    równanie to nazywane jest równaniem Hamiltona-Jacobiego-Bellmana.
+
+    W ogólności równanie Hamiltona-Jacobiego-Bellmana jest bardzo
+    trudne do rozwiązania, ale w~przypadku problemu liniowo-kwadratowego
+    można znaleźć jego rozwiązanie analityczne, co zostanie pokazane
+    w~następnej sekcji.
+
+    \begin{tcolorbox}[colback=orange!5, colframe=orange!75!black, title=Uwaga]
+        Częściej można spotkać w~praktyce regułę optymalności Bellmana w~formie
+        dyskretnej, gdzie czas jest dyskretyzowany na kroki, a~funkcja wartości
+        jest definiowana jako suma przyszłych kosztów, a~nie całka:
+        \[
+            V(x) = \max_{u} \left\{ L(x,u) + \gamma \sum_{x'}P(x'|x,u)V(x') \right\},
+        \]
+        gdzie:
+        \begin{itemize}
+            \item $V(x)$ jest funkcją wartości dla stanu $x$, która określa maksymalną sumę przyszłych nagród, jaką można uzyskać, zaczynając od stanu $x$,
+            \item $L(x,u)$ jest natychmiastowym kosztem (lub nagrodą) za podjęcie akcji $u$ w~stanie $x$,
+            \item $\gamma$ jest współczynnikiem dyskontowym, który określa, jak bardzo przyszłe koszty są dyskontowane w~stosunku do natychmiastowych kosztów,
+            \item $P(x'|x,u)$ jest prawdopodobieństwem przejścia do stanu $x'$ po podjęciu akcji $u$ w~stanie $x$.
+        \end{itemize}
+        
+        Jest to fundamentalne równanie dla metod sterowania z wykorzystaniem
+        uczenia maszynowego - uczenia zee wzmocnieniem (ang. Reinforcememt
+        Learning).
+        Takich jak Q-learning, gdzie funkcja wartości jest
+        aproksymowana za pomocą sieci neuronowej, a~sterowanie jest wybierane na
+        podstawie tej funkcji wartości.
+    \end{tcolorbox} 
+
+    %======================================================
+    \subsection{Problem liniowo-kwadratowy}
+    Problem liniowo-kwadratowy jest to problem optymalizacji,
+    w~którym celem jest minimalizacja wskaźnika jakości w postaci:
+    \[
+        J = \int_{0}^{T}{\left( x(t)^{T}Qx(t) + u(t)^{T}Ru(t) \right)dt} \implies L(x,u) = x(t)^{T}Qx(t) + u(t)^{T}Ru(t),
+    \]
+    przy czym układ jest opisywany liniowym równaniem stanu:
+    \[
+        \dot{x}(t) = Ax(t) + Bu(t),
+    \]
+    gdzie $A$ i $B$ są macierzami systemu, a~$Q$ i~$R$ są
+    macierzami wag dla stanu i~sterowania odpowiednio.
+
+    Natomiast poszukujemy regulatora liniowego, proporcjonalnego do stanu, w~postaci:
+    \[
+        u(t) = -Kx(t),
+    \]
+    stąd wniosek, że funkcja wartości $V(x,t)$ jest funkcją kwadratową stanu, czyli:
+    \[
+    V(x,t) = x(t)^{T}Px(t),\,\text{ oraz } \frac{\partial V}{\partial x} = 2x(t)^{T}P,
+    \]
+    gdzie $P$ jest macierzą symetryczną, dodatnio określoną.
+
+    Podstawiając zatem powyżej zdefiniowany system i~funkcję
+    jakości do równania Hamiltona-Jacobiego-Bellmana (\ref{eq:hjb}),
+    otrzymujemy:
+    \begin{equation}
+        \label{eq:hjb_lq}
+        0 = \min_{u} \left\{ 
+            x(t)^{T}Qx(t) + u(t)^{T}Ru(t)
+            +
+            2x(t)^{T}PAx(t) + 2x(t)^{T}PB u(t)
+            \right\}.
+    \end{equation}
+    A więc rożniczkując prawą stronę względem $u$ i~przyrównując do zera,
+    otrzymujemy:
+    \[
+        0 = 2Ru + 2PB^{T}x \implies u = -R^{-1}B^{T}Px.
+    \]
+    Zatem otrzymujemy zależność na macierz $K$ regulatora:
+    \begin{equation}
+        \label{eq:K_lq}
+        K = R^{-1}B^{T}P,
+    \end{equation}
+    w wyrażeniu tym pozostaje nam jeszcze do wyznaczenia macierz $P$.
+    Można ją odnaleźć podstawiając wyrażenie na $u$ do równania
+    (\ref{eq:hjb_lq}), co daje:
+    \[
+        0 = x(t)^{T}Qx(t) + x(t)^{T}P\left( A - BR^{-1}B^{T}P \right)x(t),
+    \]
+    a~zatem macierz $P$ jest rozwiązaniem równania algebraicznego Riccatiego:
+    \begin{equation}
+        \label{eq:riccati}
+        PA + A^{T}P - PBR^{-1}B^{T}P + Q = 0.
+    \end{equation}
+    Równanie to jest nieliniowe, ale można je rozwiązać numerycznie,
+    np. za pomocą funkcji \texttt{care} w~MATLABie, która rozwiązuje
+    równanie algebraiczne Riccatiego dla problemu liniowo-kwadratowego.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
