@@ -22,10 +22,20 @@
 \section{Cel ćwiczenia}
 Celem ćwiczenia jest zapoznanie się ze wskaźnikami jakości układów sterowania oraz optymalizacją parametryczną układów sterowania ze względu na wybrane wskaźniki.
 
+W czasie realizacji ćwiczenia rozważać będziemy układ regulacji automatycznej (URA), którego schemat pokazano na rysunku (\ref{fig:uklad_regulacji}).
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.75\linewidth]{fig/uklad_regulacji.png}
+        \caption{Schemat układu regulacji automatycznej (URA).}
+        \label{fig:uklad_regulacji}
+    \end{figure}
+
 Zadanie optymalizacji parametrycznej dotyczy problemów, gdzie struktura regulatora i~model matematyczny obiektu są stałe, a~optymalizowane są jedynie wartości niektórych parametrów.
 Dobór odpowiedniej funkcji celu, która jest optymalizowana, jest zagadnieniem zasadniczym.
 Zwykle żąda się, aby układ regulacji możliwie dokładnie i~szybko odtwarzał wartość zadaną, z~drugiej zaś strony, by był możliwie odporny na sygnały zakłócające.
 Często wymagania te są sprzeczne i zadaniem projektanta jest znalezienie satysfakcjonującego kompromisu. 
+
+
 Znaczącą zaletą procedury optymalizacji parametrycznej jest ustalenie pożądanych cech na wstępnym etapie projektowania układu sterowania.
 Procedura ta jest zwykle iteracyjna: funkcja celu ewoluuje w trakcie procesu projektowania, jednak na każdym etapie możemy być pewni, że dla sfomułowanej funkcji celu uzyskujemy najlepsze możliwe nastawy regulatora.
 
@@ -34,9 +44,49 @@ Procedura ta jest zwykle iteracyjna: funkcja celu ewoluuje w trakcie procesu pro
 
 \subsection{Wyznaczanie wskaźników jakości}
 
+W tym zadaniu przyjrzymy się różnym wskaźnikom jakości układów sterowania. 
+Na tym etapie zastosujemy je do porównania jakości układów regulacji opartych o różne regulatory: PI i LQR.  
+
+W celu ilustracji cech poszczególnych wskaźnikówi oraz sposobów wyznaczania, rozważymy obiekt w postaci serwomotoru, jako napędu
+anteny śledzącej satelitę. 
+
+W praktyce istotnymi cechami takiego układu będą dokładność oraz szybkość odtwarzania wartości zadanej, ale także odporność na zakłócenia, które mogą być spowodowane np. przez wiatr.
+Zbyt agresywne sterowanie może prowadzić do zużywania się elementów wykonawczych i nadmiernego zużycia energii.
+
+Nie zapominając o takim docelowym zastosowaniu naszego URA, w trakcie ćwiczenia wykorzystamy standardowe podejście do eksperymentów z układami sterowania:
 \begin{itemize}
-    \item serwo
+\item odpowiedź na skok jednostkowy wartości zadanej bez zakłóceń
+\item zakłócenia w postaci sygnału stochastycznego
+\item odpowiedź na niezerowe warunki początkowe z wartością zadaną równą zero
 \end{itemize}
+
+\begin{description}
+\item[Krok 1] Zapoznaj się z modelami i skryptami zawartymi w folderze \textit{Cw6Serwo\_M1\_Model\_PI\_KPI}. Z elementów dostępnych w modelach Simulink zbuduj układ regulacji automatycznej, w którym:
+\begin{itemize}
+    \item PI jest regulatorem,
+    \item obiektem jest serwomotor,
+    \item zakłóceniem jest szum stochastyczny - na razie ustawmy go na 0,
+    \item wartość zadana jest w postaci skoku jednostkowego od zera do 30 stopni.
+\end{itemize}
+Przyjmij zerowe warunki początkowe dla obiektu i regulatora.
+\item[Krok 2] Wyznacz wartości wskaźników jakości dla tego układu regulacji: \textbf{ISE}, \textbf{ITSE}, wartość wykorzystanej energii i zapasy stabilności.
+\item[Krok 3] Zapoznaj się z modelami i skryptami zawartymi w folderze \textit{Cw6Serwo\_M2\_LQR}. Do modelu z Kroku 2, dodaj URA w którym:
+\begin{itemize}
+    \item LQR jest regulatorem,
+    \item obiektem jest serwomotor,
+    \item zakłóceniem i wejściem jest ten sam sygnał co dla URA z PI, 
+\end{itemize}
+Porównaj wartości całkowych wskaźników jakości dla obu URA, w szczególności zwróć uwagę na koszt LQR. Czy eskperyment z krokiem jednostkowym na wartości zadanej jest adekwatny dla tego wskaźnika jakości?
+Porównaj odpowiedzi czasowe obu układów regulacji.
+\item[Krok 4] Teraz zasymulujemy przypadek, w którym obiekt sterowany w rzeczywistości ma inne parametry niż te, które zostały przyjęte na etapie projektowania URA.
+W ten sposób sprawdzimy, jak bardzo URA jest odporny na niepewność modelu i które wskaźniki nam to opisują. 
+
+Wykorzystaj skrypt z folderu \textit{Cw6Serwo\_M3\_Parametry}, w celu nadpisania wartości parametrów obiektu. Wykonaj symulację i porównaj przebiegi czasowe.
+
+\item[Krok 5] Skorzystaj ze skryptu w folderze \textit{Cw6Serwo\_M4\_AnalizaZapasy}, aby porównać zapasy stabilności URA z PI i LQR. Skrypt ten pozwala na wykreślenie plotów Bodego i Nyquista dla układów z parametrami przyjętymi na etapie projektowania URA oraz parametrami rzeczywistymi.
+
+\item[Krok 6] Wykonaj eksperymenty dla URA z niezerowym sygnałem zakłócenia.
+\end{description}
 
     %======================================================
     \subsection{Optymalizacja parametryczna: wskaźniki całkowe}
@@ -52,23 +102,23 @@ Procedura ta jest zwykle iteracyjna: funkcja celu ewoluuje w trakcie procesu pro
     \end{itemize}
 
     \begin{description}
-    \item[Krok 5] utworzyć model symulacyjny układu sterowania w~Simulinku (łącznie z~wejściami zakłóceń),
-    \item[Krok 6] wyznaczyć analitycznie ograniczenia na zakres zmiennych projektowych (w zależności od zadanej struktury regulatora) - zaznaczyć ten obszar na płaszczyźnie,
-    \item[Krok 7] wykonać numerycznie optymalizacje ze względu na całkę z kwadratu uchybu sterowania (ang. \textit{Integral
+    \item[Krok 7] utworzyć model symulacyjny układu sterowania w~Simulinku (łącznie z~wejściami zakłóceń),
+    \item[Krok 8] wyznaczyć analitycznie ograniczenia na zakres zmiennych projektowych (w zależności od zadanej struktury regulatora) - zaznaczyć ten obszar na płaszczyźnie,
+    \item[Krok 9] wykonać numerycznie optymalizacje ze względu na całkę z kwadratu uchybu sterowania (ang. \textit{Integral
             Square Error} - \textbf{ISE}):
                 \begin{equation}
                     \label{eq:j1}
                     J_{ISE} = \int_{0}^{\infty}{e(t)^{2}dt},
                 \end{equation}
-    \item[Krok 8] wykonać numerycznie optymalizację ze względu na całkę z kwadratu wyjścia układu regulacji (ang.
+    \item[Krok 10] wykonać numerycznie optymalizację ze względu na całkę z kwadratu wyjścia układu regulacji (ang.
             \textit{Integral Square Output} - \textbf{ISO}) dla stabilizacji w zerze:
                 \begin{equation}
                     \label{eq:j7}
                     J_{ISO} = \int_{0}^{\infty}{y^{2}(t)dt}
                 \end{equation}
-    \item[Krok 9] wykonać numerycznie optymalizację ze względu na odporność na obciążenie,
-    \item[Krok 10] wykonać numerycznie optymalizację ze względu na wskaźniki \textbf{ISE} i~na obciążenie,
-    \item[Krok 11] dla każdego zestawu dobranych nastaw regulatora wykonać symulacyjnie następujące eksperymenty i pokazać wartości sterowania na jednym rysunku:
+    \item[Krok 11] wykonać numerycznie optymalizację ze względu na odporność na obciążenie,
+    \item[Krok 12] wykonać numerycznie optymalizację ze względu na wskaźniki \textbf{ISE} i~na obciążenie,
+    \item[Krok 13] dla każdego zestawu dobranych nastaw regulatora wykonać symulacyjnie następujące eksperymenty i pokazać wartości sterowania na jednym rysunku:
         \begin{itemize}
             \item odpowiedź na skok jednostkowy dla wartości zadanej, bez zakłóceń,
             \item odpowiedź na skok jednostkowy z~zakłóceniem obciążeniowym (skok jednostkowy, ale w~innej chwili niż wartość zadana).
@@ -79,11 +129,27 @@ Procedura ta jest zwykle iteracyjna: funkcja celu ewoluuje w trakcie procesu pro
     \subsection{Optymalizacja parametryczna: wskaźniki odpowiedzi czasowej}
 
     \begin{description}
-    \item[Krok 12] Wyznaczyć optymalny regulator proporcjonalny $G_{R}(s) = K$, dla obiektu opisywanego transmitancją:
+    \item[Krok 14] Wyznaczyć optymalny regulator proporcjonalny $G_{R}(s) = K$, dla obiektu opisywanego transmitancją:
     $$
         G_{O}(s) = \frac{1}{s^2 + s + 1},
     $$
     minimalizujący czas narastania, przy przeregulowaniu nie przekraczającym $10\%$.
     \end{description}
+
+    \section{Opracowanie wyników}
+
+Przygotuj sprawozdanie z ćwiczenia opisujące cel, przebieg i obserwacje.
+
+
+    W części opisującej przebieg koniecznie należy zawrzeć:
+    \begin{itemize}
+        \item rysunek pokazujący model Simulink z dwoma URA (PI + serwo oraz LQR + serwo) z Kroku 3,
+        \item tabelę porównującą wskaźniki jakości oraz wykres odpowiedzi czasowych obu układów regulacji z Kroku 3,
+        \item wykresy i komentarz do eksperymentów z Kroków 4 i 5,
+        \item ograniczenia analityczne z Kroku 8 zaznaczone na płaszczyźnie zmiennych projektowych,
+        \item nastawy uzyskane w Kroku 9, Kroku 10 i Kroku 11,
+        \item wykresy z Kroku 13 porównujące odpowiedzi układów (bez zakłocenia i z zakłóceniem, z regulatorem P i PD),
+        \item wartość optymalnej nastawy regulatora P z Kroku 14 oraz wykres porównujący odpowiedź dla tej optymalnej nastawy układu oraz odpowiedzi dla dwóch innych wartości P (wybranych według własnego uznania)
+    \end{itemize}
 
 \end{document}
