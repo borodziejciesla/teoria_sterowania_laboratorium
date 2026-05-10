@@ -15,36 +15,31 @@
 \podtytul{Optymalizacja Parametryczna}
 \kierunek{Automatyke i~Robotyka}
 \autor{Dariusz Cieślar, Maciej Różewicz}
-\data{Kraków, 3 marca 2026}
+\data{Kraków, \today}
 
 \stronatytulowa{}
 % ========= Treść Właściwa =========
 \section{Cel ćwiczenia}
-Celem ćwiczenia jest zapoznanie się z~optymalizacją parametryczną układów sterowania.
-Dotyczy ona problemów, gdzie struktura regulatora i~model matematyczny obiektu są stałe, a~optymalizowane są jedynie wartości niektórych parametrów.
-Optymalność tę można rozumieć na różne sposoby, a~dobór odpowiedniej funkcji celu, która jest optymalizowana, jest zagadnieniem zasadniczym.
+Celem ćwiczenia jest zapoznanie się ze wskaźnikami jakości układów sterowania oraz optymalizacją parametryczną układów sterowania ze względu na wybrane wskaźniki.
+
+Zadanie optymalizacji parametrycznej dotyczy problemów, gdzie struktura regulatora i~model matematyczny obiektu są stałe, a~optymalizowane są jedynie wartości niektórych parametrów.
+Dobór odpowiedniej funkcji celu, która jest optymalizowana, jest zagadnieniem zasadniczym.
 Zwykle żąda się, aby układ regulacji możliwie dokładnie i~szybko odtwarzał wartość zadaną, z~drugiej zaś strony, by był możliwie odporny na sygnały zakłócające.
-Często wymagania te są sprzeczne i~poszukiwać trzeba pomiędzy nimi kompromisu.
+Często wymagania te są sprzeczne i zadaniem projektanta jest znalezienie satysfakcjonującego kompromisu. 
+Znaczącą zaletą procedury optymalizacji parametrycznej jest ustalenie pożądanych cech na wstępnym etapie projektowania układu sterowania.
+Procedura ta jest zwykle iteracyjna: funkcja celu ewoluuje w trakcie procesu projektowania, jednak na każdym etapie możemy być pewni, że dla sfomułowanej funkcji celu uzyskujemy najlepsze możliwe nastawy regulatora.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Przebieg ćwiczenia}
-Dla każdego z~podanych systemów w~trakcie analizy należy dla układów 1 i~2:
+
+\subsection{Wyznaczanie wskaźników jakości}
+
 \begin{itemize}
-    \item utworzyć model symulacyjny układu sterowania w~Simulinku (łącznie z~wejściami zakłóceń),
-    \item wyznaczyć analitycznie ograniczenia na zakres zmiennych projektowych (w zależności od zadanej struktury regulatora) - zaznaczyć ten obszar na płaszczyźnie,
-    \item wykonać numerycznie optymalizacje ze względu na wskaźnik jakości $J_{1}$,
-    \item wykonać numerycznie optymalizację ze względu na wskaźnik jakości $J_{7}$,
-    \item wykonać numerycznie optymalizację ze względu na odporność na obciążenie,
-    \item wykonać numerycznie optymalizację ze względu na wskaźniki $J_{1}$  i~na obciążenie,
-    \item dla każdego zestawu dobranych nastaw regulatora wykonać symulacyjnie:
-        \begin{itemize}
-            \item odpowiedź na skok jednostkowy bez zakłóceń (pokazać wartości sterowania),
-            \item odpowiedź na skok jednostkowy z~zakłóceniem obciążeniowym (skok jednostkowy, ale w~innej chwili niż wartość zadana)(pokazać wartości sterowania).
-        \end{itemize}
+    \item serwo
 \end{itemize}
 
     %======================================================
-    \subsection{Układ 1}
+    \subsection{Optymalizacja parametryczna: wskaźniki całkowe}
     Dla obiektu opisywanego transmitancją:
     \begin{equation}
         \label{eq:system_1}
@@ -56,25 +51,39 @@ Dla każdego z~podanych systemów w~trakcie analizy należy dla układów 1 i~2:
         \item PD: $G_{R,PD}(s) = K_{P}(1 + T_{D}s)$.
     \end{itemize}
 
-    %======================================================
-    \subsection{Układ 2}
-    Dla obiektu opisywanego transmitancją:
-    \begin{equation}
-        \label{eq:system_2}
-        G_{1}(s) = \frac{1}{s^2+0.5s+1},
-    \end{equation}
-    w~układzie regulacji automatycznej, rozważyć do optymalizacji parametrycznej regulatory:
-    \begin{itemize}
-        \item P: $G_{R,P}(s) = K_{P}$,
-        \item PI: $G_{R,PD}(s) = K_{P}(1 + \frac{1}{T_{D}s})$.
-    \end{itemize}
+    \begin{description}
+    \item[Krok 5] utworzyć model symulacyjny układu sterowania w~Simulinku (łącznie z~wejściami zakłóceń),
+    \item[Krok 6] wyznaczyć analitycznie ograniczenia na zakres zmiennych projektowych (w zależności od zadanej struktury regulatora) - zaznaczyć ten obszar na płaszczyźnie,
+    \item[Krok 7] wykonać numerycznie optymalizacje ze względu na całkę z kwadratu uchybu sterowania (ang. \textit{Integral
+            Square Error} - \textbf{ISE}):
+                \begin{equation}
+                    \label{eq:j1}
+                    J_{ISE} = \int_{0}^{\infty}{e(t)^{2}dt},
+                \end{equation}
+    \item[Krok 8] wykonać numerycznie optymalizację ze względu na całkę z kwadratu wyjścia układu regulacji (ang.
+            \textit{Integral Square Output} - \textbf{ISO}) dla stabilizacji w zerze:
+                \begin{equation}
+                    \label{eq:j7}
+                    J_{ISO} = \int_{0}^{\infty}{y^{2}(t)dt}
+                \end{equation}
+    \item[Krok 9] wykonać numerycznie optymalizację ze względu na odporność na obciążenie,
+    \item[Krok 10] wykonać numerycznie optymalizację ze względu na wskaźniki \textbf{ISE} i~na obciążenie,
+    \item[Krok 11] dla każdego zestawu dobranych nastaw regulatora wykonać symulacyjnie następujące eksperymenty i pokazać wartości sterowania na jednym rysunku:
+        \begin{itemize}
+            \item odpowiedź na skok jednostkowy dla wartości zadanej, bez zakłóceń,
+            \item odpowiedź na skok jednostkowy z~zakłóceniem obciążeniowym (skok jednostkowy, ale w~innej chwili niż wartość zadana).
+        \end{itemize}
+    \end{description}
 
     %======================================================
-    \subsection{Układ 3}
-    Wyznaczyć optymalny regulator proporcjonalny $G_{R}(s) = K$, dla obiektu opisywanego transmitancją:
+    \subsection{Optymalizacja parametryczna: wskaźniki odpowiedzi czasowej}
+
+    \begin{description}
+    \item[Krok 12] Wyznaczyć optymalny regulator proporcjonalny $G_{R}(s) = K$, dla obiektu opisywanego transmitancją:
     $$
         G_{O}(s) = \frac{1}{s^2 + s + 1},
     $$
     minimalizujący czas narastania, przy przeregulowaniu nie przekraczającym $10\%$.
+    \end{description}
 
 \end{document}
