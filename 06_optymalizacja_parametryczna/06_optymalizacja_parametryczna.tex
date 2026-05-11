@@ -18,8 +18,8 @@
     Teoria Sterowania\\
     \Large Optymalizacja Parametryczna
 }
-\author{Maciej Różewicz}
-\date{2025}
+\author{Maciej Różewicz, Dariusz Cieślar}
+\date{2026}
 
 \makeatletter         
 \def\@maketitle{
@@ -55,6 +55,7 @@
     
     \begin{table}[H]
         \centering
+        \label{tab:uklad_regulacji_transmitancje}
         \begin{tabular}{|c|p{10cm}|}
             \hline
             \textbf{Transmitancja} & \textbf{Opis} \\
@@ -76,7 +77,16 @@
         \label{tab:uklad_regulacji_transmitancje}
     \end{table}
 
-    Aby URA był "całościowo" stabilny, każda z tych transmitancji musi być co najmniej stabilna.
+    Układ regulacji automatycznej jest \textbf{wewnętrznie} stabilny, jeśli:
+    \begin{itemize}
+        \item dla wszystkich warunków początkowych
+        \item wszystkie stany dynamiczne w URA pozostają ograniczone w przypadku wzbudzenia układu ograniczonymi sygnałami gdziekolwiek w pętli sterowania
+    \end{itemize}
+    Jest to silniejsza cecha stabilności niż stabilność \textbf{zewnętrzna}, która dotyczy tylko stabilności transmitancji wypadkowej $G(s)$.
+    Różnica  polega na tym, że w transmitancji wypadkowej może dochodzić do skrócenia niestabilnych biegunów i zer. Na przykład: niestabilny biegun występujący w tranmitancji obiektu skraca sie z niestabilnym zerem zaprojektowanym w regulatorze.
+    Pomimo, że takie zero i biegun skracają się w $G(s)$, to transmitancja zakłóceniowa $Z_{D}(s)$ nadal zawierałaby niestabilne bieguny, co oznacza, że układ regulacji automatycznej nie będzie wewnętrznie stabilny.  
+
+    Aby URA był \textbf{wewnętrznie} stabilny, każda transmitancja z Tabeli \ref{tab:uklad_regulacji_transmitancje} musi być co najmniej stabilna.
 
     Ponadto można zauważyć, że $G(s)$ i $S(s)$ są komplementarne, tzn.:
     $$
@@ -86,7 +96,7 @@
     %======================================================
     \subsection{Wskaźniki jakości URA}
     Do oceny działania URA stosuje się różne wskaźniki jakości, zwane również funkcją celu.
-    W zależności od doboru wskaźnika jakości, parametry układu będą dobierane w inny sposób.
+    W zależności od doboru wskaźnika jakości, optymalne parametry układu (np. nastawy regulatora lub komponenty obiektu) będą przyjmowały inne wartości.
 
         %--------------------------------------------------
         \subsubsection{Całkowe wskaźniki jakości}
@@ -127,20 +137,26 @@
             \item w przypadku rozpatrywania przestrzeni stanu można rozpatrywać całkę z dodatnio określonej formy kwadratowej stanu:
                 \begin{equation}
                     \label{eq:j6}
-                    J_{6} = \int_{0}^{\infty}{x^{T}(t)Hx(t)dt},\,H=H^{T}>0,
+                    J_{6} = \int_{0}^{\infty}{x^{T}(t)Hx(t)dt}, \qquad H=H^{T}>0,
                 \end{equation}
 
             \item całka z kwadratu wyjścia układu regulacji (ang.
             \textit{Integral Square Output} - \textbf{ISO}) (dla stabilizacji w zerze):
                 \begin{equation}
                     \label{eq:j7}
-                    J_{7} = \int_{0}^{\infty}{y^{2}(t)dt},\,y(t) \in \mathbb{R}
+                    J_{7} = \int_{0}^{\infty}{y^{2}(t)dt}, \qquad y(t) \in \mathbb{R}
                 \end{equation}
     
             \item wskaźnik mieszany uwzględniający koszt sterowania:
                 \begin{equation}
                     \label{eq:j8}
-                    J_{8} = \int_{0}^{\infty}{(\alpha_{1}e(t)^{2} + \alpha_{2}u(t)^{2})dt}, \alpha_{1}, \alpha_{2} \in \mathbb{R}_{+}.
+                    J_{8} = \int_{0}^{\infty}{(\alpha_{1}e(t)^{2} + \alpha_{2}u(t)^{2})dt}, \qquad \alpha_{1}, \alpha_{2} \in \mathbb{R}_{+}.
+                \end{equation}
+
+            \item wskaźnik mieszany wykorzystywany w sterowniku LQR:
+                \begin{equation}
+                    \label{eq:j8}
+                    J_{LQR} = \int_{0}^{\infty}{(x^{T}(t)Hx(t) + u^{T}(t)Fu(t))dt}, \qquad H=H^{T}>0, \qquad F=F^{T}>0.
                 \end{equation}
         \end{enumerate}
 
@@ -162,6 +178,20 @@
             \label{fig:przyklad_calkowe}
         \end{figure}
         \end{tcolorbox}
+
+        W powyższych definicjach całkowych wskaźników jakości
+        jako czas górnej granicy całkowania przyjęto nieskończoność.
+        Takie podejście jest uzasadnione teoretycznie, ponieważ dla stabilnych układów regulacji
+        i odpowiednio dobranych eksperymentów sygnały $e(t)$, $u(t)$ i $y(t)$ dążą do zera. Zatem wartości wskaźników jakości można wyznaczyć, bo związane z nimi całki są
+        skończone. W~dodatku jest to też dogodne dla obliczeń analitycznych.
+
+        Jednak niejednokrotnie interesujący jest tylko skończony horyzont, 
+        np. z powodu pewnych ograniczeń czasowych w układzie sterowania.
+        Dobór skończonego czasu staje się jednak koniecznością, gdy
+        dokonujemy optymalizacji numerycznej, ponieważ w~praktyce nie jesteśmy
+        w~stanie dokonać całkowania do nieskończoności, a~zamiast tego musimy
+        przyjąć pewien skończony czas, który jest wystarczająco duży, aby uchyb
+        regulacji i~inne sygnały były bliskie zeru.
 
         %--------------------------------------------------
         \subsubsection{Niecałkowe wskaźniki jakości}
@@ -392,6 +422,202 @@
         mierząc odległość między kandydatami a~punktem utopijnym. Najczęściej
         stosowaną miarą odległości jest norma euklidesowa:
     \end{itemize} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Regulator liniowo-kwadratowy}
+    %======================================================
+    \subsection{Reguła optymalności Bellmana}
+    Reguła optymalności Bellmana jest to zasada, która mówi,
+    że optymalne sterowanie w~danym momencie czasu
+    zależy tylko od aktualnego stanu systemu, a~nie od historii
+    jego wcześniejszych stanów.
+
+    Oznacza to, że jeśli znamy sterowanie optymalne dla
+    każdego możliwego stanu systemu, to możemy zbudować optymalną
+    strategię działania dla całego procesu decyzyjnego, wybierając
+    optymalne sterowanie dla aktualnego stanu systemu w~każdym
+    momencie czasu.
+    Inaczej można sformułować tę regułę, mówiąc, że jeśli pewna 
+    trajektoria jest optymalna dla pewnego stanu początkowego i~czasu 
+    początkowego $t_0$ oraz końcowego $t_f$, to~wszystkie podtrajektorie
+    tej trajektorii odpowiadające przedziałowi czasu $[t_1, t_f]$
+    dla $t_0 < t_1 < t_f$ są również optymalne dla stanu początkowego
+    w~czasie $t_1$ i~końcowego w~czasie $t_f$.
+    Reguła optymalności Bellmana jest podstawą dla wielu algorytmów
+    optymalizacji, takich jak dynamiczne programowanie, które są
+    szeroko stosowane w~teorii sterowania i~optymalizacji.
+
+    W przypadku poszukiwania optymalnego sterowania dla systemu dynamicznego:
+    \[
+        \dot{x}(t) = f(x(t), u(t)),
+    \]
+    z funkcjonałem jakości:
+    \[
+        J(x,u) = \int_{t_0}^{t_f}{L(x(t), u(t))dt},
+    \]
+    reguła optymalności Bellmana może być wykorzystana do wyznaczenia
+    funkcji wartości
+    \[
+        V(x,t) = \min_{u} J(x,u),
+    \]
+    która określa wartość optymalnej strategii dla każdego możliwego
+    stanu systemu.
+
+    Zatem można to również zapisać w~postaci:
+    \[
+        V(x,t) = \min_{u}\left\{
+            L(x(t), u(t))\Delta t  + V(x+\dot{x}\Delta t,t+\Delta t) \right\},
+    \]
+    przy $\Delta t \to 0$.
+
+    Jeśli teraz policzymy pochodną funkcji wartości względem czasu,
+    to otrzymamy równanie:
+    \[
+        -\frac{\partial V}{\partial t} = \min_{u} \left\{ 
+            \underbrace{L(x(t), u(t))}_{\text{aktualny przyrost kosztu}}
+            +
+            \underbrace{\frac{\partial V}{\partial x} f(x(t), u(t))}_{\text{przyrost kosztu w przyszłości wynikający z aktualnej akcji}} \right\}
+    \]
+    Zatem sterowanie $u^{*}$ minimalizujące prawą stronę równania
+    zapewnia najmniejszy możliwy przyrost funkcji wartości - czyli zerowy dla
+    ciągu optymalnych sterowań w~całej przyszłości, a~zatem
+    jest optymalnym sterowaniem:
+    \begin{equation}
+        \label{eq:hjb}
+        0 = \min_{u} \left\{ 
+            L(x(t), u(t))
+            +
+            \frac{\partial V}{\partial x} f(x(t), u(t))
+            \right\},
+    \end{equation}
+    równanie to nazywane jest równaniem Hamiltona-Jacobiego-Bellmana.
+
+    W ogólności równanie Hamiltona-Jacobiego-Bellmana jest bardzo
+    trudne do rozwiązania, ale w~przypadku problemu liniowo-kwadratowego
+    można znaleźć jego rozwiązanie analityczne, co zostanie pokazane
+    w~następnej sekcji.
+
+    \begin{tcolorbox}[colback=orange!5, colframe=orange!75!black, title=Uwaga]
+        Częściej można spotkać w~praktyce regułę optymalności Bellmana w~formie
+        dyskretnej, gdzie czas jest dyskretyzowany na kroki, a~funkcja wartości
+        jest definiowana jako suma przyszłych kosztów, a~nie całka:
+        \[
+            V(x) = \max_{u} \left\{ L(x,u) + \gamma \sum_{x'}P(x'|x,u)V(x') \right\},
+        \]
+        gdzie:
+        \begin{itemize}
+            \item $V(x)$ jest funkcją wartości dla stanu $x$, która określa maksymalną sumę przyszłych nagród, jaką można uzyskać, zaczynając od stanu $x$,
+            \item $L(x,u)$ jest natychmiastowym kosztem (lub nagrodą) za podjęcie akcji $u$ w~stanie $x$,
+            \item $\gamma$ jest współczynnikiem dyskontowym, który określa, jak bardzo przyszłe koszty są dyskontowane w~stosunku do natychmiastowych kosztów,
+            \item $P(x'|x,u)$ jest prawdopodobieństwem przejścia do stanu $x'$ po podjęciu akcji $u$ w~stanie $x$.
+        \end{itemize}
+        
+        Jest to fundamentalne równanie dla metod sterowania z wykorzystaniem
+        uczenia maszynowego - uczenia ze wzmocnieniem (ang. Reinforcement
+        Learning).
+        
+        Jedną z takich jest Q-learning, gdzie funkcja wartości jest
+        aproksymowana za pomocą sieci neuronowej, a~sterowanie jest wybierane na
+        podstawie tej funkcji wartości.
+    \end{tcolorbox} 
+
+    %======================================================
+    \subsection{Problem liniowo-kwadratowy}
+    Problem liniowo-kwadratowy jest to problem optymalizacji,
+    w~którym celem jest minimalizacja wskaźnika jakości w postaci:
+    \[
+        J = \int_{0}^{\infty}{\left( x(t)^{T}Hx(t) + u(t)^{T}Fu(t) \right)dt} \implies L(x,u) = x(t)^{T}Hx(t) + u(t)^{T}Fu(t),
+    \]
+    przy czym układ jest opisywany liniowym równaniem stanu:
+    \[
+        \dot{x}(t) = Ax(t) + Bu(t),
+    \]
+    gdzie $A$ i $B$ są macierzami systemu, a~$H$ i~$F$ są
+    macierzami wag (kar) dla stanu i~sterowania odpowiednio.
+
+    Poszukujemy regulatora liniowego, proporcjonalnego do stanu, w~postaci:
+    \[
+        u(t) = -Kx(t),
+    \]
+    stąd wniosek, że funkcja wartości $V(x,t)$ jest funkcją kwadratową stanu, czyli:
+    \[
+    V(x,t) = x(t)^{T}Px(t),\,\text{ oraz } \frac{\partial V}{\partial x} = 2x(t)^{T}P,
+    \]
+    gdzie $P$ jest macierzą symetryczną, dodatnio określoną.
+
+    Podstawiając zatem powyżej zdefiniowany system i~funkcję
+    jakości do równania Hamiltona-Jacobiego-Bellmana (\ref{eq:hjb}),
+    otrzymujemy:
+    \begin{equation}
+        \label{eq:hjb_lq}
+        0 = \min_{u} \left\{ 
+            x(t)^{T}Hx(t) + u(t)^{T}Fu(t)
+            +
+            2x(t)^{T}PAx(t) + 2x(t)^{T}PB u(t)
+            \right\}.
+    \end{equation}
+    A więc rożniczkując prawą stronę względem $u$ i~przyrównując do zera,
+    otrzymujemy:
+    \[
+        0 = 2Fu + 2PB^{T}x \implies u = -F^{-1}B^{T}Px.
+    \]
+    Zatem otrzymujemy zależność na macierz $K$ regulatora:
+    \begin{equation}
+        \label{eq:K_lq}
+        K = F^{-1}B^{T}P,
+    \end{equation}
+    w wyrażeniu tym pozostaje nam jeszcze do wyznaczenia macierz $P$.
+    Można ją odnaleźć podstawiając wyrażenie na $u$ do równania
+    (\ref{eq:hjb_lq}), co daje:
+    \[
+        0 = x(t)^{T}Hx(t) + x(t)^{T}P\left( A - BF^{-1}B^{T}P \right)x(t),
+    \]
+    a~zatem macierz $P$ jest rozwiązaniem równania algebraicznego Riccatiego:
+    \begin{equation}
+        \label{eq:riccati}
+        PA + A^{T}P - PBF^{-1}B^{T}P + H = 0.
+    \end{equation}
+    Równanie to jest nieliniowe, ale można je rozwiązać numerycznie,
+    np. za pomocą funkcji \texttt{care} w~MATLABie, która rozwiązuje
+    równanie algebraiczne Riccatiego dla problemu liniowo-kwadratowego.
+
+    %======================================================
+    \subsection{Zastosowanie i strojenie regulatora liniowo-kwadratowego (LQR)}
+    Regulator liniowo-kwadratowy jest szeroko stosowany w~praktyce.
+    Jest on szczególnie użyteczny w~sytuacjach, gdy chcemy zminimalizować
+    zarówno odchylenie stanu od wartości zadanej, jak i~wielkość
+    sterowania. Jest to często pożądane w~praktyce, aby uniknąć nadmiernego
+    zużycia energii lub nadmiernego obciążenia elementów wykonawczych.
+    
+    Problematycznym zagadnieniem jest jednak dobór odpowiednich wag
+    w~macierzach $H$ i~$F$, które określają, jak bardzo karane są odchylenia
+    stanu i~wielkość sterowania.
+    Nie ma jasnego przełożenia tych wag na konkretne cechy odpowiedzi układu,
+    takie jak przeregulowanie, czas narastania, występowanie oscylacji, itp.
+    Dlatego dobór tych wag jest często procesem iteracyjnym, który wymaga
+    eksperymentowania i~dostosowywania ich wartości w~celu osiągnięcia pożądanej
+    charakterystyki odpowiedzi układu.
+    
+    \begin{tcolorbox}[colback=orange!5, colframe=orange!75!black, title=Uwaga]
+        Pamiętać należy, że istotny jest stosunek $F$ i $H$, a~nie tylko ich
+        konkretne wartości.
+        Jeśli przemnożymy dla przykładu $F$ i $H$ przez tę samą stałą,
+        to otrzymamy ten sam regulator, ponieważ $K$ jest zależne od
+        stosunku tych macierzy, a~nie od ich konkretnych wartości.
+    \end{tcolorbox} 
+    
+    
+    Jedną z ogólnych sugestii dla doboru nastaw do pierwszej iteracji strojenia regulatorów LQR jest zasada Bryson’a:
+    \begin{equation*}
+        H_{ii} = \frac{1}{\max x_{i}^2}
+    \end{equation*}
+
+    \begin{equation*}
+        F_{ii} = \frac{1}{\max u_{i}^2}
+    \end{equation*}
+
+    Gdzie $\max \alpha_{i}^2$ oznacza maksymalną, akceptowalną wartość amplitudy sygnału $\alpha(t)$ (wartości zmiennej stanu lub sterowania).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Przykłady}
@@ -986,7 +1212,7 @@
     \end{lstlisting}
 
     %======================================================
-    \subsection{Sumylacyjne rozwiązywanie zadania optymalizacji}
+    \subsection{Symulacyjne rozwiązywanie zadania optymalizacji}
     W sytuacji, gdy nie znamy analitycznej formuły na wskaźnik jakości, np. z powodu jego znacznego skomplikowania, można posiłkować się wynikami symulacyjnymi.
     Można w tym celu wykorzystać model jak na rysunku (\ref{fig:model_symulacja}), w którym wyznaczane są odpowiednie przebiegi i całki.
     Wówczas można użyć jednej z podanych wyżej funkcji optymalizacyjnych z funkcją celu, zdefiniowaną w MATLABie jako:
@@ -999,6 +1225,7 @@
             j = output.je.Data(end) + output.ju.Data(end);
         end
     \end{lstlisting}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
