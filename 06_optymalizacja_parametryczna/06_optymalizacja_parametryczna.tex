@@ -83,7 +83,7 @@
         \item wszystkie stany dynamiczne w URA pozostają ograniczone w przypadku wzbudzenia układu ograniczonymi sygnałami gdziekolwiek w pętli sterowania
     \end{itemize}
     Jest to silniejsza cecha stabilności niż stabilność \textbf{zewnętrzna}, która dotyczy tylko stabilności transmitancji wypadkowej $G(s)$.
-    Różnica  polega na tym, że w transmitancji wypadkowej może dochodzić do skrócenia niestabilnych biegunów i zer. Na przykład: niestabilny biegun występujący w tranmitancji obiektu skraca sie z niestabilnym zerem zaprojektowanym w regulatorze.
+    Różnica  polega na tym, że w transmitancji wypadkowej może dochodzić do skrócenia niestabilnych biegunów i~zer. Na przykład: niestabilny biegun występujący w~transmitancji obiektu skraca sie z niestabilnym zerem zaprojektowanym w regulatorze.
     Pomimo, że takie zero i biegun skracają się w $G(s)$, to transmitancja zakłóceniowa $Z_{D}(s)$ nadal zawierałaby niestabilne bieguny, co oznacza, że układ regulacji automatycznej nie będzie wewnętrznie stabilny.  
 
     Aby URA był \textbf{wewnętrznie} stabilny, każda transmitancja z Tabeli \ref{tab:uklad_regulacji_transmitancje} musi być co najmniej stabilna.
@@ -206,7 +206,7 @@
                 \caption{Czas regulacji.}
                 \label{fig:czas_regulaacji}
             \end{figure}
-            \item czas narastania $\tau_{n}$ - jest to czas, w którym sygnał wyjściowy $y(t)$ narasta od $10\%$ do $90\%$ wartości w stanie ustalonym $y_{infty}$:
+            \item czas narastania $\tau_{n}$ - jest to czas, w którym sygnał wyjściowy $y(t)$ narasta od $10\%$ do $90\%$ wartości w~stanie ustalonym $y_{\infty}$:
             $$
                 \tau_{2} = \min\{ t \in [0, \infty) : y(t) = 0.9y_{\infty}\} - \min\{ t \in [0, \infty) : y(t) = 0.1y_{\infty}\},
             $$
@@ -243,7 +243,7 @@
     %======================================================
     \subsection{Wyznaczanie całkowych wskaźników jakości na podstawie transmitancji}
     \begin{enumerate}[(a)]
-        \item $J_{1} = \int_{0}^{\infty}{e(t)^{2}dt}$ : do wyznaczenia całki z kwadratu uchybu sterowania $e(t)$ na podstawie znajomości jego transformaty $E(s) = \frac{B(s)}{A(s)}$, gdzie stopień wielomianu $A(s)$ jest wyższy niż wielomianu $B(s)$, można wykorzystać równość, wynikającą z twierdzeń Reileigha i Persevala:
+        \item $J_{1} = \int_{0}^{\infty}{e(t)^{2}dt}$ : do wyznaczenia całki z kwadratu uchybu sterowania $e(t)$ na podstawie znajomości jego transformaty $E(s) = \frac{B(s)}{A(s)}$, gdzie stopień wielomianu $A(s)$ jest wyższy niż wielomianu $B(s)$, można wykorzystać równość, wynikającą z~twierdzeń Rayleigha i~Persevala:
         $$
             J_{1}
             =
