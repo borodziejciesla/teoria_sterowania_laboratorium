@@ -618,6 +618,66 @@
 
     Gdzie $\max \alpha_{i}^2$ oznacza maksymalną, akceptowalną wartość amplitudy sygnału $\alpha(t)$ (wartości zmiennej stanu lub sterowania).
 
+    \subsection{Wprowadzenie wartości zadanej do URA ze sprzężeniem od stanu}
+    Regulator liniowo-kwadratowy jest w istocie optymalnym, statyczym sprzężeniem zwrotnym od stanu.
+    Zmienia ono dynamikę układu zamkniętego ($A_{URA} = A - BK_{LQR}$), co oznacza modyfikację pozycji wartości własnych.
+    W rezultacie rozwiązania problemu LQR otrzymujemy zwykle stabilny układ zamknięty o dobrych właściwościach dynamicznych.
+    
+    Nie jest jednak oczywiste jak do takiego układu wprowadzić wartość zadaną, np. aby uzyskać odpowiedź skokową z zerowym uchybem w stanie ustalonym.
+    
+    Gdyby wprowadzić sygnał wartości zadanej po prostu w sposób analogiczny do regulatorów typu PID:
+    \begin{equation}
+        u(t) = r(t)-K_{LQR}x(t)
+    \end{equation}
+    to nie możemy zagwarantować zerowego uchybu w stanie ustalonym. 
+    
+    Jednym ze sposobów na rozwiązanie tego problemu jest założenie, że wartość zadana $r$ jest stała i odpowiednie jej przemnożenie zanim zostanie wprowadzona do URA.
+    Wówczas sygnał sterujący przyjmie postać:
+    \begin{equation}        u(t) = \bar{N}r(t) - K_{LQR}x(t)   \end{equation}
+    Adekwatny współczynnik $\bar{N}$ będzie zależał od wzmocnienia $K_{LQR}$, ale znając $K_{LQR}$ można $\bar{N}$ wyznaczyć uniwersalnie dla wszystkich wartości $r$.
+        
+    Wartość sterowania $u$ w każdej chwili czasu można opisać jako $u(t) = u_{ss} - K_{LQR}(x(t) - x_{ss})$.
+
+    Zależności między wartością stanu a $r$ oraz wartością sterowania a $r$ w stanie ustalonym przedstawmy w~postaci:  
+    \begin{align*}
+        x_{ss} &= N_x r \\
+        u_{ss} &= N_u r
+    \end{align*}
+    gdzie $N_x$ jest wektorem o wymiarze równym wymiarowi stanu, a $N_u$ jest skalarem. 
+
+    Rozważmy wzmocnienia układu zamkniętego w stanie ustalonym dla układu opisanego równaniami:
+    \begin{align*}
+        \dot{x}(t) &= Ax(t)+Bu(t) \\
+        y(t) &= Cx(t)    
+    \end{align*}
+    W stanie ustalonym uzyskamy zależność między wartością stanu $x_{ss}$, a~wartością sterowania $u_{ss}$:
+    \begin{align*}
+        0 &= Ax_{ss}+Bu_{ss} \\
+        y_{ss} &= Cx_{ss}    
+    \end{align*}
+    W przypadku zerowego uchybu w stanie ustalonym, wartość wyjścia $y_{ss}$ musi być równa wartości zadanej $r$.
+
+    Zatem
+    \begin{align*}
+        \begin{bmatrix} 0 \\ r \end{bmatrix} = \begin{bmatrix} A & B \\ C & 0 \end{bmatrix} \begin{bmatrix} x_{ss} \\ u_{ss} \end{bmatrix} = 
+        \begin{bmatrix}  A & B \\ C & 0 \end{bmatrix} \begin{bmatrix} N_x r \\ N_u r \end{bmatrix}         
+    \end{align*}
+    Dzieląc obie strony przez $r$ otrzymujemy równanie:
+    \begin{align*}
+        \begin{bmatrix} 0 \\ 1 \end{bmatrix} = \begin{bmatrix} A & B \\ C & 0 \end{bmatrix} \begin{bmatrix} N_x \\ N_u \end{bmatrix}         
+    \end{align*}
+    Wartości $N_x$ i~$N_u$ wyznaczamy przez odwrócenie macierzy:
+    \begin{align*}
+        \begin{bmatrix} N_x \\ N_u \end{bmatrix} = \begin{bmatrix} A & B \\ C & 0 \end{bmatrix}^{-1} \begin{bmatrix} 0 \\ 1 \end{bmatrix}   
+    \end{align*}   
+
+    Wejście $u$ powinno przyjąć postać:
+    \begin{equation}
+        u(t) = N_u r - K_{LQR}(x(t)-N_x r) = (N_u + K_{LQR}N_x)r - K_{LQR}x(t) = \bar{N}r - K_{LQR}x(t)
+    \end{equation}
+    Zatem sygnał wartości zadanej powinien zostać przemnożony przez współczynnik \textbf{$\bar{N} = N_u + K_{LQR}N_x$}, aby zapewnić zerowy uchyb w stanie ustalonym.
+    
+    
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Przykłady}
