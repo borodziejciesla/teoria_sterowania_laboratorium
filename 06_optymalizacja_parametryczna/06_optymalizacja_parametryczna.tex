@@ -155,7 +155,7 @@
 
             \item wskaźnik mieszany wykorzystywany w sterowniku LQR:
                 \begin{equation}
-                    \label{eq:j8}
+                    \label{eq:jLQR}
                     J_{LQR} = \int_{0}^{\infty}{(x^{T}(t)Hx(t) + u^{T}(t)Fu(t))dt}, \qquad H=H^{T}>0, \qquad F=F^{T}>0.
                 \end{equation}
         \end{enumerate}
@@ -985,7 +985,7 @@
     gdzie:
     \begin{itemize}
         \item $J_{1,E} = \int_{0}^{\infty}{e(t)^2dt}$ - całka z uchybu sterowania w odpowiedzi na skok jednostkowy na wartości zadanej,
-        \item $J_{1,D} = \int_{0}^{\infty}{d(t)^2dt}$ - całka z wyjścia w odpowiedzi na skok jednostkowy na obciążeniu.
+        \item $J_{1,D} = \int_{0}^{\infty}{y(t)^2dt}$ - całka z wyjścia w odpowiedzi na skok jednostkowy na obciążeniu.
     \end{itemize}
 
 
