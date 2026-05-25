@@ -51,7 +51,7 @@ Schemat takiego układu sterowania przedstawiony jest na rysunku (\ref{fig:schem
 Istotnym faktem jest, że w pamięci komputera przechowywane są tylko poszczególne próbki z pomiarów uzyskanych przez przetwornik analogowo-cyfrowy (A/C), zatem nie można mówić o funkcjach czasu, a o szeregach liczbowych.
 Matematycznie można operację próbkowania sygnału w dziedzinie czasu $x(t)$ zapisać jako iloczyn tego sygnału z szeregiem impulsów Diraca:
 $$
-    x^{D}(Tk) = \sum_{k=-\infty}^{\infty}{x(Tk)\cdot\delta(t-Tk)}.
+    x^{D}(t) = \sum_{k=-\infty}^{\infty}{x(Tk)\cdot\delta(t-Tk)}.
 $$
 
     %======================================================
@@ -186,13 +186,15 @@ $$
         $$
             x(t) = e^{A(t-t_{0})}x(t_{0}) + \int_{t_{0}}^{t}{e^{A(t-\tau)}Bu(\tau)d\tau}
         $$
-        Zakładając, że chwila początkowa $t_{0}$ będzie początkiem $k+1$-tego okresu próbkowania $t_{0} = Tk$, można wyznaczyć dokładna wartość na jego końcu $x[T(k+1)]$:
+        Zakładając, że chwila początkowa $t_{0}$ będzie początkiem $(k+1)$-tego
+        okresu próbkowania $t_{0} = Tk$, można wyznaczyć dokładna wartość na
+        jego końcu - $x[T(k+1)]$:
         $$
             x[T(k+1)] = e^{A(T(k+1) - Tk)}x(Tk) + \int_{Tk}^{Tk+s}{e^{A(T(k+1) - \tau)}Bu(\tau)d\tau}
         $$
         Można dokonać podstawienia $\xi = T(k+1) - \tau$, które implikuje $d\tau = -d\xi$ oraz zmianę granic całkowania:
         $$
-            \tau=Tk \rightarrow \xi = T,\,\tau =Tk + \tau \rightarrow \xi = T-\tau
+            \tau=Tk \rightarrow \xi = T,\,\tau =Tk + s \rightarrow \xi = T-s
         $$
         Zakładamy, że sterowanie jest stałe na przedziale próbkowania, dlatego można $u[\tau]$ wyciągnąć poza całkę:
         $$
@@ -218,7 +220,7 @@ $$
         \begin{enumerate}
             \item $A_{D} =e^{AT} = Pe^{JT}P^{-1}$, gdzie:
                 \begin{itemize}
-                    \item $P$ - macierz modalna macierzy $A$ - złożona z wektorów głównych macierzy $A$,
+                    \item $P$ - macierz modalna macierzy $A$ (złożona z wektorów głównych macierzy $A$),
                     \item $J$ - postać Jordana macierzy $A$,
                 \end{itemize}
 
@@ -523,7 +525,7 @@ $$
     \begin{enumerate}[(a)]
         \item aproksymacji schematami różnicowymi:
         $$
-            \frac{k_{k+1}-x_{k}}{T} = -ax_{k} \implies x_{k+1} = (1-aT)x_{k} = f[x_{k}], \, T>0.
+            \frac{x_{k+1}-x_{k}}{T} = -ax_{k} \implies x_{k+1} = (1-aT)x_{k} = f[x_{k}], \, T>0.
         $$
         Możemy przyjąć funkcję Lapunowa w postaci:
         $$
