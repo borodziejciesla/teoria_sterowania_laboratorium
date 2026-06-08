@@ -109,9 +109,9 @@
 
         %--------------------------------------------------
         \subsubsection{System (ściśle) dodatnio rzeczywisty}\label{sec:spr}
-        Transmitancja $G(s)$ przedstawia tzw. system (ściśle) dodatnio określony (\textit{ang.} \textit{\textbf{(S)RP} - (Strictly) Positive Real}), jeśli jej część rzeczywista $Re\left\{P(\omega)\right\}$ jest zawsze większa lub równa (większa) zeru: $Re(G(s)) \geq (>) 0$.
+        Transmitancja $G(s)$ przedstawia tzw. system (ściśle) dodatnio rzeczywisty (\textit{ang.} \textit{\textbf{(S)PR} - (Strictly) Positive Real}), jeśli jej część rzeczywista $Re\left\{P(\omega)\right\}$ jest zawsze większa lub równa (większa) zeru: $Re(G(s)) \geq (>) 0$.
 
-        \textbf{Twierdzenie}: Transmitancja $G(s)$ jest ściśle dodatnio określona wtedy i tylko wtedy, gdy:
+        \textbf{Twierdzenie}: Transmitancja $G(s)$ jest ściśle dodatnio rzeczywista wtedy i tylko wtedy, gdy:
         \begin{itemize}
             \item $G(s)$ jest stabilna,
             \item część rzeczywista jest ściśle dodatnia na osi urojonych $i\omega$:
@@ -178,7 +178,7 @@
         $$
             G(s) = c^{T}(sI-A)^{-1}b
         $$
-        jest ściśle dodatnio określona wtedy i tylko wtedy, gdy istnieją takie symetryczne dodatnio określone macierze $P$ i $Q$, że spełnione są jednocześnie równości (\ref{eq:kyp_warunki}):
+        jest ściśle dodatnio określona wtedy i tylko wtedy, gdy istnieją takie symetryczne dodatnio określone macierze $P$ i~$Q$, że spełnione są jednocześnie równości (\ref{eq:kyp_warunki}):
         \begin{equation}
             \label{eq:kyp_warunki}
             \left\{
@@ -217,7 +217,7 @@
 
         %--------------------------------------------------
         \subsubsection{Systemy dysypatywne}
-        Układ (\ref{eq:ukladdysypatywny})
+        Układ (\ref{eq:ukladdysypatywny}):
         \begin{equation}
             \label{eq:ukladdysypatywny}
             \left\{
@@ -234,7 +234,7 @@
             \item $g(t) \geq 0$.
         \end{itemize}
 
-        Fizyczna interpretacja takiej definicji jest taka, że zmiana energii układu ($\dot{V}(x, t)$) równa jest energii dodanej z zewnątrz ($y(t)^{T}u(t)$) oraz utraconej przez sam układ ($-g(t)$).
+        Fizyczna interpretacja takiej definicji jest taka, że zmiana energii układu ($\dot{V}(x, t)$) równa jest energii dodanej z~zewnątrz ($y(t)^{T}u(t)$) oraz utraconej przez sam układ ($-g(t)$).
         Układ taki ma ograniczone wyjście przy ograniczonym wejściu.
 
         W przypadku liniowym, gdy układ opisywany jest transmitancją $G(s)$, warunkami jego dysypatywności są:
@@ -249,7 +249,7 @@
             \item $\dot{V}(x) = yu - x^{T}Qx$, $Q=Q^{T}>0$,
         \end{itemize}
 
-        Jeśli połączy się dwa systemy dysypatywne $S_{1}$ i $S_{2}$ - jak na rysunku (\ref{fig:feedback_pasywny}) - w układzie sprzężenie zwrotnego, z których każdy posiada odpowiednio funkcję $V_{1}(x)$ i $V_{2}(x)$, których pochodne wynoszą:
+        Jeśli połączy się dwa systemy dysypatywne $S_{1}$ i $S_{2}$ - jak na rysunku (\ref{fig:feedback_pasywny}) - w układzie sprzężenie zwrotnego, z~których każdy posiada odpowiednio funkcję $V_{1}(x)$ i $V_{2}(x)$, których pochodne wynoszą:
         \begin{itemize}
             \item $\dot{V}_{1}(x) = y_{1}^{T}u_{1} - g_{1}$,
             \item $\dot{V}_{2}(x) = y_{2}^{T}u_{2} - g_{2}$.
