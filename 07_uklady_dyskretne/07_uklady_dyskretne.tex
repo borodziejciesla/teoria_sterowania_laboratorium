@@ -60,7 +60,7 @@ $$
     $$
         \dot{x}(t) = f(x(t),u(t)).
     $$
-    Jednak ponieważ będą nas interesowały jedynie wartości funkcji tylko w dyskretnych chwilach czasowych, możliwe do wyznaczenia na podstawie poprzednich, to możemy posłużyć się ogólną formułą:
+    Jednak ponieważ będą nas interesowały jedynie wartości funkcji w~dyskretnych chwilach czasowych, możliwe do wyznaczenia na podstawie poprzednich, to możemy posłużyć się ogólną formułą:
     \begin{equation}
         \label{eq:dyskretyzacja_ogolna}
         x(Tk + T) = \int_{Tk}^{Tk+T}{f(x(t), u(t))dt}.
@@ -77,7 +77,7 @@ $$
             \begin{itemize}
                 \item $\dot{x}(Tk) = \lim_{\Delta \rightarrow 0} \frac{x(Tk) - x(Tk-\Delta)}{\Delta}  \approx \frac{x[Tk] -x[T(k-1)]}{T}$,
                 \item $\ddot{x}(Tk) = \lim_{\Delta \rightarrow 0} \frac{\dot{x}(Tk) - \dot{x}(Tk-\Delta)}{\Delta}  \approx \frac{x[Tk] - 2x[T(k-1)] + x[T(k-2)]}{T^2}$,
-                \item $\dddot{x}(Tk) = \lim_{\Delta \rightarrow 0} \frac{\ddot{x}(Tk) - \ddot{x}(Tk-\Delta)}{\Delta}  \approx \frac{x[Tk] - 3x[T(k-1)] + 3x[T(k-2)] + x[T(k-3)]}{T^3}$,
+                \item $\dddot{x}(Tk) = \lim_{\Delta \rightarrow 0} \frac{\ddot{x}(Tk) - \ddot{x}(Tk-\Delta)}{\Delta}  \approx \frac{x[Tk] - 3x[T(k-1)] + 3x[T(k-2)] - x[T(k-3)]}{T^3}$,
                 \item $\dots$,
             \end{itemize}
             \begin{figure}[H]
@@ -1214,10 +1214,11 @@ $$
 \begin{thebibliography}{9}
 
 \bibitem{Mitkowski2007}
-  Mitkowski, W., Baranowski, J., Hajduk, K., Korytowski, A., Tutaj, A.,
+  Baranowski J., Hajduk K., Korytowski A., Mitkowski W., Tutaj A.,
   \emph{Teoria Sterowania: Materiały Pomocnicze do Ćwiczeń Laboratoryjnych},
+  Praca zbiorowa 5 Autorów pod redakcją W. Mitkowskiego,
   AGH Uczelniane wydawnictwo Naukowo-Dydaktyczne,
-  2007.
+  Kraków, 2007.
 
 \bibitem{Amborski1978}
   Amborski, K., Marusak, A.,
